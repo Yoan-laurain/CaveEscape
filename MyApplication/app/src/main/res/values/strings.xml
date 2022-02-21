@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Cave Escape</string>
+    <string name="text_copyright">\@copyright sudodevelopers</string>
+    <string name="text_play">PLAY</string>
+    <string name="text_sandbox">SANDBOX</string>
+    <string name="text_option">OPTION</string>
+    <string name="text_quit">QUIT</string>
+    <string name="text_return">RETURN</string>
+</resources>

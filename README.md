@@ -1,2 +1,3 @@
 # CaveEscape
-Mobile game 
+
+# @copyright Yoan Laurain / Nathan Lesourd / Hugo Carricart
