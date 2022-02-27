@@ -56,7 +56,7 @@ public class LoadingActivity extends AppCompatActivity
 
         button_quit = findViewById(R.id.button_quit);
         button_quit.setOnClickListener(view -> {
-
+            finish();
         });
     }
 
