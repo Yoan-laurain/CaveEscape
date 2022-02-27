@@ -46,20 +46,16 @@ public class LevelDesign extends ArrayAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        View row;
         if(convertView == null)
         {
             LayoutInflater inflater = context.getLayoutInflater();
-            row = inflater.inflate(idLayout, null, true);
-        } else
-        {
-            row = convertView;
+            convertView = inflater.inflate(idLayout, null, true);
         }
 
-        TextView textViewTitle = row.findViewById(R.id.TitreLevel);
+        TextView textViewTitle = convertView.findViewById(R.id.TitreLevel);
         textViewTitle.setText(title.get(position));
 
-        return  row;
+        return  convertView;
     }
     // ---------------------------------------------
 

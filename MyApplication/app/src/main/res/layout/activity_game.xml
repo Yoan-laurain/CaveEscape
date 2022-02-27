@@ -6,4 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".Game.GameActivity">
 
+    <GridView
+        android:id="@+id/gameBoard"
+        android:layout_width="372dp"
+        android:layout_height="300dp"
+        android:isScrollContainer="false"
+        android:numColumns="8"
+        android:scrollIndicators="none"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

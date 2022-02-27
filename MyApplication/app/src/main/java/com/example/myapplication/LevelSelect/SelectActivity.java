@@ -32,7 +32,6 @@ public class SelectActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
-
         background = findViewById(R.id.View_BackGround_Select);
         Glide.with(this).load(R.drawable.back).into(background);
 
