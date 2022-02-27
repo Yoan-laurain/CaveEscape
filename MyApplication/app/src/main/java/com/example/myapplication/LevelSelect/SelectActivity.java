@@ -20,6 +20,7 @@ public class SelectActivity extends AppCompatActivity
     Button button_return;
     HashMap params = new HashMap<>();
     private ArrayList<String> mTitle = new ArrayList();
+    private ArrayList<Integer> mIdMap = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,13 +46,18 @@ public class SelectActivity extends AppCompatActivity
             if ( lesMaps.size() > 0 )
             {
                 mTitle = new ArrayList<>();
-                lesMaps.values().forEach(tab -> mTitle.add(tab.getNom())   ) ;
+
+
+                lesMaps.values().forEach(tab -> {
+                    mTitle.add(tab.getNom());
+                    mIdMap.add(tab.getIdMap());
+                });
 
                 ListView listLevel = findViewById(R.id.List_Level);
                 LevelDesign adapter = new LevelDesign(this,R.layout.row ,mTitle);
                 listLevel.setAdapter(adapter);
 
-                listLevel.setOnItemClickListener((parent, view, position, id) -> openLevel());
+                listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( mIdMap.get( position ) ) );
 
             }
             else
@@ -66,8 +72,9 @@ public class SelectActivity extends AppCompatActivity
     /*
         Open the page game with the id of the level in parameter
      */
-    public void openLevel()
+    public void openLevel(Integer idMap)
     {
+        params.put("idMap", idMap);
         Navigation.switchActivities(this, GameActivity.class,params);
     }
 
