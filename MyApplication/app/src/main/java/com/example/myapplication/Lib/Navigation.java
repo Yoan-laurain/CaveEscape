@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class Navigation
 {
+    private static Intent NewActivities;
 
     public static void switchActivities(Context depart, Class arrive, HashMap<Key,Object> params)
     {
@@ -15,10 +16,24 @@ public class Navigation
 
         for (Map.Entry mapEntry : params.entrySet() )
         {
-            NewActivities.putExtra( mapEntry.getKey().toString(),  mapEntry.getValue().toString() );
-        }
 
+            if ( mapEntry.getValue() instanceof Integer )
+            {
+                NewActivities.putExtra( mapEntry.getKey().toString(), (int) mapEntry.getValue() );
+            }
+            else if (  mapEntry.getValue() instanceof Boolean )
+            {
+                NewActivities.putExtra( mapEntry.getKey().toString(), (boolean) mapEntry.getValue() );
+            }
+            else if ( mapEntry.getValue() instanceof String )
+            {
+                NewActivities.putExtra( mapEntry.getKey().toString(),(String) mapEntry.getValue()  );
+            }
+        }
         depart.startActivity(NewActivities);
     }
-
 }
+    
+
+
+
