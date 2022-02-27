@@ -3,7 +3,9 @@ package com.example.myapplication.MainMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.Option.OptionActivity;
@@ -21,6 +23,7 @@ public class LoadingActivity extends AppCompatActivity
     Button button_sandbox;
     Button button_option;
     Button button_quit;
+    ImageView background;
     HashMap params = new HashMap<>();
     public final static String CONNEXION_API = "http://51.254.96.53:8383/api.php";
 
@@ -45,6 +48,9 @@ public class LoadingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+        background = findViewById(R.id.View_BackGround_Loading);
+        Glide.with(this).load(R.drawable.loadingback).into(background);
+
         button_play = findViewById(R.id.button_play);
         button_play.setOnClickListener(view -> Navigation.switchActivities(this, SelectActivity.class,params));
 
@@ -56,7 +62,7 @@ public class LoadingActivity extends AppCompatActivity
 
         button_quit = findViewById(R.id.button_quit);
         button_quit.setOnClickListener(view -> {
-
+            finishAffinity();
         });
     }
 
