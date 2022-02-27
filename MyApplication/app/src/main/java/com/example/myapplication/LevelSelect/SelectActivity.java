@@ -3,7 +3,9 @@ package com.example.myapplication.LevelSelect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.MainMenu.LoadingActivity;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 public class SelectActivity extends AppCompatActivity
 {
     Button button_return;
+    ImageView background;
     HashMap params = new HashMap<>();
 
     @Override
@@ -22,6 +25,10 @@ public class SelectActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
+
+
+        background = findViewById(R.id.View_BackGround_Select);
+        Glide.with(this).load(R.drawable.back).into(background);
 
         button_return = findViewById(R.id.button_select_return);
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, LoadingActivity.class,params));
