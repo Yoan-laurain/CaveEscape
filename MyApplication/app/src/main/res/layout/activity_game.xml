@@ -8,10 +8,11 @@
 
     <GridView
         android:id="@+id/gameBoard"
-        android:layout_width="372dp"
-        android:layout_height="300dp"
+        android:layout_width="316dp"
+        android:layout_height="393dp"
         android:isScrollContainer="false"
         android:numColumns="8"
+
         android:scrollIndicators="none"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
         android:scrollbarAlwaysDrawVerticalTrack="false"

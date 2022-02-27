@@ -15,7 +15,7 @@ import com.example.myapplication.R;
 public class GameActivity extends AppCompatActivity
 {
     GridView gameBoard;
-    int animals[] = {R.drawable.sol};
+    int images[] = {R.drawable.sol};
     private int[] matrix = new int[25];
 
 
@@ -32,15 +32,18 @@ public class GameActivity extends AppCompatActivity
 
     }
 
+    /*
+        Fill the gameBoard with the number of item of the matrix
+     */
     public void FillGameBoard()
     {
         this.runOnUiThread(() ->
         {
             gameBoard = findViewById(R.id.gameBoard);
-            gameBoard.setColumnWidth(50);
+            gameBoard.setColumnWidth(25);
             gameBoard.setNumColumns(5);
 
-            GameDesign adapter = new GameDesign(this, animals, matrix);
+            GameDesign adapter = new GameDesign(this, images, matrix);
             gameBoard.setAdapter(adapter);
             gameBoard.setOnItemClickListener((parent, view, position, id) -> Toast.makeText(getApplicationContext(), "You clicked ", Toast.LENGTH_SHORT).show());
 
