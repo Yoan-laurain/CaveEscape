@@ -28,7 +28,7 @@ public class OptionActivity extends AppCompatActivity
         setContentView(R.layout.activity_option);
 
         background = findViewById(R.id.View_BackGround_Option);
-        Glide.with(this).load(R.drawable.back).into(background);
+        Glide.with(this).load(R.drawable.optionback).into(background);
 
         button_return = findViewById(R.id.button_option_return);
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, LoadingActivity.class,params));

@@ -10,19 +10,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:background="#852813A6"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/TitreLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Main Title"
-            android:textColor="#000"
-            android:textStyle="bold"
             android:layout_margin="5dp"
+            android:fontFamily="@font/new_rocker"
+            android:text="Main Title"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:id="@+id/TitreLevel"
-            />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

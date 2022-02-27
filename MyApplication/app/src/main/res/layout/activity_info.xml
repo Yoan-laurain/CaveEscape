@@ -20,10 +20,14 @@
 
     <Button
         android:id="@+id/button_info_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="12dp"
+        android:backgroundTint="#852813A6"
+        android:fontFamily="@font/new_rocker"
         android:text="@string/text_return"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/View_copyright"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -34,12 +38,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:fontFamily="@font/new_rocker"
         android:text="@string/text_copyright"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/text_Info"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="140dp"
+        android:fontFamily="@font/new_rocker"
+        android:text="@string/text_info"
+        android:textAlignment="center"
+        android:textColor="#F2FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/button_info_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.633" />
 
 
 </android.support.constraint.ConstraintLayout>

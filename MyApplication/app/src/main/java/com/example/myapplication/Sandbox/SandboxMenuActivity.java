@@ -25,7 +25,7 @@ public class SandboxMenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_sandbox_menu);
 
         background = findViewById(R.id.View_BackGround_Sandbox_Menu);
-        Glide.with(this).load(R.drawable.back).into(background);
+        Glide.with(this).load(R.drawable.sandboxback).into(background);
 
         button_return = findViewById(R.id.button_sandboxmenu_return);
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, LoadingActivity.class,params));
