@@ -25,7 +25,7 @@ public class LoadingActivity extends AppCompatActivity
     Button button_quit;
     ImageView background;
     HashMap params = new HashMap<>();
-    public final static String CONNEXION_API = "http://192.168.1.96:8383/CaveEscapeServer/API.php";
+    public final static String CONNEXION_API = "http://51.254.96.53:8383/api.php";
 
     //idClient
     public static int idClient;
