@@ -2,12 +2,15 @@ package com.example.myapplication.Game;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.myapplication.Dao.MapDAO;
@@ -25,10 +28,10 @@ public class GameActivity extends AppCompatActivity
     int images[] = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite};
     private int[] matrix;
     private int count;
-    Button left;
-    Button right;
-    Button up;
-    Button down;
+    ImageButton left;
+    ImageButton right;
+    ImageButton up;
+    ImageButton down;
     private int currentPosition = 0;
 
     @Override
