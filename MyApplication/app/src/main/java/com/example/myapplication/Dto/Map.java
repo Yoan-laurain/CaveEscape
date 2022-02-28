@@ -3,7 +3,9 @@ package com.example.myapplication.Dto;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Map
+import java.io.Serializable;
+
+public class Map implements Serializable
 {
     private final int idMap;
     private final String nom;

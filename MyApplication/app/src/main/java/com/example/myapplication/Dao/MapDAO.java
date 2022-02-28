@@ -3,6 +3,8 @@ package com.example.myapplication.Dao;
 import android.content.Context;
 
 import com.example.myapplication.Dto.Map;
+import com.example.myapplication.Dto.MapLigne;
+import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.MainMenu.LoadingActivity;
 
@@ -36,8 +38,6 @@ public class MapDAO
 
         OkHttpClient client = new OkHttpClient();
 
-        System.out.println("Requete : " + request);
-
         client.newCall(request).enqueue(new Callback() {
 
             @Override
@@ -49,7 +49,6 @@ public class MapDAO
             public void onResponse(Call call, Response response) throws IOException {
 
                 String responseStr = response.body().string();
-                System.out.println("Reponse : " + responseStr);
 
                 if (!responseStr.equals("false") && !responseStr.equals(""))
                 {
@@ -92,7 +91,52 @@ public class MapDAO
 
         OkHttpClient client = new OkHttpClient();
 
-        System.out.println("Requete : " + request);
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Erreur : " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseStr = response.body().string();
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    try
+                    {
+                        JSONObject jsonIdClient= new JSONObject();
+                        int idCli = jsonIdClient.getInt("idClient");
+                        LoadingActivity.setlastIdClient(idCli);
+
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    // ---------------------------------------------
+    public static void getMap(GameActivity myActivity, String idMap)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "getMapLigneById")
+                .add("idMap", idMap)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        System.out.println("Req : " +request);
+
+        OkHttpClient client = new OkHttpClient();
 
         client.newCall(request).enqueue(new Callback() {
 
@@ -105,16 +149,24 @@ public class MapDAO
             public void onResponse(Call call, Response response) throws IOException {
 
                 String responseStr = response.body().string();
-                System.out.println("Reponse : " + responseStr);
-
+                System.out.println("Rep : " + responseStr);
                 if (!responseStr.equals("false") && !responseStr.equals(""))
                 {
                     try
                     {
-                        JSONObject jsonIdClient= new JSONObject();
-                        int idCli = jsonIdClient.getInt("idClient");
-                        LoadingActivity.setlastIdClient(idCli);
+                        JSONArray jsonArrayLigneMap = new JSONArray(responseStr);
 
+                        HashMap<Integer, MapLigne> lesLignesMaps = new HashMap<>();
+
+                        for (int i = 0; i < jsonArrayLigneMap.length(); i++)
+                        {
+                            JSONObject json = jsonArrayLigneMap.getJSONObject(i);
+
+                            MapLigne maMapLigne = MapLigne.hydrateMap(json);
+
+                            lesLignesMaps.put(maMapLigne.getId(),maMapLigne);
+                        }
+                        myActivity.responseMapLigne(lesLignesMaps);
                     }
                     catch(JSONException e)
                     {

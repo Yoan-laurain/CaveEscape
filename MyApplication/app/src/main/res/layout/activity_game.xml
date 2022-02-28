@@ -8,17 +8,20 @@
 
     <GridView
         android:id="@+id/gameBoard"
-        android:layout_width="316dp"
-        android:layout_height="393dp"
+        android:layout_width="349dp"
+        android:layout_height="737dp"
         android:isScrollContainer="false"
         android:numColumns="8"
 
         android:scrollIndicators="none"
+        android:layout_gravity="center"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.132" />
 </android.support.constraint.ConstraintLayout>

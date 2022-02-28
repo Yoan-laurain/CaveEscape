@@ -24,7 +24,7 @@ public class SelectActivity extends AppCompatActivity
     ImageView background;
     HashMap params = new HashMap<>();
     private ArrayList<String> mTitle = new ArrayList();
-    private ArrayList<Integer> mIdMap = new ArrayList();
+    private ArrayList<Map> ListMap = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,14 +57,14 @@ public class SelectActivity extends AppCompatActivity
 
                 lesMaps.values().forEach(tab -> {
                     mTitle.add(tab.getNom());
-                    mIdMap.add(tab.getIdMap());
+                    ListMap.add(tab);
                 });
 
                 ListView listLevel = findViewById(R.id.List_Level);
                 LevelDesign adapter = new LevelDesign(this,R.layout.row ,mTitle);
                 listLevel.setAdapter(adapter);
 
-                listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( mIdMap.get( position ) ) );
+                listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( ListMap.get( position ) ) );
 
             }
             else
@@ -79,9 +79,10 @@ public class SelectActivity extends AppCompatActivity
     /*
         Open the page game with the id of the level in parameter
      */
-    public void openLevel(Integer idMap)
+    public void openLevel(Map mapSelected)
     {
-        params.put("idMap", idMap);
+        params.put("Map", mapSelected);
+        System.out.println("Objatino : " + mapSelected);
         Navigation.switchActivities(this, GameActivity.class,params);
     }
 
