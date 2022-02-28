@@ -8,4 +8,8 @@
     <string name="text_return">RETURN</string>
     <string name="text_credit">CREDIT</string>
     <string name="text_info">Yoan Laurain \n Hugo Carricart \n Nathan Lesourd </string>
+    <string name="text_up">UP</string>
+    <string name="text_down">DOWN</string>
+    <string name="text_left">LEFT</string>
+    <string name="text_right">RIGHT</string>
 </resources>
