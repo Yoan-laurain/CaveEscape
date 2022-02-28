@@ -47,6 +47,7 @@ public class GameDesign extends BaseAdapter
 
         ImageView aCase = view.findViewById(R.id.caseGameImage);
         aCase.getLayoutParams().height = LineHeight;
+        System.out.println("Index : " + i);
 
         aCase.setImageResource(matrix[i]);
 
