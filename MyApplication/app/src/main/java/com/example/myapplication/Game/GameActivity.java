@@ -25,7 +25,7 @@ public class GameActivity extends AppCompatActivity
 {
     GridView gameBoard;
     Map myMap;
-    int images[] = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite};
+    int images[] = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
     private int[] matrix;
     private int count;
     ImageButton left;
@@ -33,6 +33,8 @@ public class GameActivity extends AppCompatActivity
     ImageButton up;
     ImageButton down;
     private int currentPosition = 0;
+    private int countNbBox;
+    private int nbBoxPlaced;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -108,6 +110,7 @@ public class GameActivity extends AppCompatActivity
 
                     case 'C':
                         matrix[ count ] = images[ 4 ];
+                        countNbBox++;
                         break;
                 }
                 count++;
@@ -125,18 +128,36 @@ public class GameActivity extends AppCompatActivity
         if ( matrix[ currentPosition - movement ] != images[ 1 ])
         {
             //Si c'est la boîte et que la case suivante est l'arrivée ou un sol
-            if ( matrix[ currentPosition - movement ] == images[ 4 ] && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
+            if ( ( matrix[ currentPosition - movement ] == images[ 4 ] || matrix[ currentPosition - movement ] == images[ 5 ]  ) && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
             {
-                //On repositionne la boite sur 2 cases après
-                matrix[ currentPosition - movement * 2 ] = images[4];
+                //On vérifie si la case ou on pousse la caisse est une zone d'arrivée
+                if ( matrix[ currentPosition - movement * 2 ] == images[3] )
+                {
+                    //Si la caisse qu'on pousse était déjà bine placée
+                    if ( matrix[ currentPosition - movement * 1 ] == images[5]  )
+                    {
+                        nbBoxPlaced--;
+                    }
+
+                    //On repositionne la boite verte sur 2 cases après
+                    matrix[ currentPosition - movement * 2 ] = images[5];
+                    nbBoxPlaced++;
+                }
+                else
+                {
+                    //On repositionne la boite sur 2 cases après
+                    matrix[ currentPosition - movement * 2 ] = images[4];
+                }
+
                 //On remplace le joueur par un sol
                 matrix[currentPosition] = images[2];
                 //Bouge le perso
                 currentPosition -= movement;
                 //Place l'image du perso
                 matrix[currentPosition] = images[0];
+
             }//Si c'est pas la boite
-            else if ( matrix[ currentPosition - movement ] != images[ 4 ])
+            else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
             {
                 //On remplace le joueur par un sol
                 matrix[currentPosition] = images[2];
@@ -147,6 +168,13 @@ public class GameActivity extends AppCompatActivity
             }
             //Refresh le plateau
             FillGameBoard();
+
+            if ( nbBoxPlaced == countNbBox )
+            {
+                this.finish();
+            }
+
         }
     }
+
 }
