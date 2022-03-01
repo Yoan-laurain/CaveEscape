@@ -9,8 +9,8 @@ public class Map implements Serializable
 {
     private final int idMap;
     private final String nom;
-    private final int nbRows;
-    private final int nbColumns;
+    private int nbRows;
+    private  int nbColumns;
     private final int idClient;
 
     public Map(int idMap, String nom, int nbRows, int nbColumns, int idClient)
@@ -21,6 +21,10 @@ public class Map implements Serializable
         this.nbColumns = nbColumns;
         this.idClient = idClient;
     }
+
+    public void setNbRows ( int nbRows ) { this.nbRows = nbRows;}
+
+    public void setNbColumns ( int nbColumns ) { this.nbColumns = nbColumns;}
 
     public int getIdMap() { return idMap; }
 

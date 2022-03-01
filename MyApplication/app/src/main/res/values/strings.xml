@@ -12,4 +12,5 @@
     <string name="text_down">DOWN</string>
     <string name="text_left">LEFT</string>
     <string name="text_right">RIGHT</string>
+    <string name="text_create">CREATE</string>
 </resources>
