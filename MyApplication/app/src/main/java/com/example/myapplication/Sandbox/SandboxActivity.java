@@ -122,8 +122,9 @@ public class SandboxActivity extends AppCompatActivity
                     //Si on a ajouté une ou plusieurs colonnes
                     if ( myMap.getNbColumns() > nbColumnTemp )
                     {
-                        if ( i % nbColumnTemp == 0 )
+                        if ( i % myMap.getNbColumns() >= myMap.getNbColumns() - nbColumnTemp )
                         {
+                            System.out.println("In : " + i);
                             matrix[i] = images[2];
                         }
                         else
@@ -152,9 +153,7 @@ public class SandboxActivity extends AppCompatActivity
                     }
 
                 }
-
                 FillGameBoard();
-
 
             }
 
