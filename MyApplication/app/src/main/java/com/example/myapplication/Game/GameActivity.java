@@ -72,7 +72,6 @@ public class GameActivity extends AppCompatActivity
 
             GameDesign adapter = new GameDesign(this, images, matrix, myMap.getNbRows() * 30 );
             gameBoard.setAdapter(adapter);
-            gameBoard.setOnItemClickListener((parent, view, position, id) -> Toast.makeText(getApplicationContext(), "You clicked ", Toast.LENGTH_SHORT).show());
 
         });
     }

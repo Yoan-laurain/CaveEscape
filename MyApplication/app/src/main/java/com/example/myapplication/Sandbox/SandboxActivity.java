@@ -124,16 +124,16 @@ public class SandboxActivity extends AppCompatActivity
                     {
                         if ( i % myMap.getNbColumns() >= myMap.getNbColumns() - nbColumnTemp )
                         {
-                            System.out.println("In : " + i);
                             matrix[i] = images[2];
+                            countTemp++;
                         }
                         else
                         {
                             matrix[i] = matrixTemp[countTemp];
-                            countTemp++;
+
                         }
 
-                    } //Si on a retiré une ou plusieurs lignes
+                    } //Si on a retiré une ou plusieurs colonnes
                     else if ( myMap.getNbColumns() < nbColumnTemp )
                     {
                         if ( i % myMap.getNbColumns() == 0  )
