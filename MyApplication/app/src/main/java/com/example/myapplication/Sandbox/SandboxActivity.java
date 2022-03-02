@@ -41,17 +41,17 @@ public class SandboxActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandbox);
 
-        player = findViewById(R.id.button_test);
-//        box = findViewById(R.id.);
-//        floor = findViewById(R.id.);
-//        wall = findViewById(R.id.);
-//        finish = findViewById(R.id.);
+        player = findViewById(R.id.button_sandbox_perso);
+        wall = findViewById(R.id.button_sandbox_mur);
+        floor = findViewById(R.id.button_sandbox_sol);
+        finish = findViewById(R.id.button_sandbox_arrive);
+        box = findViewById(R.id.button_sandbox_box);
 
         player.setOnClickListener(var -> currentTool = 0);
-//        box.setOnClickListener(var -> currentTool = 4);
-//        floor.setOnClickListener(var -> currentTool = 2);
-//        wall.setOnClickListener(var -> currentTool = 1);
-//        finish.setOnClickListener(var -> currentTool = 3);
+        wall.setOnClickListener(var -> currentTool = 1);
+        floor.setOnClickListener(var -> currentTool = 2);
+        finish.setOnClickListener(var -> currentTool = 3);
+        box.setOnClickListener(var -> currentTool = 4);
 
 
         spinnerLines = findViewById(R.id.list_nb_lines);
