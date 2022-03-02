@@ -13,4 +13,11 @@
     <string name="text_left">LEFT</string>
     <string name="text_right">RIGHT</string>
     <string name="text_create">CREATE</string>
+    <string name="text_perso">CASE DU PERSONNAGE</string>
+    <string name="text_sol">CASE DE TYPE SOL</string>
+    <string name="text_arrive">CASE DE TYPE ARRIVE</string>
+    <string name="text_box">CASE DE LA BOITE</string>
+    <string name="text_mur">CASE DE TYPE MUR</string>
+    <string name="text_list_nb_column">Nombre de colonne</string>
+    <string name="text_list_nb_lines">Nombre de ligne</string>
 </resources>

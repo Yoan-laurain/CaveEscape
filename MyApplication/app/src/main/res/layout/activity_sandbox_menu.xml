@@ -36,7 +36,7 @@
         android:id="@+id/button_edit_sandbox"
         android:layout_width="140dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="64dp"
         android:backgroundTint="#852813A6"
         android:fontFamily="@font/new_rocker"
         android:text="@string/text_create"
@@ -44,6 +44,6 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintHorizontal_bias="0.154"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
