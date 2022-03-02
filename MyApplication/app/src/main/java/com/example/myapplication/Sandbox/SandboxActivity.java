@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,6 +19,12 @@ import java.util.Arrays;
 
 public class SandboxActivity extends AppCompatActivity
 {
+    ImageButton player;
+    ImageButton box;
+    ImageButton floor;
+    ImageButton wall;
+    ImageButton finish;
+
     Spinner spinnerLines;
     Spinner spinnerColumns;
     ArrayList<Integer> listNumbers = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9,10) ) ;
@@ -26,6 +33,7 @@ public class SandboxActivity extends AppCompatActivity
     private int[] matrixTemp;
     GridView gameBoard;
     Map myMap;
+    int currentTool = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,9 +41,27 @@ public class SandboxActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandbox);
 
+        player = findViewById(R.id.button_test);
+//        box = findViewById(R.id.);
+//        floor = findViewById(R.id.);
+//        wall = findViewById(R.id.);
+//        finish = findViewById(R.id.);
+
+        player.setOnClickListener(var -> currentTool = 0);
+//        box.setOnClickListener(var -> currentTool = 4);
+//        floor.setOnClickListener(var -> currentTool = 2);
+//        wall.setOnClickListener(var -> currentTool = 1);
+//        finish.setOnClickListener(var -> currentTool = 3);
+
+
         spinnerLines = findViewById(R.id.list_nb_lines);
         spinnerColumns = findViewById(R.id.list_nb_columns);
         gameBoard = findViewById(R.id.sandbox_gameBoard);
+        gameBoard.setOnItemClickListener((parent, view, position, id) ->
+                {
+                    matrix[position] = images[currentTool];
+                    FillGameBoard();
+                });
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listNumbers);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -117,34 +143,26 @@ public class SandboxActivity extends AppCompatActivity
                 matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
                 int countTemp = 0;
 
-                for ( int i = 0; i < matrix.length; i++)
+                int max = ( matrixTemp.length > myMap.getNbColumns() *  myMap.getNbRows() ? matrixTemp.length :  myMap.getNbColumns() *  myMap.getNbRows() );
+
+                for ( int i = 0; i < max ;i++)
                 {
                     //Si on a ajouté une ou plusieurs colonnes
                     if ( myMap.getNbColumns() > nbColumnTemp )
                     {
-                        if ( i % myMap.getNbColumns() >= myMap.getNbColumns() - nbColumnTemp )
+                        if ( i % myMap.getNbColumns() >= nbColumnTemp   )
                         {
                             matrix[i] = images[2];
-                            countTemp++;
                         }
                         else
                         {
                             matrix[i] = matrixTemp[countTemp];
-
+                            countTemp++;
                         }
 
                     } //Si on a retiré une ou plusieurs colonnes
                     else if ( myMap.getNbColumns() < nbColumnTemp )
                     {
-                        if ( i % myMap.getNbColumns() == 0  )
-                        {
-                            matrix[i] = matrixTemp[countTemp];
-                        }
-                        else
-                        {
-                            matrix[i] = matrixTemp[i];
-                            countTemp++;
-                        }
 
                     }
                     else
@@ -153,6 +171,7 @@ public class SandboxActivity extends AppCompatActivity
                     }
 
                 }
+
                 FillGameBoard();
 
             }
@@ -176,8 +195,8 @@ public class SandboxActivity extends AppCompatActivity
 
             GameDesign adapter = new GameDesign(this, images, matrix, myMap.getNbRows() * 30 );
             gameBoard.setAdapter(adapter);
-            gameBoard.setOnItemClickListener((parent, view, position, id) -> Toast.makeText(getApplicationContext(), "You clicked ", Toast.LENGTH_SHORT).show());
 
         });
     }
+
 }
