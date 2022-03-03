@@ -10,11 +10,14 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
+import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.R;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 
 public class SandboxActivity extends AppCompatActivity
@@ -31,6 +34,7 @@ public class SandboxActivity extends AppCompatActivity
     int images[] = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
     private int[] matrix;
     private int[] matrixTemp;
+    private int count;
     GridView gameBoard;
     Map myMap;
     int currentTool = 2;
@@ -68,15 +72,28 @@ public class SandboxActivity extends AppCompatActivity
         spinnerLines.setAdapter(adapter);
         spinnerColumns.setAdapter(adapter);
 
-        spinnerLines.setSelection(4);
-        spinnerColumns.setSelection(4);
+        myMap = (Map) getIntent().getSerializableExtra("Map");
 
-        myMap = new Map(0,"",5,5,0);
-        matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
-        for ( int i = 0; i < myMap.getNbRows()*myMap.getNbColumns(); i++)
+        if ( myMap != null )
         {
-            matrix[i] = images[2];
+            spinnerLines.setSelection( myMap.getNbRows() - 1 );
+            spinnerColumns.setSelection( myMap.getNbColumns() - 1 );
+            matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+
+            MapDAO.getMap( null,this, String.valueOf( myMap.getIdMap() ) );
+        }
+        else
+        {
+            spinnerLines.setSelection(4);
+            spinnerColumns.setSelection(4);
+            myMap = new Map(0,"",5,5,0);
+            matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+
+            for ( int i = 0; i < myMap.getNbRows()*myMap.getNbColumns(); i++)
+            {
+                matrix[i] = images[2];
+            }
         }
 
 
@@ -163,7 +180,7 @@ public class SandboxActivity extends AppCompatActivity
                     } //Si on a retiré une ou plusieurs colonnes
                     else if ( myMap.getNbColumns() < nbColumnTemp )
                     {
-                        
+
                         if ( countTemp < myMap.getNbColumns() * myMap.getNbRows() )
                         {
                             if (countTemp % (myMap.getNbColumns()) == 0 && i != 0)
@@ -210,6 +227,47 @@ public class SandboxActivity extends AppCompatActivity
             gameBoard.setAdapter(adapter);
 
         });
+    }
+
+    /*
+    Called after the response of the API
+ */
+    public void responseMapLigne( HashMap<Integer, MapLigne> lesLignesMaps )
+    {
+        matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+        count = 0;
+
+        lesLignesMaps.values().forEach(MapLigne ->
+        {
+            for (int i = 0; i < MapLigne.getContent().length(); i++)
+            {
+                switch ( MapLigne.getContent().charAt(i) )
+                {
+                    case 'P' :
+                        matrix[ count ] = images[ 0 ];
+                        break;
+
+                    case '#':
+                        matrix[ count ] = images[ 1 ];
+                        break;
+
+                    case '.':
+                        matrix[ count ] = images[ 2 ];
+                        break;
+
+                    case 'X':
+                        matrix[ count ] = images[ 3 ];
+                        break;
+
+                    case 'C':
+                        matrix[ count ] = images[ 4 ];
+                        break;
+                }
+                count++;
+            }
+        });
+
+        FillGameBoard();
     }
 
 }

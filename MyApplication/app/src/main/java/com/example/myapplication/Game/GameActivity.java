@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity
         setContentView(R.layout.activity_game);
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
-        MapDAO.getMap( this, String.valueOf( myMap.getIdMap() ) );
+        MapDAO.getMap( this,null, String.valueOf( myMap.getIdMap() ) );
 
         left = findViewById(R.id.button_game_left);
         left.setOnClickListener(var ->  move( 1) );

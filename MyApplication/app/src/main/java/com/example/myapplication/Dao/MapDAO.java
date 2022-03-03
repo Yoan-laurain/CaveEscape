@@ -1,5 +1,6 @@
 package com.example.myapplication.Dao;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.example.myapplication.Dto.Map;
@@ -7,6 +8,8 @@ import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.MainMenu.LoadingActivity;
+import com.example.myapplication.Sandbox.SandboxActivity;
+import com.example.myapplication.Sandbox.SandboxMenuActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -25,7 +28,7 @@ import okhttp3.Response;
 public class MapDAO
 {
 
-    public static void getAllMap(SelectActivity myActivity)
+    public static void getAllMap(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
     {
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "getAllMap")
@@ -66,7 +69,12 @@ public class MapDAO
 
                             lesMaps.put(maMap.getIdMap(),maMap);
                         }
-                        myActivity.responseMap(lesMaps);
+                        if (myActivity == null) {
+                            myActivitySandBox.responseMap(lesMaps);
+                        } else {
+                            myActivity.responseMap(lesMaps);
+                        }
+
                     }
                     catch(JSONException e)
                     {
@@ -122,7 +130,7 @@ public class MapDAO
     }
 
     // ---------------------------------------------
-    public static void getMap(GameActivity myActivity, String idMap)
+    public static void getMap(GameActivity myActivity, SandboxActivity mySandBoxActivity, String idMap)
     {
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "getMapLigneById")
@@ -134,7 +142,7 @@ public class MapDAO
                 .post(formBody)
                 .build();
 
-        System.out.println("Req : " +request);
+        //System.out.println("Req : " +request);
 
         OkHttpClient client = new OkHttpClient();
 
@@ -166,7 +174,14 @@ public class MapDAO
 
                             lesLignesMaps.put(maMapLigne.getId(),maMapLigne);
                         }
-                        myActivity.responseMapLigne(lesLignesMaps);
+
+                        if (myActivity == null) {
+                            mySandBoxActivity.responseMapLigne(lesLignesMaps);
+                        } else {
+                            myActivity.responseMapLigne(lesLignesMaps);
+                        }
+
+
                     }
                     catch(JSONException e)
                     {

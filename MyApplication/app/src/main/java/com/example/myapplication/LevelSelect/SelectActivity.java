@@ -38,7 +38,7 @@ public class SelectActivity extends AppCompatActivity
         button_return = findViewById(R.id.button_select_return);
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, LoadingActivity.class,params));
 
-        MapDAO.getAllMap(this);
+        MapDAO.getAllMap(this,null);
     }
 
     /*
@@ -82,7 +82,7 @@ public class SelectActivity extends AppCompatActivity
     public void openLevel(Map mapSelected)
     {
         params.put("Map", mapSelected);
-        System.out.println("Objatino : " + mapSelected);
+
         Navigation.switchActivities(this, GameActivity.class,params);
     }
 
