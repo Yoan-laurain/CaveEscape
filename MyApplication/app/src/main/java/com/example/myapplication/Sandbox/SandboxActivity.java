@@ -163,7 +163,20 @@ public class SandboxActivity extends AppCompatActivity
                     } //Si on a retiré une ou plusieurs colonnes
                     else if ( myMap.getNbColumns() < nbColumnTemp )
                     {
-
+                        
+                        if ( countTemp < myMap.getNbColumns() * myMap.getNbRows() )
+                        {
+                            if (countTemp % (myMap.getNbColumns()) == 0 && i != 0)
+                            {
+                                i += nbColumnTemp - myMap.getNbColumns();
+                                matrix[countTemp] = matrixTemp[i];
+                                countTemp++;
+                            } else
+                            {
+                                matrix[countTemp] = matrixTemp[i];
+                                countTemp++;
+                            }
+                        }
                     }
                     else
                     {
