@@ -11,6 +11,26 @@ $_POST['command'] = "getAllMap";
 $_POST['idMap'] = 1;
 */
 
+
+
+/*
+//MAP INSERT
+
+$_POST['command'] = "saveMap"
+
+$_POST["nom"] = "MapDeTest";
+$_POST["nbRows"] = 5;
+$_POST["nbColumns"] = 5;
+$_POST["idClient"] = 999;
+
+//MAPLINES INSERT
+
+$_POST['command'] = "saveMapLine"
+$_POST["indexRow"] = 0 ;
+$_POST["content"] = "##..P";
+$_POST["idMap"] = 999;
+*/
+
 // -------------------------------------------
 // Redirige vers la bonne commande
 if (isset($_POST['command'])) {

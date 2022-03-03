@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Map implements Serializable
 {
     private final int idMap;
-    private final String nom;
+    private String nom;
     private int nbRows;
     private  int nbColumns;
     private final int idClient;
@@ -25,6 +25,8 @@ public class Map implements Serializable
     public void setNbRows ( int nbRows ) { this.nbRows = nbRows;}
 
     public void setNbColumns ( int nbColumns ) { this.nbColumns = nbColumns;}
+
+    public void setName ( String name ) { this.nom = name;}
 
     public int getIdMap() { return idMap; }
 

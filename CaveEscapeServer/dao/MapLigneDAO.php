@@ -8,7 +8,8 @@ class MapLigneDAO {
         DBConnex::runFetchAll(
             "SELECT *
             FROM map_ligne
-            WHERE idMap = " . $_POST['idMap']
+            WHERE idMap = :idMap",
+            array("idMap")
         );
     }
 	// -------------------------------------------

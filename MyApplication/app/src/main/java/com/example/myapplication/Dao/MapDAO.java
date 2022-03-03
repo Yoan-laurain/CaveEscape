@@ -1,8 +1,6 @@
 package com.example.myapplication.Dao;
 
-import android.app.Activity;
 import android.content.Context;
-
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Game.GameActivity;
@@ -10,7 +8,6 @@ import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.Sandbox.SandboxActivity;
 import com.example.myapplication.Sandbox.SandboxMenuActivity;
-
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -192,4 +189,84 @@ public class MapDAO
         });
     }
 
+    public static void saveMap( SandboxActivity myActivity , Map myMap)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "saveMap")
+                .add("nameMap",myMap.getNom())
+                .add("nbRows", String.valueOf( myMap.getNbRows() ) )
+                .add("nbColumns", String.valueOf( myMap.getNbColumns() ) )
+                .add("idClient", String.valueOf( myMap.getIdClient() ) )
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Erreur : " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseStr = response.body().string();
+                responseStr = responseStr.replace("true","");
+                responseStr = responseStr.replace("false","");
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    try {
+                        JSONObject json = new JSONObject(responseStr);
+
+                        myActivity.responseAfterSaveMap( json.getInt("id") );
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void saveMapLines( SandboxActivity myActivity , MapLigne myMapLines)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "saveMapLine")
+                .add("indexRow", String.valueOf( myMapLines.getIndexRow() ) )
+                .add("content", myMapLines.getContent()  )
+                .add("idMap", String.valueOf( myMapLines.getIdMap() ) )
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Erreur : " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseStr = response.body().string();
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                }
+            }
+        });
+    }
 }

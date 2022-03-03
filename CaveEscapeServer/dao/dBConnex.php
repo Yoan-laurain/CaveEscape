@@ -73,8 +73,9 @@ class DBConnex extends PDO{
                     $requetePrepa->bindParam(":" . $param, $_POST[$param]);
                 }
             }
+
             $reponse = $requetePrepa->execute();
-            
+
             if (!$isQuery) {
                 if (!$fetchAll) {
                     $reponse = $requetePrepa->fetch(PDO::FETCH_ASSOC);
@@ -86,6 +87,7 @@ class DBConnex extends PDO{
             if (!empty($reponse) && $reponse != false) {
                json::return($reponse);
             } 
+           
             //WIP à gerer si ça plante
 
         }catch(Exception $e){

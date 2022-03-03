@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -28,6 +30,10 @@ public class SandboxActivity extends AppCompatActivity
     ImageButton wall;
     ImageButton finish;
 
+    EditText mapName;
+
+    Button saveButton;
+
     Spinner spinnerLines;
     Spinner spinnerColumns;
     ArrayList<Integer> listNumbers = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9,10) ) ;
@@ -50,6 +56,8 @@ public class SandboxActivity extends AppCompatActivity
         floor = findViewById(R.id.button_sandbox_sol);
         finish = findViewById(R.id.button_sandbox_arrive);
         box = findViewById(R.id.button_sandbox_box);
+        saveButton = findViewById(R.id.save_game);
+        mapName = findViewById(R.id.map_name);
 
         player.setOnClickListener(var -> currentTool = 0);
         wall.setOnClickListener(var -> currentTool = 1);
@@ -71,6 +79,8 @@ public class SandboxActivity extends AppCompatActivity
         adapter.setDropDownViewResource(R.layout.spinner_item);
         spinnerLines.setAdapter(adapter);
         spinnerColumns.setAdapter(adapter);
+
+        saveButton.setOnClickListener(var -> saveGame());
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
@@ -269,5 +279,53 @@ public class SandboxActivity extends AppCompatActivity
 
         FillGameBoard();
     }
+
+    public void saveGame()
+    {
+        myMap.setName( mapName.getText().toString() );
+        MapDAO.saveMap( this, myMap);
+    }
+
+    public void responseAfterSaveMap( int id )
+    {
+        for ( int i = 0; i < myMap.getNbRows(); i++ )
+        {
+            String content = "";
+
+            for ( int j = 0; j < myMap.getNbColumns(); j++ )
+            {
+
+                switch ( matrix[ ( i + 1 ) * j ] )
+                {
+                    case R.drawable.perso :
+                        content+= "P";
+                        break;
+
+                    case R.drawable.mur:
+                        content+= "#";
+                        break;
+
+                    case R.drawable.sol:
+                        content+= ".";
+                        break;
+
+                    case R.drawable.arrivee:
+                        content+= "X";
+                        break;
+
+                    case R.drawable.boite:
+                        content+= "C";
+                        break;
+                }
+
+            }
+
+            MapLigne myMapLine = new MapLigne( 0, i , content, id );
+
+            MapDAO.saveMapLines(this, myMapLine );
+        }
+        finish();
+    }
+
 
 }
