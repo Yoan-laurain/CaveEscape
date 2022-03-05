@@ -44,6 +44,8 @@ public class SandboxActivity extends AppCompatActivity
     GridView gameBoard;
     Map myMap;
     int currentTool = 2;
+    int nbPlayerPlaced;
+    int nbBoxPlaced;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,11 +71,7 @@ public class SandboxActivity extends AppCompatActivity
         spinnerLines = findViewById(R.id.list_nb_lines);
         spinnerColumns = findViewById(R.id.list_nb_columns);
         gameBoard = findViewById(R.id.sandbox_gameBoard);
-        gameBoard.setOnItemClickListener((parent, view, position, id) ->
-                {
-                    matrix[position] = images[currentTool];
-                    FillGameBoard();
-                });
+        gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, listNumbers);
         adapter.setDropDownViewResource(R.layout.spinner_item);
@@ -84,8 +82,7 @@ public class SandboxActivity extends AppCompatActivity
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
-
-        if ( myMap != null )
+        try
         {
             spinnerLines.setSelection( myMap.getNbRows() - 1 );
             spinnerColumns.setSelection( myMap.getNbColumns() - 1 );
@@ -93,7 +90,7 @@ public class SandboxActivity extends AppCompatActivity
 
             MapDAO.getMap( null,this, String.valueOf( myMap.getIdMap() ) );
         }
-        else
+        catch(Exception e)
         {
             spinnerLines.setSelection(4);
             spinnerColumns.setSelection(4);
@@ -280,12 +277,49 @@ public class SandboxActivity extends AppCompatActivity
         FillGameBoard();
     }
 
+    /*
+        Called when the user try to save his map.
+        Check if the map is quite correct and display toast otherwise.
+     */
     public void saveGame()
     {
-        myMap.setName( mapName.getText().toString() );
-        MapDAO.saveMap( this, myMap);
+
+        if ( mapName.getText().toString().length() == 0 )
+        {
+            Toast.makeText(this, "Fill the name section ! ", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            if ( nbPlayerPlaced == 1 )
+            {
+                if ( nbBoxPlaced > 0 )
+                {
+                    if ( EnoughFinishPlace() == true )
+                    {
+                        myMap.setName( mapName.getText().toString() );
+                        MapDAO.saveMap( this, myMap);
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "You don't have enough end zone(s) for you're boxe(s)! ", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this, "You need at least one box. ", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(this, "You need to have one player! ", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
+    /*
+        Called after the save of a map ( header )  in the dataBase.
+        Create mapLines object to save them too with the id of the map created
+     */
     public void responseAfterSaveMap( int id )
     {
         for ( int i = 0; i < myMap.getNbRows(); i++ )
@@ -327,5 +361,53 @@ public class SandboxActivity extends AppCompatActivity
         finish();
     }
 
+    /*
+        Check if there is enough finish place for the number of boxes placed.
+     */
+    public boolean EnoughFinishPlace ()
+    {
+        int nbBox = 0;
+        int nbFinishZone = 0;
 
+        for ( int i = 0 ; i < matrix.length; i++ )
+        {
+            if ( matrix[i] == images[3] )
+            {
+                nbFinishZone++;
+            }
+            else if ( matrix[i] == images[4] )
+            {
+                nbBox++;
+            }
+        }
+        return ( nbBox <= nbFinishZone ? true : false );
+    }
+
+    /*
+        Called when the user click on the map to place item.
+        Call the method to resfresh the board.
+     */
+    public void ClickOnBoard(int position)
+    {
+        if ( matrix[position] == images[0] )
+        {
+            nbPlayerPlaced--;
+        }
+        else if ( matrix[position] == images[4] )
+        {
+            nbBoxPlaced--;
+        }
+
+        matrix[position] = images[currentTool];
+
+        if ( images[currentTool] == images[0] )
+        {
+            nbPlayerPlaced++;
+        }
+        else if ( images[currentTool] == images[4] )
+        {
+            nbBoxPlaced++;
+        }
+        FillGameBoard();
+    }
 }
