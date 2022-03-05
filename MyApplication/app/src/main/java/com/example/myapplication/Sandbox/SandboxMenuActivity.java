@@ -37,10 +37,11 @@ public class SandboxMenuActivity extends AppCompatActivity
         Glide.with(this).load(R.drawable.sandboxback).into(background);
 
         button_return = findViewById(R.id.button_sandboxmenu_return);
+
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, LoadingActivity.class,params));
 
         button_create = findViewById(R.id.button_edit_sandbox);
-        button_create.setOnClickListener(view -> Navigation.switchActivities(this, SandboxActivity.class,params));
+        button_create.setOnClickListener(view -> openCreateMap());
 
         MapDAO.getAllMap(null,this);
     }
@@ -89,4 +90,9 @@ public class SandboxMenuActivity extends AppCompatActivity
         Navigation.switchActivities(this, SandboxActivity.class,params);
     }
 
+    public void openCreateMap()
+    {
+        params.put("Map",null);
+        Navigation.switchActivities(this, SandboxActivity.class,params);
+    }
 }
