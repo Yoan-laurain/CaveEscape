@@ -275,7 +275,7 @@ public class MapDAO
     {
         String result;
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "DeleteMap")
+                .add("command", "deleteMap")
                 .add("idMap", String.valueOf(idMap))
                 .build();
 
@@ -297,6 +297,7 @@ public class MapDAO
             public void onResponse(Call call, Response response) throws IOException {
 
                 String responseStr = response.body().string();
+                System.out.println("api response : " + responseStr);
 
                 if (responseStr.equals("false") && !responseStr.equals(""))
                 {
@@ -313,5 +314,67 @@ public class MapDAO
         });
     }
 
+
+    public static void getMapByClient(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "getMapByClient")
+                .add("idClient", LoadingActivity.idClient)
+                .build();
+        System.out.println("idClient : " + LoadingActivity.idClient );
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Erreur : " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseStr = response.body().string();
+                System.out.println("api response by client : " + responseStr);
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    try
+                    {
+                        JSONArray jsonArrayMap = new JSONArray(responseStr);
+
+                        HashMap<Integer, Map> lesMaps = new HashMap<>();
+
+                        for (int i = 0; i < jsonArrayMap.length(); i++) {
+
+                            JSONObject json = jsonArrayMap.getJSONObject(i);
+
+                            Map maMap = Map.hydrateMap(json);
+
+                            lesMaps.put(maMap.getIdMap(),maMap);
+                        }
+                        if (myActivity == null) {
+                            myActivitySandBox.responseMap(lesMaps);
+                        } else {
+                            myActivity.responseMap(lesMaps);
+                        }
+
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else if(responseStr == ""){
+                    HashMap<Integer, Map> lesMaps = new HashMap<>();
+                    myActivitySandBox.responseMap(lesMaps);
+                }
+            }
+        });
+    }
 
 }

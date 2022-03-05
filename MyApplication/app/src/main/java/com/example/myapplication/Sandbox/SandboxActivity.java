@@ -81,8 +81,7 @@ public class SandboxActivity extends AppCompatActivity
         spinnerColumns.setAdapter(adapter);
 
         saveButton.setOnClickListener(var -> saveGame());
-        System.out.println("idMap to delete : " + myMap.getIdMap());
-        deleteButton.setOnClickListener(var -> MapDAO.DeleteMap(this, myMap.getIdMap()));
+
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
@@ -91,6 +90,12 @@ public class SandboxActivity extends AppCompatActivity
             spinnerLines.setSelection( myMap.getNbRows() - 1 );
             spinnerColumns.setSelection( myMap.getNbColumns() - 1 );
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+
+            System.out.println("idMap to delete : " + myMap.getIdMap());
+            deleteButton.setOnClickListener(var ->{
+                MapDAO.DeleteMap(this, myMap.getIdMap());
+                this.finish();
+                });
 
             MapDAO.getMap( null,this, String.valueOf( myMap.getIdMap() ) );
         }

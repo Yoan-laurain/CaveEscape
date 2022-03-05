@@ -27,6 +27,18 @@ public class SandboxMenuActivity extends AppCompatActivity
     private ArrayList<String> mTitle = new ArrayList();
     private ArrayList<Map> ListMap = new ArrayList();
 
+
+    /*
+        this methid is called when the page is open
+        it create the list of maps.
+     */
+    @Override
+    protected void onResume(){
+        super.onResume();
+        MapDAO.getMapByClient(null,this);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,7 +55,6 @@ public class SandboxMenuActivity extends AppCompatActivity
         button_create = findViewById(R.id.button_edit_sandbox);
         button_create.setOnClickListener(view -> openCreateMap());
 
-        MapDAO.getAllMap(null,this);
     }
 
     /*
@@ -57,6 +68,7 @@ public class SandboxMenuActivity extends AppCompatActivity
         {
             if ( lesMaps.size() > 0 )
             {
+
                 mTitle = new ArrayList<>();
 
 

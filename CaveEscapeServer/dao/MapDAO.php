@@ -17,7 +17,8 @@ class MapDAO {
         DBConnex::runFetchAll(
             "SELECT *
             FROM map
-            WHERE idClient"
+            WHERE idClient = :idClient",
+            array("idClient")
         );
     }
 
@@ -39,8 +40,14 @@ class MapDAO {
     // --------------------------------------------
 
     public static function deleteMap(){
+        
         DBConnex::runQuery(
-            "DELETE FROM 'map' WHERE idMap = :idMap",
+            "DELETE FROM map_ligne WHERE idMap = :idMap",
+            array("idMap")
+        );
+        
+        DBConnex::runQuery(
+            "DELETE FROM map WHERE idMap = :idMap",
             array("idMap")
         );
     }
