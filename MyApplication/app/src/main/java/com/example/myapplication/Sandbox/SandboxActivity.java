@@ -33,6 +33,7 @@ public class SandboxActivity extends AppCompatActivity
     EditText mapName;
 
     Button saveButton;
+    Button deleteButton;
 
     Spinner spinnerLines;
     Spinner spinnerColumns;
@@ -57,6 +58,7 @@ public class SandboxActivity extends AppCompatActivity
         finish = findViewById(R.id.button_sandbox_arrive);
         box = findViewById(R.id.button_sandbox_box);
         saveButton = findViewById(R.id.save_game);
+        deleteButton = findViewById(R.id.deleteGame);
         mapName = findViewById(R.id.map_name);
 
         player.setOnClickListener(var -> currentTool = 0);
@@ -81,6 +83,8 @@ public class SandboxActivity extends AppCompatActivity
         spinnerColumns.setAdapter(adapter);
 
         saveButton.setOnClickListener(var -> saveGame());
+        System.out.println("idMap to delete : " + myMap.getIdMap());
+        deleteButton.setOnClickListener(var -> MapDAO.DeleteMap(this, myMap.getIdMap()));
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
