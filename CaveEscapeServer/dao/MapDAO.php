@@ -3,11 +3,21 @@
 class MapDAO {
 
 	// -------------------------------------------
-    // Recupère la derniere vente
+    // Recupère Toute les maps 
     public static function getAllMap(){
         DBConnex::runFetchAll(
             "SELECT *
             FROM map"
+        );
+    }
+
+    // -------------------------------------------
+    // Recupère Toute les maps 
+    public static function getMapByClient(){
+        DBConnex::runFetchAll(
+            "SELECT *
+            FROM map
+            WHERE idClient"
         );
     }
 
@@ -26,13 +36,13 @@ class MapDAO {
         
     }
 
-    public static function saveMapLine(){
+    // --------------------------------------------
 
+    public static function deleteMap(){
         DBConnex::runQuery(
-            "INSERT INTO map_ligne (indexRow,content,idMap) VALUES ( :indexRow, :content, :idMap );",
-            array("indexRow","content","idMap")
+            "DELETE FROM 'map' WHERE idMap = :idMap",
+            array("idMap")
         );
-
     }
     
 }

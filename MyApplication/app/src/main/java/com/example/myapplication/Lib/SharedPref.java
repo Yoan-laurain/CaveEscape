@@ -6,25 +6,26 @@ import com.example.myapplication.MainMenu.LoadingActivity;
 
 public class SharedPref {
 
-    public static void loadIdClient(Context myActivity)  {
+    public static String loadIdClient(Context myActivity)  {
         android.content.SharedPreferences sharedPreferences= myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
         if(sharedPreferences != null)
         {
-            LoadingActivity.idClient = Integer.valueOf(sharedPreferences.getString("idClient","0"));
+            return (sharedPreferences.getString("idClient","0"));
 
         } else
         {
-
+            return("");
         }
+
     }
 
-    public static void SaveIdClient(Context myActivity,Integer myIdClient)
+    public static void SaveIdClient(Context myActivity,String myIdClient)
     {
-        android.content.SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Param", Context.MODE_PRIVATE);
+        android.content.SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
         android.content.SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("idClient",String.valueOf(myIdClient));
+        editor.putString("idClient",myIdClient);
 
         // Save.
         editor.apply();

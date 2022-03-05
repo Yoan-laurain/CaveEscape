@@ -13,5 +13,16 @@ class MapLigneDAO {
         );
     }
 	// -------------------------------------------
+
+    public static function saveMapLine(){
+
+        DBConnex::runQuery(
+            "INSERT INTO map_ligne (indexRow,content,idMap) VALUES ( :indexRow, :content, :idMap );",
+            array("indexRow","content","idMap")
+        );
+
+    }
+
+    
     
 }

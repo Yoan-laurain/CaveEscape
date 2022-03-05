@@ -83,7 +83,7 @@ public class MapDAO
     }
     // ---------------------------------------------
 
-    public static void getMaxiDClient(Context myActivity)
+    /*public static void getMaxiDClient(Context myActivity)
     {
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "getMaxIdClient")
@@ -125,7 +125,7 @@ public class MapDAO
             }
         });
     }
-
+*/
     // ---------------------------------------------
     public static void getMap(GameActivity myActivity, SandboxActivity mySandBoxActivity, String idMap)
     {
@@ -269,4 +269,49 @@ public class MapDAO
             }
         });
     }
+
+
+    public static void DeleteMap( SandboxActivity myActivity , int idMap)
+    {
+        String result;
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "DeleteMap")
+                .add("idMap", String.valueOf(idMap))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Erreur : " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseStr = response.body().string();
+
+                if (responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    resultReturn(false);
+                }
+                else{
+                    resultReturn(true);
+                }
+            }
+
+            public boolean resultReturn(Boolean result){
+                return result;
+            }
+        });
+    }
+
+
 }
