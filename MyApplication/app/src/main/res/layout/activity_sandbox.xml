@@ -46,18 +46,13 @@
 
     <GridView
         android:id="@+id/sandbox_gameBoard"
-        android:layout_width="412dp"
-        android:layout_height="404dp"
-        android:longClickable="false"
-        android:nestedScrollingEnabled="false"
-        android:outlineProvider="none"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/map_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.232" />
+        app:layout_constraintTop_toBottomOf="@+id/list_nb_lines" />
 
     <ImageButton
         android:id="@+id/button_sandbox_perso"
