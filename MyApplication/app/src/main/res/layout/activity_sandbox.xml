@@ -17,8 +17,8 @@
         android:contentDescription="@string/text_list_nb_lines"
         android:dropDownSelector="@color/bluje"
         android:foregroundTint="#FFFFFF"
-        android:textAlignment="center"
         android:popupBackground="@color/bluje"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.134"
@@ -35,8 +35,8 @@
         android:contentDescription="@string/text_list_nb_column"
         android:dropDownSelector="@color/bluje"
         android:foregroundTint="#852813A6"
-        android:textAlignment="center"
         android:popupBackground="@color/bluje"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.884"
@@ -46,111 +46,146 @@
 
     <GridView
         android:id="@+id/sandbox_gameBoard"
-        android:layout_width="411dp"
-        android:layout_height="500dp"
+        android:layout_width="412dp"
+        android:layout_height="404dp"
+        android:longClickable="false"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.244" />
+        app:layout_constraintVertical_bias="0.232" />
 
     <ImageButton
         android:id="@+id/button_sandbox_perso"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="92dp"
         android:contentDescription="@string/text_perso"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861"
         app:srcCompat="@drawable/perso" />
 
     <ImageButton
         android:id="@+id/button_sandbox_mur"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="92dp"
         android:contentDescription="@string/text_mur"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_sandbox_sol"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861"
         app:srcCompat="@drawable/mur" />
 
     <ImageButton
         android:id="@+id/button_sandbox_sol"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="92dp"
         android:contentDescription="@string/text_sol"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_sandbox_arrive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.271"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861"
         app:srcCompat="@drawable/sol" />
 
     <ImageButton
         android:id="@+id/button_sandbox_box"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="92dp"
         android:contentDescription="@string/text_box"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_sandbox_perso"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.725"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861"
         app:srcCompat="@drawable/boite" />
 
     <ImageButton
         android:id="@+id/button_sandbox_arrive"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="92dp"
         android:contentDescription="@string/text_arrive"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_sandbox_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861"
         app:srcCompat="@drawable/arrivee" />
 
     <Button
         android:id="@+id/save_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:backgroundTint="#852813A6"
+        android:fontFamily="@font/new_rocker"
+        android:text="@string/text_save"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.328"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_sandbox_arrive" />
+        app:layout_constraintTop_toBottomOf="@+id/button_sandbox_arrive"
+        tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/deleteGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:backgroundTint="#852813A6"
+        android:fontFamily="@font/new_rocker"
+        android:text="@string/text_delete"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.687"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_sandbox_arrive" />
+        app:layout_constraintTop_toBottomOf="@+id/button_sandbox_arrive"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/map_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:backgroundTint="#0C37D8"
+        android:backgroundTintMode="add"
+        android:drawableTint="#FFFFFF"
         android:ems="10"
-        android:hint="Give me a name !"
+        android:hint="@string/input_text_sandbox"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.745" />
+        app:layout_constraintVertical_bias="0.739"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="button_sandbox_perso,button_sandbox_box,button_sandbox_arrive,button_sandbox_mur,button_sandbox_sol" />
 
 </android.support.constraint.ConstraintLayout>
