@@ -1,6 +1,8 @@
 package com.example.myapplication.Dao;
 
 import android.content.Context;
+import android.widget.Toast;
+
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Game.GameActivity;
@@ -369,6 +371,84 @@ public class MapDAO
                 else if(responseStr == ""){
                     HashMap<Integer, Map> lesMaps = new HashMap<>();
                     myActivitySandBox.responseMap(lesMaps);
+                }
+            }
+        });
+    }
+
+    public static void updateMap( SandboxActivity myActivity , Map myMap)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "updateMap")
+                .add("nameMap",myMap.getNom())
+                .add("nbRows", String.valueOf( myMap.getNbRows() ) )
+                .add("nbColumns", String.valueOf( myMap.getNbColumns() ) )
+                .add("idClient", String.valueOf( myMap.getIdClient() ) )
+                .add("idMap", String.valueOf(myMap.getIdMap()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Erreur : " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseStr = response.body().string();
+
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    myActivity.responseAfterUpdateMap();
+                    Toast.makeText(myActivity, "Map header succesfully Udpate", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(myActivity, "Failed to Update Map header", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public static void updateMapLines( SandboxActivity myActivity , MapLigne myMapLines)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "updateMapLine")
+                .add("indexRow", String.valueOf( myMapLines.getIndexRow() ) )
+                .add("content", myMapLines.getContent()  )
+                .add("idMap", String.valueOf( myMapLines.getIdMap() ) )
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Erreur : " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseStr = response.body().string();
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
                 }
             }
         });

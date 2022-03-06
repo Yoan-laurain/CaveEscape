@@ -53,6 +53,8 @@ public class SandboxActivity extends AppCompatActivity
     int nbPlayerPlaced;
     int nbBoxPlaced;
 
+    boolean Modification = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -102,6 +104,9 @@ public class SandboxActivity extends AppCompatActivity
                 });
 
             MapDAO.getMap( null,this, String.valueOf( myMap.getIdMap() ) );
+
+            Modification = true;
+
         }
         catch(Exception e)
         {
@@ -114,6 +119,7 @@ public class SandboxActivity extends AppCompatActivity
             {
                 matrix[i] = images[2];
             }
+            //Modification = false;
         }
 
 
@@ -306,14 +312,24 @@ public class SandboxActivity extends AppCompatActivity
         }
         else
         {
+            CountObjectOnBoard();
+            System.out.println("nbPLayer : " + nbPlayerPlaced);
             if ( nbPlayerPlaced == 1 )
             {
                 if ( nbBoxPlaced > 0 )
                 {
                     if ( EnoughFinishPlace() == true )
                     {
+
                         myMap.setName( mapName.getText().toString() );
-                        MapDAO.saveMap( this, myMap);
+                        System.out.println("Mode Ouverture Page = "  + Modification);
+                        if (Modification == true) {
+                            System.out.println("Modification de la map");
+                            MapDAO.updateMap(this, myMap);
+                        } else {
+                            System.out.println("creation d'une nouvelle map");
+                            MapDAO.saveMap(this, myMap);
+                        }
                     }
                     else
                     {
@@ -375,10 +391,59 @@ public class SandboxActivity extends AppCompatActivity
 
             MapLigne myMapLine = new MapLigne( 0, i , content, id );
 
-            MapDAO.saveMapLines(this, myMapLine );
+            MapDAO.saveMapLines(this, myMapLine);
+
         }
         finish();
     }
+
+
+    public void responseAfterUpdateMap()
+    {
+        int countNumber = 0;
+
+        for ( int i = 0; i < myMap.getNbRows(); i++ )
+        {
+            String content = "";
+
+            for ( int j = 0; j < myMap.getNbColumns(); j++ )
+            {
+
+                switch ( matrix[ countNumber ] )
+                {
+                    case R.drawable.perso :
+                        content+= "P";
+                        break;
+
+                    case R.drawable.mur:
+                        content+= "#";
+                        break;
+
+                    case R.drawable.sol:
+                        content+= ".";
+                        break;
+
+                    case R.drawable.arrivee:
+                        content+= "X";
+                        break;
+
+                    case R.drawable.boite:
+                        content+= "C";
+                        break;
+                }
+
+                countNumber++;
+            }
+
+            MapLigne myMapLine = new MapLigne( 0, i , content,  myMap.getIdMap());
+
+            MapDAO.updateMapLines(this, myMapLine);
+
+        }
+        finish();
+    }
+
+
 
     /*
         Check if there is enough finish place for the number of boxes placed.
@@ -458,4 +523,22 @@ public class SandboxActivity extends AppCompatActivity
     }
 
      */
+
+
+    public void CountObjectOnBoard(){
+        nbPlayerPlaced = 0;
+        nbBoxPlaced = 0;
+
+        for ( int i = 0 ; i < matrix.length; i++ )
+        {
+            if ( matrix[i] == images[0] )
+            {
+                nbPlayerPlaced++;
+            }
+            else if ( matrix[i] == images[4] )
+            {
+                nbBoxPlaced++;
+            }
+        }
+    }
 }
