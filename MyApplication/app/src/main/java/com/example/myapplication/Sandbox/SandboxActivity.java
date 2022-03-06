@@ -19,7 +19,11 @@ import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.R;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class SandboxActivity extends AppCompatActivity
@@ -91,7 +95,6 @@ public class SandboxActivity extends AppCompatActivity
             spinnerColumns.setSelection( myMap.getNbColumns() - 1 );
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
-            System.out.println("idMap to delete : " + myMap.getIdMap());
             deleteButton.setOnClickListener(var ->{
                 MapDAO.DeleteMap(this, myMap.getIdMap());
                 this.finish();
@@ -253,7 +256,10 @@ public class SandboxActivity extends AppCompatActivity
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
 
-        lesLignesMaps.values().forEach(MapLigne ->
+        List<MapLigne> linesMapSorted = new ArrayList(lesLignesMaps.values());
+        Collections.sort(linesMapSorted, Comparator.comparing(MapLigne::getIndexRow));
+
+        linesMapSorted.forEach(MapLigne ->
         {
             for (int i = 0; i < MapLigne.getContent().length(); i++)
             {
@@ -331,6 +337,8 @@ public class SandboxActivity extends AppCompatActivity
      */
     public void responseAfterSaveMap( int id )
     {
+        int countNumber = 0;
+
         for ( int i = 0; i < myMap.getNbRows(); i++ )
         {
             String content = "";
@@ -338,7 +346,7 @@ public class SandboxActivity extends AppCompatActivity
             for ( int j = 0; j < myMap.getNbColumns(); j++ )
             {
 
-                switch ( matrix[ ( i + 1 ) * j ] )
+                switch ( matrix[ countNumber ] )
                 {
                     case R.drawable.perso :
                         content+= "P";
@@ -361,6 +369,7 @@ public class SandboxActivity extends AppCompatActivity
                         break;
                 }
 
+                countNumber++;
             }
 
             MapLigne myMapLine = new MapLigne( 0, i , content, id );

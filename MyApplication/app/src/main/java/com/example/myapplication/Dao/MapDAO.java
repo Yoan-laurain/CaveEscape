@@ -139,8 +139,6 @@ public class MapDAO
                 .post(formBody)
                 .build();
 
-        //System.out.println("Req : " +request);
-
         OkHttpClient client = new OkHttpClient();
 
         client.newCall(request).enqueue(new Callback() {
@@ -154,7 +152,7 @@ public class MapDAO
             public void onResponse(Call call, Response response) throws IOException {
 
                 String responseStr = response.body().string();
-                System.out.println("Rep : " + responseStr);
+
                 if (!responseStr.equals("false") && !responseStr.equals(""))
                 {
                     try
@@ -297,7 +295,6 @@ public class MapDAO
             public void onResponse(Call call, Response response) throws IOException {
 
                 String responseStr = response.body().string();
-                System.out.println("api response : " + responseStr);
 
                 if (responseStr.equals("false") && !responseStr.equals(""))
                 {
@@ -321,7 +318,7 @@ public class MapDAO
                 .add("command", "getMapByClient")
                 .add("idClient", LoadingActivity.idClient)
                 .build();
-        System.out.println("idClient : " + LoadingActivity.idClient );
+
         Request request = new Request.Builder()
                 .url(LoadingActivity.CONNEXION_API)
                 .post(formBody)
@@ -340,7 +337,7 @@ public class MapDAO
             public void onResponse(Call call, Response response) throws IOException {
 
                 String responseStr = response.body().string();
-                System.out.println("api response by client : " + responseStr);
+
                 if (!responseStr.equals("false") && !responseStr.equals(""))
                 {
                     try
