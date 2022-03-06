@@ -1,24 +1,14 @@
 package com.example.myapplication.Game;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.R;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,6 +29,7 @@ public class GameActivity extends AppCompatActivity
     private int currentPosition = 0;
     private int countNbBox;
     private int nbBoxPlaced;
+    private int caseTemp = images[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -131,55 +122,63 @@ public class GameActivity extends AppCompatActivity
      */
     public void move ( int movement )
     {
-        if ( matrix[ currentPosition - movement ] != images[ 1 ])
+        try
         {
-            //Si c'est la boîte et que la case suivante est l'arrivée ou un sol
-            if ( ( matrix[ currentPosition - movement ] == images[ 4 ] || matrix[ currentPosition - movement ] == images[ 5 ]  ) && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
+            if ( matrix[ currentPosition - movement ] != images[ 1 ] )
             {
-                //On vérifie si la case ou on pousse la caisse est une zone d'arrivée
-                if ( matrix[ currentPosition - movement * 2 ] == images[3] )
-                {
-                    //Si la caisse qu'on pousse était déjà bine placée
-                    if ( matrix[ currentPosition - movement * 1 ] == images[5]  )
+                    //Si c'est la boîte et que la case suivante est l'arrivée ou un sol
+                    if ( ( matrix[ currentPosition - movement ] == images[ 4 ] || matrix[ currentPosition - movement ] == images[ 5 ]  ) && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
                     {
-                        nbBoxPlaced--;
+                        //On vérifie si la case ou on pousse la caisse est une zone d'arrivée
+                        if ( matrix[ currentPosition - movement * 2 ] == images[3] )
+                        {
+                            //Si la caisse qu'on pousse était déjà bine placée
+                            if ( matrix[ currentPosition - movement * 1 ] == images[5]  )
+                            {
+                                nbBoxPlaced--;
+                            }
+
+                            //On repositionne la boite verte sur 2 cases après
+                            matrix[ currentPosition - movement * 2 ] = images[5];
+                            nbBoxPlaced++;
+                        }
+                        else
+                        {
+                            //On repositionne la boite sur 2 cases après
+                            matrix[ currentPosition - movement * 2 ] = images[4];
+                        }
+
+                        //On remplace le joueur par un sol
+                        matrix[currentPosition] = images[2];
+                        //Bouge le perso
+                        currentPosition -= movement;
+                        //Place l'image du perso
+                        matrix[currentPosition] = images[0];
+
+                    }//Si c'est pas la boite
+                    else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
+                    {
+                        //On remplace le joueur par la case en mémoire
+                        matrix[currentPosition] = caseTemp;
+                        //Bouge le perso
+                        currentPosition -= movement;
+
+                        caseTemp = matrix[currentPosition];
+                        //Place l'image du perso
+                        matrix[currentPosition] = images[0];
                     }
+                    //Refresh le plateau
+                    FillGameBoard();
 
-                    //On repositionne la boite verte sur 2 cases après
-                    matrix[ currentPosition - movement * 2 ] = images[5];
-                    nbBoxPlaced++;
+                    if ( nbBoxPlaced == countNbBox )
+                    {
+                        this.finish();
+                    }
                 }
-                else
-                {
-                    //On repositionne la boite sur 2 cases après
-                    matrix[ currentPosition - movement * 2 ] = images[4];
-                }
-
-                //On remplace le joueur par un sol
-                matrix[currentPosition] = images[2];
-                //Bouge le perso
-                currentPosition -= movement;
-                //Place l'image du perso
-                matrix[currentPosition] = images[0];
-
-            }//Si c'est pas la boite
-            else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
-            {
-                //On remplace le joueur par un sol
-                matrix[currentPosition] = images[2];
-                //Bouge le perso
-                currentPosition -= movement;
-                //Place l'image du perso
-                matrix[currentPosition] = images[0];
-            }
-            //Refresh le plateau
-            FillGameBoard();
-
-            if ( nbBoxPlaced == countNbBox )
-            {
-                this.finish();
-            }
-
+        }
+        catch ( Exception e)
+        {
+            System.out.println("Erreur : " + e);
         }
     }
 

@@ -4,6 +4,7 @@ require_once 'dao/dBConnex.php';
 require_once 'lib/json.php';
 require_once 'dao/MapDAO.php';
 require_once 'dao/MapLigneDAO.php';
+require_once 'lib/log.php';
 
 
 /*
@@ -52,5 +53,11 @@ if (isset($_POST['command'])) {
 	if ($found) {
 		call_user_func($dao . "::" . $_POST['command']);
 	} 
+	else {
+		log::put("Commande : '" . $_POST['command'] . "' inconnue !", log::$LEVEL_ERROR);
+	}
 } 
+else {
+	log::put("Aucune commande !", log::$LEVEL_ERROR);
+}
 // -------------------------------------------

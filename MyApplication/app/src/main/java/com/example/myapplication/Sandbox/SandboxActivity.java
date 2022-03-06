@@ -429,4 +429,33 @@ public class SandboxActivity extends AppCompatActivity
         }
         FillGameBoard();
     }
+
+    /*
+    public boolean MapIsClosed ( )
+    {
+        boolean closed = false;
+
+        for ( int j = 0 ; j < myMap.getNbRows(); j++ )
+        {
+
+            for (int i = 0; i < myMap.getNbColumns(); i++ )
+            {
+                try
+                {
+                    if ( matrix[i] == images[1] )
+                    {
+                        i +=  myMap.getNbColumns();
+                        closed = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            if ( closed == false ) { return false; }
+        }
+    }
+
+     */
 }
