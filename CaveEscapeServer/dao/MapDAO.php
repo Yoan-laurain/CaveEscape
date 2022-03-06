@@ -49,6 +49,18 @@ class MapDAO {
         
     }
 
+    // -------------------------------------------
+
+    public static function updateMap(){
+        DBConnex::runQuery(
+            "Trying to update a map",
+            "Sucess to update a map",
+            "Failure to update a map",
+            "UPDATE map SET nom = :nameMap, nbRows = :nbRows, nbColumns = :nbColumns, idClient = :idClient where idMap = :idMap;",
+            array("nameMap","nbRows","nbColumns","idClient","idMap")
+        );        
+    }
+
     // --------------------------------------------
 
     public static function deleteMap(){
