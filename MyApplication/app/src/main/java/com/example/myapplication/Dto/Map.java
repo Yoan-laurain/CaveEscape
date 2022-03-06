@@ -11,9 +11,9 @@ public class Map implements Serializable
     private String nom;
     private int nbRows;
     private  int nbColumns;
-    private final int idClient;
+    private final String idClient;
 
-    public Map(int idMap, String nom, int nbRows, int nbColumns, int idClient)
+    public Map(int idMap, String nom, int nbRows, int nbColumns, String idClient)
     {
         this.idMap = idMap;
         this.nom = nom;
@@ -36,7 +36,7 @@ public class Map implements Serializable
 
     public int getNbColumns() { return nbColumns; }
 
-    public int getIdClient() { return idClient; }
+    public String getIdClient() { return idClient; }
 
     public static Map hydrateMap(JSONObject json) throws JSONException
     {
@@ -45,7 +45,7 @@ public class Map implements Serializable
                 json.getString("nom"),
                 json.getInt("nbRows"),
                 json.getInt("nbColumns"),
-                json.getInt("idClient")
+                json.getString("idClient")
         );
         return myMap;
     }

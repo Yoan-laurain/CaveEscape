@@ -16,6 +16,7 @@ import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,7 +92,6 @@ public class SandboxActivity extends AppCompatActivity
             spinnerColumns.setSelection( myMap.getNbColumns() - 1 );
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
-            System.out.println("idMap to delete : " + myMap.getIdMap());
             deleteButton.setOnClickListener(var ->{
                 MapDAO.DeleteMap(this, myMap.getIdMap());
                 this.finish();
@@ -103,7 +103,7 @@ public class SandboxActivity extends AppCompatActivity
         {
             spinnerLines.setSelection(4);
             spinnerColumns.setSelection(4);
-            myMap = new Map(0,"",5,5,0);
+            myMap = new Map(0,"",5,5, LoadingActivity.idClient);
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
             for ( int i = 0; i < myMap.getNbRows()*myMap.getNbColumns(); i++)
