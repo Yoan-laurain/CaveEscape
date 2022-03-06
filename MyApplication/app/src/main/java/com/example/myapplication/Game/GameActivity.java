@@ -19,7 +19,11 @@ import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity
 {
@@ -84,7 +88,10 @@ public class GameActivity extends AppCompatActivity
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
 
-        lesLignesMaps.values().forEach(MapLigne ->
+        List<MapLigne> linesMapSorted = new ArrayList(lesLignesMaps.values());
+        Collections.sort(linesMapSorted, Comparator.comparing(MapLigne::getIndexRow));
+
+        linesMapSorted.forEach(MapLigne ->
         {
             for (int i = 0; i < MapLigne.getContent().length(); i++)
             {
