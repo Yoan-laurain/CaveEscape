@@ -20,4 +20,7 @@
     <string name="text_mur">CASE DE TYPE MUR</string>
     <string name="text_list_nb_column">Nombre de colonne</string>
     <string name="text_list_nb_lines">Nombre de ligne</string>
+    <string name="text_delete">DELETE</string>
+    <string name="text_save">SAVE</string>
+    <string name="input_text_sandbox">Give me a name !</string>
 </resources>
