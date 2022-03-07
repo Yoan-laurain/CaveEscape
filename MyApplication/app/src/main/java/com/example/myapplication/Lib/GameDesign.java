@@ -1,5 +1,6 @@
 package com.example.myapplication.Lib;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +11,15 @@ import com.example.myapplication.R;
 
 public class GameDesign extends BaseAdapter
 {
-    private Context context;
-    private LayoutInflater inflater;
-    int images[];
-    private int[] matrix;
-    private int LineHeight;
+    private final LayoutInflater inflater;
+    int[] images;
+    private final int[] matrix;
+    private final int LineHeight;
 
     //------------------------------------------------------------------------------
 
     public GameDesign(Context c, int[] animals, int[] matrix,int LineHeight)
     {
-        this.context = c;
         this.images = animals;
         inflater = (LayoutInflater.from(c));
         this.matrix = matrix;
@@ -42,6 +41,7 @@ public class GameDesign extends BaseAdapter
 
     //------------------------------------------------------------------------------
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup)
     {

@@ -2,27 +2,22 @@ package com.example.myapplication.Lib;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.R;
-
 import java.util.ArrayList;
-
 
 public class LevelDesign extends ArrayAdapter
 {
 
     // ---------------------------------------------
 
-    private ArrayList<String> title;
-    private int idLayout;
-    private Activity context;
+    private final ArrayList<String> title;
+    private final int idLayout;
+    private final Activity context;
 
     // ---------------------------------------------
 

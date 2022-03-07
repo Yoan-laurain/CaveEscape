@@ -13,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -43,13 +45,13 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
-                String responseStr = response.body().string();
+                String responseStr = Objects.requireNonNull(response.body()).string();
 
                 if (!responseStr.equals("false") && !responseStr.equals(""))
                 {
@@ -90,7 +92,7 @@ public class MapDAO
     public static void GetMap(GameActivity myActivity, SandboxActivity mySandBoxActivity, String idMap)
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "GetMapLigneById")
+                .add("command", "GetMapLineById")
                 .add("idMap", idMap)
                 .build();
 
@@ -105,13 +107,13 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
-                String responseStr = response.body().string();
+                String responseStr = Objects.requireNonNull(response.body()).string();
 
                 if (!responseStr.equals("false") && !responseStr.equals(""))
                 {
@@ -125,15 +127,15 @@ public class MapDAO
                         {
                             JSONObject json = jsonArrayLinesMap.getJSONObject(i);
 
-                            MapLine myMapLigne = MapLine.hydrateMap(json);
+                            MapLine myMapLine = MapLine.hydrateMap(json);
 
-                            LinesMaps.put(myMapLigne.getId(),myMapLigne);
+                            LinesMaps.put(myMapLine.getId(),myMapLine);
                         }
 
                         if (myActivity == null) {
                             mySandBoxActivity.responseMapLigne(LinesMaps);
                         } else {
-                            myActivity.responseMapLigne(LinesMaps);
+                            myActivity.responseMapLine(LinesMaps);
                         }
                     }
                     catch(JSONException e)
@@ -166,13 +168,13 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
-                String responseStr = response.body().string();
+                String responseStr = Objects.requireNonNull(response.body()).string();
                 responseStr = responseStr.replace("true","");
                 responseStr = responseStr.replace("false","");
 
@@ -214,11 +216,11 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) {}
+            public void onResponse(@NotNull Call call, @NotNull Response response) {}
         });
     }
 
@@ -244,26 +246,11 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                String responseStr = response.body().string();
-
-                if ( !responseStr.equals("") )
-                {
-                    resultReturn(false);
-                }
-                else{
-                    resultReturn(true);
-                }
-            }
-
-            public boolean resultReturn(Boolean result){
-                return result;
-            }
+            public void onResponse(@NotNull Call call, @NotNull Response response) { }
         });
     }
 
@@ -288,13 +275,13 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
-                String responseStr = response.body().string();
+                String responseStr = Objects.requireNonNull(response.body()).string();
 
                 if (!responseStr.equals("false") && !responseStr.equals(""))
                 {
@@ -323,7 +310,7 @@ public class MapDAO
                         e.printStackTrace();
                     }
                 }
-                else if(responseStr == ""){
+                else if(responseStr.equals("")){
                     HashMap<Integer, Map> lesMaps = new HashMap<>();
                     myActivitySandBox.responseMap(lesMaps);
                 }
@@ -356,13 +343,13 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
-                String responseStr = response.body().string();
+                String responseStr = Objects.requireNonNull(response.body()).string();
 
                 if (!responseStr.equals("false") && !responseStr.equals("")) {
                     myActivity.responseAfterUpdateMap();
@@ -394,11 +381,11 @@ public class MapDAO
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
+                System.out.println("Error : " + e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) {}
+            public void onResponse(@NotNull Call call, @NotNull Response response) {}
         });
     }
 
