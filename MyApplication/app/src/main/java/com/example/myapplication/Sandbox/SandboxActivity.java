@@ -18,6 +18,8 @@ import com.example.myapplication.Dto.MapLigne;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
+
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -306,9 +308,6 @@ public class SandboxActivity extends AppCompatActivity
      */
     public void saveGame()
     {
-        System.out.println("Verif : " + MapIsClosed());
-        System.out.println("Verif2 : " + PlayerInside());
-
 
         if ( mapName.getText().toString().length() == 0 )
         {
@@ -317,41 +316,39 @@ public class SandboxActivity extends AppCompatActivity
         else
         {
             CountObjectOnBoard();
-            System.out.println("nbPLayer : " + nbPlayerPlaced);
-            if ( nbPlayerPlaced == 1 )
-            {
-                if ( nbBoxPlaced > 0 )
-                {
-                    if ( EnoughFinishPlace() == true )
-                    {
 
-                        myMap.setName( mapName.getText().toString() );
-                        System.out.println("Mode Ouverture Page = "  + Modification);
-                        if (Modification == true) {
-                            System.out.println("Modification de la map");
-                            MapDAO.updateMap(this, myMap);
+            if ( nbPlayerPlaced == 1 ) {
+                if (nbBoxPlaced > 0) {
+                    if (EnoughFinishPlace() == true) {
+                        if (MapIsClosed()) {
+                            if (PlayerInside()) {
+                                myMap.setName(mapName.getText().toString());
+
+                                if (Modification == true) {
+
+                                    MapDAO.updateMap(this, myMap);
+                                } else {
+
+                                    MapDAO.saveMap(this, myMap);
+                                }
+                            } else {
+                                Toast.makeText(this, "The player need to be inside ", Toast.LENGTH_LONG).show();
+                            }
                         } else {
-                            System.out.println("creation d'une nouvelle map");
-                            MapDAO.saveMap(this, myMap);
+                            Toast.makeText(this, "The map need to be closed ", Toast.LENGTH_LONG).show();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(this, "You don't have enough end zone(s) for you're boxe(s)! ", Toast.LENGTH_LONG).show();
                     }
-                }
-                else
-                {
+                } else {
                     Toast.makeText(this, "You need at least one box. ", Toast.LENGTH_LONG).show();
                 }
             }
             else
             {
-                Toast.makeText(this, "You need to have one player! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You need at least one player. ", Toast.LENGTH_LONG).show();
             }
         }
-
-
     }
 
     /*
@@ -492,8 +489,14 @@ public class SandboxActivity extends AppCompatActivity
 
         if ( images[currentTool] == images[0] )
         {
+            if (nbPlayerPlaced != 0 ) {
+                matrix[positionPlayer] = images[2];
+            }
+
             positionPlayer = position;
+            matrix[positionPlayer] = images[0];
             nbPlayerPlaced++;
+
         }
         else if ( images[currentTool] == images[4] )
         {
@@ -506,99 +509,53 @@ public class SandboxActivity extends AppCompatActivity
     public boolean MapIsClosed()
     {
         int index = 0;
-        boolean playerInside;
-        //Pour chacune des lignes
+
         for ( int j = 0 ; j < myMap.getNbRows(); j++ )
         {
-
-            //Pour chacunes des colonnes
             for (int i = 0; i < myMap.getNbColumns(); i++ )
             {
-                boolean closedUp = false;
-                boolean closedDown = false;
-                boolean closedLeft = false;
-                boolean closedRight = false;
-
-                //Monte jusu'en haut
-                for (int a = ( j + 1) * ( i + 1); a >= 0; a -= myMap.getNbColumns() )
+                if ( matrix[index] != images[2] )
                 {
+                    boolean closedUp = false;
+                    boolean closedDown = false;
+                    boolean closedLeft = false;
+                    boolean closedRight = false;
+
                     try
                     {
-                        if ( matrix[ a ] == images[1] )
-                        {
-                            System.out.println("Closed up for : " + i );
-                            closedUp = true;
-                            break;
-                        }
+                        //Check au dessus
+                        if (matrix[index - myMap.getNbColumns()] == images[1]) { closedUp = true; }
+                    } catch (Exception e){}
+
+                    try{
+                        //Check en bas bas
+                        if (matrix[ index + myMap.getNbColumns() ] == images[1]) { closedDown = true; }
                     }
                     catch (Exception e){}
 
-                }
-
-
-                //Descend jusu'en bas
-                for (int a = ( j + 1* myMap.getNbColumns() ) - 1; a < myMap.getNbRows() * myMap.getNbColumns(); a += myMap.getNbColumns() ) {
-                    if (matrix[a] == images[1])
-                    {
-                        System.out.println("Closed down for : " + i);
-                        closedDown = true;
-                        break;
+                    try{
+                        if (matrix[index -1] == images[1]) { closedLeft = true; }
                     }
-                }
+                    catch (Exception e){}
 
-
-                //Va jusu'a gauche
-                for (int b = ( i  * j + 1 ); b >= 0; b-- )
-                {
-                    if ( matrix[ b ] == images[1] )
-                    {
-                        System.out.println("Closed left for : " + i );
-                        closedLeft = true;
-                        break;
+                    try{
+                        //Check à droite
+                        if (matrix[index+1] == images[1]) { closedRight = true; }
                     }
-                }
+                    catch (Exception e){}
 
+                    int countClose = (!closedDown ? 0 : 1) + (!closedLeft ? 0 : 1) + (!closedRight ? 0 : 1) + (!closedUp ? 0 : 1);
 
-                //Va jusu'a droite
-                for (int c = ( i + 2) * (j + 1); c < myMap.getNbColumns(); c++ )
-                {
-                    if ( matrix[ c ] == images[1] )
+                    if ( j == 0 || j == myMap.getNbRows() || i == 0 || i == myMap.getNbColumns() )
                     {
-                        System.out.println("Closed right for : " + i );
-                        closedRight = true;
-                        break;
+                        if (countClose < 1) { return false; }
                     }
+                    else if (countClose < 2) { return false; }
+
                 }
-
-                int countClose = ( !closedDown ? 0 : 1) +  ( !closedLeft ? 0 : 1) + ( !closedRight ? 0 : 1) + ( !closedUp ? 0 : 1);
-
-                if (  matrix[ index ] == images[1] )
-                {
-                    System.out.println("TYO");
-                    if ( countClose < 2 )
-                    {
-                        System.out.println("In pour j : " + j + " et i : " + i);
-                        return false;
-                    }
-                }
-                else
-                {
-                    System.out.println("Count : " + countClose);
-                    if ( countClose < 3 )
-                    {
-                        System.out.println("In0 pour j : " + j + " et i : " + i);
-                        return false;
-                    }
-                }
-
-
                 index++;
             }
-
-
-
-        }
-
+       }
         return true;
     }
 
@@ -640,7 +597,7 @@ public class SandboxActivity extends AppCompatActivity
         }
 
         //Check vers la gauche
-        for ( int j = positionPlayer % myMap.getNbColumns(); j >= 0 ; j -- )
+        for ( int j = positionPlayer; j >= positionPlayer - ( positionPlayer % myMap.getNbColumns()) ; j -- )
         {
             try {
                 if ( matrix[j] == images[1] )
@@ -652,7 +609,7 @@ public class SandboxActivity extends AppCompatActivity
         }
 
         //Check vers la droite
-        for ( int j = positionPlayer % myMap.getNbColumns(); j <= myMap.getNbColumns() ; j ++ )
+        for ( int j = positionPlayer ; j <= positionPlayer + ( (myMap.getNbColumns() ) - ( positionPlayer % myMap.getNbColumns() ) ); j ++ )
         {
             try {
                 if ( matrix[j] == images[1] )
@@ -664,10 +621,7 @@ public class SandboxActivity extends AppCompatActivity
         }
 
         return closedDown && closedLeft && closedUp && closedRight;
-
     }
-
-
 
 
     public void CountObjectOnBoard(){
