@@ -9,7 +9,6 @@ import android.widget.ListView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
-import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.LevelDesign;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
@@ -32,8 +31,8 @@ public class SandboxMenuActivity extends AppCompatActivity
 
     // ---------------------------------------- Variables ----------------------------------------//
     HashMap params = new HashMap<>();
-    private ArrayList<String> mTitle = new ArrayList();
-    private ArrayList<Map> ListMap = new ArrayList();
+    private ArrayList<String> mTitle = new ArrayList<>();
+    private ArrayList<Map> ListMap = new ArrayList<>();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                                            Code                                            //
@@ -91,7 +90,7 @@ public class SandboxMenuActivity extends AppCompatActivity
             else
             {
                 ListView listLevel = findViewById(R.id.List_Level_SandBox);
-                LevelDesign adapter = new LevelDesign(this,R.layout.row,new ArrayList());
+                LevelDesign adapter = new LevelDesign(this,R.layout.row,new ArrayList<>());
                 listLevel.setAdapter(adapter);
             }
         });

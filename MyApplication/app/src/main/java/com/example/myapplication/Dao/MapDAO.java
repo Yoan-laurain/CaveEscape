@@ -131,7 +131,7 @@ public class MapDAO
                         }
 
                         if (myActivity == null) {
-                            mySandBoxActivity.responseMapLigne(LinesMaps);
+                            mySandBoxActivity.responseMapLine(LinesMaps);
                         } else {
                             myActivity.responseMapLigne(LinesMaps);
                         }

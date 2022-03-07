@@ -47,7 +47,7 @@ public class LoadingActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         getIdClientFromPref();
-        if(idClient == "" || idClient != "0"){
+        if(!idClient.equals("0")){
             createIdClient();
         }
 
@@ -69,9 +69,7 @@ public class LoadingActivity extends AppCompatActivity
         button_option.setOnClickListener(view -> Navigation.switchActivities(this, OptionActivity.class,params));
 
         button_quit = findViewById(R.id.button_quit);
-        button_quit.setOnClickListener(view -> {
-            finishAffinity();
-        });
+        button_quit.setOnClickListener(view -> finishAffinity());
     }
 
     // --------------------------------- Create a New Id Client  ---------------------------------//

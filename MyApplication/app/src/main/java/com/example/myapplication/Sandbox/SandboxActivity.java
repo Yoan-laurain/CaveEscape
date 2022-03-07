@@ -1,5 +1,6 @@
 package com.example.myapplication.Sandbox;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,11 +20,8 @@ import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
 
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +42,8 @@ public class SandboxActivity extends AppCompatActivity
 
     Spinner spinnerLines;
     Spinner spinnerColumns;
-    ArrayList<Integer> listNumbers = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9,10) ) ;
-    int images[] = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
+    ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10) ) ;
+    int[] images = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
     private int[] matrix;
     private int[] matrixTemp;
     private int count;
@@ -164,7 +162,7 @@ public class SandboxActivity extends AppCompatActivity
                             matrix[i] = matrixTemp[i];
                         }
                     }
-                    else if ( myMap.getNbRows() > nbLinesTemp )
+                    else if ( myMap.getNbRows() < nbLinesTemp )
                     {
                         if ( i <= myMap.getNbRows() * myMap.getNbColumns()  )
                         {
@@ -261,19 +259,19 @@ public class SandboxActivity extends AppCompatActivity
     /*
     Called after the response of the API
  */
-    public void responseMapLigne( HashMap<Integer, MapLine> lineMaps )
+    public void responseMapLine(HashMap<Integer, MapLine> lineMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
 
-        List<MapLine> linesMapSorted = new ArrayList(lineMaps.values());
-        Collections.sort(linesMapSorted, Comparator.comparing(MapLine::getIndexRow));
+        List<MapLine> linesMapSorted = new ArrayList<>(lineMaps.values());
+        linesMapSorted.sort(Comparator.comparing(MapLine::getIndexRow));
 
-        linesMapSorted.forEach(MapLigne ->
+        linesMapSorted.forEach(MapLine ->
         {
-            for (int i = 0; i < MapLigne.getContent().length(); i++)
+            for (int i = 0; i < MapLine.getContent().length(); i++)
             {
-                switch ( MapLigne.getContent().charAt(i) )
+                switch ( MapLine.getContent().charAt(i) )
                 {
                     case 'P' :
                         matrix[ count ] = images[ 0 ];
@@ -316,11 +314,11 @@ public class SandboxActivity extends AppCompatActivity
             CountObjectOnBoard();
             if ( nbPlayerPlaced == 1 ) {
                 if (nbBoxPlaced > 0) {
-                    if (EnoughFinishPlace() == true) {
+                    if (EnoughFinishPlace()) {
                         if (MapIsClosed()) {
                             if (PlayerInside()) {
                                 myMap.setName(mapName.getText().toString());
-                                if (Modification == true) {
+                                if (Modification) {
                                     MapDAO.updateMap(this, myMap);
                                 } else {
                                     MapDAO.saveMap(this, myMap);
@@ -332,7 +330,7 @@ public class SandboxActivity extends AppCompatActivity
                             Toast.makeText(this, "The map need to be closed ", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(this, "You don't have enough end zone(s) for you're boxe(s)! ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "You don't have enough end zone(s) for you're box(s)! ", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(this, "You need at least one box. ", Toast.LENGTH_LONG).show();
@@ -349,13 +347,14 @@ public class SandboxActivity extends AppCompatActivity
     // ---------- Called after the save of a map ( header )  in the dataBase. --------------------//
     //------ Create mapLines object to save them too with the id of the map created --------------//
 
-    public void responseAfterSaveMap( int id )
+    @SuppressLint("NonConstantResourceId")
+    public void responseAfterSaveMap(int id )
     {
         int countNumber = 0;
 
         for ( int i = 0; i < myMap.getNbRows(); i++ )
         {
-            String content = "";
+            StringBuilder content = new StringBuilder();
 
             for ( int j = 0; j < myMap.getNbColumns(); j++ )
             {
@@ -363,30 +362,30 @@ public class SandboxActivity extends AppCompatActivity
                 switch ( matrix[ countNumber ] )
                 {
                     case R.drawable.perso :
-                        content+= "P";
+                        content.append("P");
                         break;
 
                     case R.drawable.mur:
-                        content+= "#";
+                        content.append("#");
                         break;
 
                     case R.drawable.sol:
-                        content+= ".";
+                        content.append(".");
                         break;
 
                     case R.drawable.arrivee:
-                        content+= "X";
+                        content.append("X");
                         break;
 
                     case R.drawable.boite:
-                        content+= "C";
+                        content.append("C");
                         break;
                 }
 
                 countNumber++;
             }
 
-            MapLine myMapLine = new MapLine( 0, i , content, id );
+            MapLine myMapLine = new MapLine( 0, i , content.toString(), id );
 
             MapDAO.saveMapLines( myMapLine );
 
@@ -395,13 +394,14 @@ public class SandboxActivity extends AppCompatActivity
     }
 
     // --------------------- Called After API Response -------------------------------------------//
+    @SuppressLint("NonConstantResourceId")
     public void responseAfterUpdateMap()
     {
         int countNumber = 0;
 
         for ( int i = 0; i < myMap.getNbRows(); i++ )
         {
-            String content = "";
+            StringBuilder content = new StringBuilder();
 
             for ( int j = 0; j < myMap.getNbColumns(); j++ )
             {
@@ -409,25 +409,25 @@ public class SandboxActivity extends AppCompatActivity
                 switch ( matrix[ countNumber ] )
                 {
                     case R.drawable.perso :
-                        content+= "P";
+                        content.append("P");
                         break;
                     case R.drawable.mur:
-                        content+= "#";
+                        content.append("#");
                         break;
                     case R.drawable.sol:
-                        content+= ".";
+                        content.append(".");
                         break;
                     case R.drawable.arrivee:
-                        content+= "X";
+                        content.append("X");
                         break;
                     case R.drawable.boite:
-                        content+= "C";
+                        content.append("C");
                         break;
                 }
                 countNumber++;
             }
 
-            MapLine myMapLine = new MapLine( 0, i , content,  myMap.getIdMap());
+            MapLine myMapLine = new MapLine( 0, i , content.toString(),  myMap.getIdMap());
 
             MapDAO.updateMapLines( myMapLine);
 
@@ -441,23 +441,18 @@ public class SandboxActivity extends AppCompatActivity
         int nbBox = 0;
         int nbFinishZone = 0;
 
-        for ( int i = 0 ; i < matrix.length; i++ )
-        {
-            if ( matrix[i] == images[3] )
-            {
+        for (int j : matrix) {
+            if (j == images[3]) {
                 nbFinishZone++;
-            }
-            else if ( matrix[i] == images[4] )
-            {
+            } else if (j == images[4]) {
                 nbBox++;
             }
         }
-        return ( nbBox <= nbFinishZone ? true : false );
+        return (nbBox <= nbFinishZone);
     }
 
-
     // ----------------- Called when the user click on the map to place item. --------------------//
-    // ---------------------- Call the method to resfresh the board. -----------------------------//
+    // ---------------------- Call the method to refresh the board. -----------------------------//
 
     public void ClickOnBoard(int position)
     {
@@ -506,26 +501,26 @@ public class SandboxActivity extends AppCompatActivity
                     boolean closedRight = false;
                     try
                     {
-                        //Check au dessus
+                        //Check above
                         if (matrix[index - myMap.getNbColumns()] == images[1]) { closedUp = true; }
-                    } catch (Exception e){}
+                    } catch (Exception ignored){}
 
                     try{
                         //Check en bas bas
                         if (matrix[ index + myMap.getNbColumns() ] == images[1]) { closedDown = true; }
                     }
-                    catch (Exception e){}
+                    catch (Exception ignored){}
 
                     try{
                         if (matrix[index -1] == images[1]) { closedLeft = true; }
                     }
-                    catch (Exception e){}
+                    catch (Exception ignored){}
 
                     try{
-                        //Check à droite
+                        //Check right
                         if (matrix[index+1] == images[1]) { closedRight = true; }
                     }
-                    catch (Exception e){}
+                    catch (Exception ignored){}
 
                     int countClose = (!closedDown ? 0 : 1) + (!closedLeft ? 0 : 1) + (!closedRight ? 0 : 1) + (!closedUp ? 0 : 1);
 
@@ -550,7 +545,7 @@ public class SandboxActivity extends AppCompatActivity
         boolean closedLeft = false;
         boolean closedRight = false;
 
-        //Check vers le haut
+        //Check Top
         for ( int j = positionPlayer ; j > 0 ; j -= myMap.getNbColumns() )
         {
             try {
@@ -559,10 +554,10 @@ public class SandboxActivity extends AppCompatActivity
                     closedUp = true;
                 }
             }
-            catch (Exception e) {}
+            catch (Exception ignored) {}
         }
 
-        //Check vers le bas
+        //Check Bottom
         for ( int j = positionPlayer ; j < myMap.getNbRows()* myMap.getNbColumns() ; j += myMap.getNbColumns() )
         {
             try {
@@ -571,10 +566,10 @@ public class SandboxActivity extends AppCompatActivity
                     closedDown = true;
                 }
             }
-            catch (Exception e) {}
+            catch (Exception ignored) {}
         }
 
-        //Check vers la gauche
+        //Check left
         for ( int j = positionPlayer; j >= positionPlayer - ( positionPlayer % myMap.getNbColumns()) ; j -- )
         {
             try {
@@ -583,10 +578,10 @@ public class SandboxActivity extends AppCompatActivity
                     closedLeft = true;
                 }
             }
-            catch (Exception e){}
+            catch (Exception ignored){}
         }
 
-        //Check vers la droite
+        //Check Right
         for ( int j = positionPlayer ; j <= positionPlayer + ( (myMap.getNbColumns() ) - ( positionPlayer % myMap.getNbColumns() ) ); j ++ )
         {
             try {
@@ -595,7 +590,7 @@ public class SandboxActivity extends AppCompatActivity
                     closedRight = true;
                 }
             }
-            catch (Exception e){}
+            catch (Exception ignored){}
         }
         return closedDown && closedLeft && closedUp && closedRight;
     }
@@ -605,14 +600,10 @@ public class SandboxActivity extends AppCompatActivity
         nbPlayerPlaced = 0;
         nbBoxPlaced = 0;
 
-        for ( int i = 0 ; i < matrix.length; i++ )
-        {
-            if ( matrix[i] == images[0] )
-            {
+        for (int j : matrix) {
+            if (j == images[0]) {
                 nbPlayerPlaced++;
-            }
-            else if ( matrix[i] == images[4] )
-            {
+            } else if (j == images[4]) {
                 nbBoxPlaced++;
             }
         }
