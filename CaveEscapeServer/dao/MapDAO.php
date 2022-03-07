@@ -4,7 +4,7 @@ class MapDAO {
 
 	// -------------------------------------------
     // Recupère Toute les maps 
-    public static function getAllMap(){
+    public static function GetAllMap(){
         DBConnex::runFetchAll(
             "Trying to get all maps",
             "Sucess retrieving all maps",
@@ -16,7 +16,7 @@ class MapDAO {
 
     // -------------------------------------------
     // Recupère Toute les maps 
-    public static function getMapByClient(){
+    public static function GetMapByClient(){
         DBConnex::runFetchAll(
             "Trying to get all maps of a client",
             "Sucess retrieving all maps of a client",
@@ -30,7 +30,7 @@ class MapDAO {
 
 	// -------------------------------------------
 
-    public static function saveMap(){
+    public static function SaveMap(){
         DBConnex::runQuery(
             "Trying to insert a new map",
             "Sucess to insert a new map",
@@ -51,7 +51,7 @@ class MapDAO {
 
     // -------------------------------------------
 
-    public static function updateMap(){
+    public static function UpdateMap(){
         DBConnex::runQuery(
             "Trying to update a map",
             "Sucess to update a map",
@@ -63,7 +63,7 @@ class MapDAO {
 
     // --------------------------------------------
 
-    public static function deleteMap(){
+    public static function DeleteMap(){
         
         DBConnex::runQuery(
             "Trying to delete all map_lines of a map",

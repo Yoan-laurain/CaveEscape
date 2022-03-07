@@ -3,7 +3,7 @@
 class MapLigneDAO {
 
 	// -------------------------------------------
-    public static function getMapLigneById(){
+    public static function GetMapLigneById(){
 
         DBConnex::runFetchAll(
             "Trying to get all map_line of a map",
@@ -18,7 +18,7 @@ class MapLigneDAO {
     }
 	// -------------------------------------------
 
-    public static function saveMapLine(){
+    public static function SaveMapLine(){
 
         DBConnex::runQuery(
             "Trying to insert a new map_line",
@@ -31,7 +31,7 @@ class MapLigneDAO {
     }
     // -------------------------------------------
 
-    public static function updateMapLine(){
+    public static function UpdateMapLine(){
 
         DBConnex::runQuery(
             "Trying to update a map_line",
