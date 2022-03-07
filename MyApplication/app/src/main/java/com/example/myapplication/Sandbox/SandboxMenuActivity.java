@@ -20,25 +20,34 @@ import java.util.HashMap;
 
 public class SandboxMenuActivity extends AppCompatActivity
 {
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                          Variables                                         //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // ---------------------------------- Retrieving Visuals elements ----------------------------//
     Button button_return;
     ImageView background;
     Button button_create;
+
+    // ---------------------------------------- Variables ----------------------------------------//
     HashMap params = new HashMap<>();
     private ArrayList<String> mTitle = new ArrayList();
     private ArrayList<Map> ListMap = new ArrayList();
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                            Code                                            //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /*
-        this methid is called when the page is open
-        it create the list of maps.
-     */
+    // ------------------------ this method is called when the page is open ----------------------//
+    // ------------------------------ it create the list of maps. ------------------------------- //
     @Override
     protected void onResume(){
         super.onResume();
         MapDAO.getMapByClient(null,this);
-
     }
 
+    // ---------------------------------- Loading Visuals elements ----------------------------//
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -56,31 +65,28 @@ public class SandboxMenuActivity extends AppCompatActivity
 
     }
 
-    /*
-    Called after response of the API
-    Read each values receive and create an adapter for each one
-    Hydrate the list of level and set the action of on click on each items
- */
+
+    // ------------------------- Called after response of the API --------------------------------//
+    // -------------- Read each values receive and create an adapter for each one ----------------//
+    // ----------- Hydrate the list of level and set the action of on click on each items --------//
+
     public void responseMap(HashMap<Integer, Map> lesMaps)
     {
         this.runOnUiThread(() ->
         {
             if ( lesMaps.size() > 0 )
             {
-
                 mTitle = new ArrayList<>();
                 ListMap = new ArrayList<>();
                 lesMaps.values().forEach(tab -> {
                     mTitle.add(tab.getNom());
                     ListMap.add(tab);
                 });
-
                 ListView listLevel = findViewById(R.id.List_Level_SandBox);
                 LevelDesign adapter = new LevelDesign(this,R.layout.row ,mTitle);
                 listLevel.setAdapter(adapter);
 
                 listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( ListMap.get( position ) ) );
-
             }
             else
             {
@@ -91,9 +97,9 @@ public class SandboxMenuActivity extends AppCompatActivity
         });
     }
 
-    /*
-    Open the page game with the id of the level in parameter
- */
+
+    // ------------ Open the page game with the id of the level in parameter ---------------------//
+
     public void openLevel(Map mapSelected)
     {
         params.put("Map", mapSelected);

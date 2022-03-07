@@ -64,6 +64,11 @@ public class SandboxActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandbox);
 
+        //////////////////////////////////////////////////////////////////////////////////
+        //                              Variables                                       //
+        //////////////////////////////////////////////////////////////////////////////////
+
+        // -------------------- Retrieving Visual Elements --------------------------- //
         player = findViewById(R.id.button_sandbox_perso);
         wall = findViewById(R.id.button_sandbox_mur);
         floor = findViewById(R.id.button_sandbox_sol);
@@ -72,6 +77,12 @@ public class SandboxActivity extends AppCompatActivity
         saveButton = findViewById(R.id.save_game);
         deleteButton = findViewById(R.id.deleteGame);
         mapName = findViewById(R.id.map_name);
+        spinnerLines = findViewById(R.id.list_nb_lines);
+        spinnerColumns = findViewById(R.id.list_nb_columns);
+        gameBoard = findViewById(R.id.sandbox_gameBoard);
+        gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
+
+        // --------------------- Tool Selector --------------------------- //
 
         player.setOnClickListener(var -> currentTool = 0);
         wall.setOnClickListener(var -> currentTool = 1);
@@ -79,22 +90,23 @@ public class SandboxActivity extends AppCompatActivity
         finish.setOnClickListener(var -> currentTool = 3);
         box.setOnClickListener(var -> currentTool = 4);
 
-
-        spinnerLines = findViewById(R.id.list_nb_lines);
-        spinnerColumns = findViewById(R.id.list_nb_columns);
-        gameBoard = findViewById(R.id.sandbox_gameBoard);
-        gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
+        // ---------------------- Adapters --------------------------- //
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, listNumbers);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         spinnerLines.setAdapter(adapter);
         spinnerColumns.setAdapter(adapter);
 
+        //////////////////////////////////////////////////////////////////////////////////
+        //                                      Code                                    //
+        //////////////////////////////////////////////////////////////////////////////////
+
         saveButton.setOnClickListener(var -> saveGame());
 
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
+        //----------------------------- Trying To Load a Map ---------------------------//
         try
         {
             spinnerLines.setSelection( myMap.getNbRows() - 1 );
@@ -111,6 +123,7 @@ public class SandboxActivity extends AppCompatActivity
             Modification = true;
 
         }
+        // ------------------------------- No map To load ------------------------------//
         catch(Exception e)
         {
             spinnerLines.setSelection(4);
@@ -125,7 +138,7 @@ public class SandboxActivity extends AppCompatActivity
             //Modification = false;
         }
 
-
+        // --------------------------- Size Selector (Rows) --------------------------------------//
         spinnerLines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -140,7 +153,6 @@ public class SandboxActivity extends AppCompatActivity
 
                 for ( int i = 0; i < matrix.length; i++)
                 {
-                    //Si on a ajouté une ou plusieurs lignes
                     if ( myMap.getNbRows() > nbLinesTemp )
                     {
                         if ( i >= nbLinesTemp * myMap.getNbColumns()  )
@@ -151,23 +163,19 @@ public class SandboxActivity extends AppCompatActivity
                         {
                             matrix[i] = matrixTemp[i];
                         }
-
-                    } //Si on a retiré une ou plusieurs lignes
+                    }
                     else if ( myMap.getNbRows() > nbLinesTemp )
                     {
                         if ( i <= myMap.getNbRows() * myMap.getNbColumns()  )
                         {
                             matrix[i] = matrixTemp[i];
                         }
-
                     }
                     else
                     {
                         matrix[i] = matrixTemp[i];
                     }
-
                 }
-
                 FillGameBoard();
             }
 
@@ -175,12 +183,12 @@ public class SandboxActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
+        // --------------------------- Size Selector (Cols) --------------------------------------//
         spinnerColumns.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-
                 int nbColumnTemp = myMap.getNbColumns();
 
                 myMap.setNbColumns(position + 1);
@@ -193,7 +201,6 @@ public class SandboxActivity extends AppCompatActivity
 
                 for ( int i = 0; i < max ;i++)
                 {
-                    //Si on a ajouté une ou plusieurs colonnes
                     if ( myMap.getNbColumns() > nbColumnTemp )
                     {
                         if ( i % myMap.getNbColumns() >= nbColumnTemp   )
@@ -205,11 +212,9 @@ public class SandboxActivity extends AppCompatActivity
                             matrix[i] = matrixTemp[countTemp];
                             countTemp++;
                         }
-
-                    } //Si on a retiré une ou plusieurs colonnes
+                    }
                     else if ( myMap.getNbColumns() < nbColumnTemp )
                     {
-
                         if ( countTemp < myMap.getNbColumns() * myMap.getNbRows() )
                         {
                             if (countTemp % (myMap.getNbColumns()) == 0 && i != 0)
@@ -228,11 +233,8 @@ public class SandboxActivity extends AppCompatActivity
                     {
                         matrix[i] = matrixTemp[i];
                     }
-
                 }
-
                 FillGameBoard();
-
             }
 
             @Override
@@ -242,9 +244,7 @@ public class SandboxActivity extends AppCompatActivity
         FillGameBoard();
     }
 
-    /*
-    Fill the gameBoard with the number of item of the matrix
- */
+    // -------------------------- Fill the Game Board With The Matrix ----------------------------//
     public void FillGameBoard()
     {
         this.runOnUiThread(() ->
@@ -258,9 +258,7 @@ public class SandboxActivity extends AppCompatActivity
         });
     }
 
-    /*
-    Called after the response of the API
- */
+    // ------------------------------ Called after the API response ------------------------------//
     public void responseMapLigne( HashMap<Integer, MapLigne> lesLignesMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
@@ -302,13 +300,11 @@ public class SandboxActivity extends AppCompatActivity
         FillGameBoard();
     }
 
-    /*
-        Called when the user try to save his map.
-        Check if the map is quite correct and display toast otherwise.
-     */
+
+    // ---------------- Called when the user try to save his map. --------------------------------//
+    // ------------ Check if the map is quite correct and display toast otherwise. ---------------//
     public void saveGame()
     {
-
         if ( mapName.getText().toString().length() == 0 )
         {
             Toast.makeText(this, "Fill the name section ! ", Toast.LENGTH_LONG).show();
@@ -316,19 +312,15 @@ public class SandboxActivity extends AppCompatActivity
         else
         {
             CountObjectOnBoard();
-
             if ( nbPlayerPlaced == 1 ) {
                 if (nbBoxPlaced > 0) {
                     if (EnoughFinishPlace() == true) {
                         if (MapIsClosed()) {
                             if (PlayerInside()) {
                                 myMap.setName(mapName.getText().toString());
-
                                 if (Modification == true) {
-
                                     MapDAO.updateMap(this, myMap);
                                 } else {
-
                                     MapDAO.saveMap(this, myMap);
                                 }
                             } else {
@@ -351,10 +343,10 @@ public class SandboxActivity extends AppCompatActivity
         }
     }
 
-    /*
-        Called after the save of a map ( header )  in the dataBase.
-        Create mapLines object to save them too with the id of the map created
-     */
+
+    // ---------- Called after the save of a map ( header )  in the dataBase. --------------------//
+    //------ Create mapLines object to save them too with the id of the map created --------------//
+
     public void responseAfterSaveMap( int id )
     {
         int countNumber = 0;
@@ -400,7 +392,7 @@ public class SandboxActivity extends AppCompatActivity
         finish();
     }
 
-
+    // --------------------- Called After API Response -------------------------------------------//
     public void responseAfterUpdateMap()
     {
         int countNumber = 0;
@@ -417,24 +409,19 @@ public class SandboxActivity extends AppCompatActivity
                     case R.drawable.perso :
                         content+= "P";
                         break;
-
                     case R.drawable.mur:
                         content+= "#";
                         break;
-
                     case R.drawable.sol:
                         content+= ".";
                         break;
-
                     case R.drawable.arrivee:
                         content+= "X";
                         break;
-
                     case R.drawable.boite:
                         content+= "C";
                         break;
                 }
-
                 countNumber++;
             }
 
@@ -446,11 +433,7 @@ public class SandboxActivity extends AppCompatActivity
         finish();
     }
 
-
-
-    /*
-        Check if there is enough finish place for the number of boxes placed.
-     */
+     // ------- Check if there is enough finish place for the number of boxes placed. ------------//
     public boolean EnoughFinishPlace ()
     {
         int nbBox = 0;
@@ -470,10 +453,10 @@ public class SandboxActivity extends AppCompatActivity
         return ( nbBox <= nbFinishZone ? true : false );
     }
 
-    /*
-        Called when the user click on the map to place item.
-        Call the method to resfresh the board.
-     */
+
+    // ----------------- Called when the user click on the map to place item. --------------------//
+    // ---------------------- Call the method to resfresh the board. -----------------------------//
+
     public void ClickOnBoard(int position)
     {
         if ( matrix[position] == images[0] )
@@ -505,11 +488,10 @@ public class SandboxActivity extends AppCompatActivity
         FillGameBoard();
     }
 
-
+    // --------------------------- Check if the map is Closed ----------------------------------- //
     public boolean MapIsClosed()
     {
         int index = 0;
-
         for ( int j = 0 ; j < myMap.getNbRows(); j++ )
         {
             for (int i = 0; i < myMap.getNbColumns(); i++ )
@@ -520,7 +502,6 @@ public class SandboxActivity extends AppCompatActivity
                     boolean closedDown = false;
                     boolean closedLeft = false;
                     boolean closedRight = false;
-
                     try
                     {
                         //Check au dessus
@@ -551,7 +532,6 @@ public class SandboxActivity extends AppCompatActivity
                         if (countClose < 1) { return false; }
                     }
                     else if (countClose < 2) { return false; }
-
                 }
                 index++;
             }
@@ -559,6 +539,8 @@ public class SandboxActivity extends AppCompatActivity
         return true;
     }
 
+
+    // ------------------ check if The player is inside the Walls ------------------------------- //
     public boolean PlayerInside()
     {
         boolean closedUp = false;
@@ -575,10 +557,7 @@ public class SandboxActivity extends AppCompatActivity
                     closedUp = true;
                 }
             }
-            catch (Exception e)
-            {
-
-            }
+            catch (Exception e) {}
         }
 
         //Check vers le bas
@@ -590,10 +569,7 @@ public class SandboxActivity extends AppCompatActivity
                     closedDown = true;
                 }
             }
-            catch (Exception e)
-            {
-
-            }
+            catch (Exception e) {}
         }
 
         //Check vers la gauche
@@ -619,11 +595,10 @@ public class SandboxActivity extends AppCompatActivity
             }
             catch (Exception e){}
         }
-
         return closedDown && closedLeft && closedUp && closedRight;
     }
 
-
+    // ------------------------------ Count Object on the Game Board ---------------------------- //
     public void CountObjectOnBoard(){
         nbPlayerPlaced = 0;
         nbBoxPlaced = 0;

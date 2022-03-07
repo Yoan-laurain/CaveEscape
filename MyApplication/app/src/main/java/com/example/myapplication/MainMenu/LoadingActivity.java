@@ -1,13 +1,12 @@
 package com.example.myapplication.MainMenu;
 
-import android.app.Activity;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Lib.Security;
 import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.Option.OptionActivity;
@@ -16,41 +15,46 @@ import com.example.myapplication.Sandbox.SandboxMenuActivity;
 import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.Lib.Navigation;
 
-import java.net.URL;
 import java.util.HashMap;
 
 public class LoadingActivity extends AppCompatActivity
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                          Variables                                         //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // ---------------------------------- Retrieving Visuals elements ----------------------------//
+
     Button button_play;
     Button button_sandbox;
     Button button_option;
     Button button_quit;
     ImageView background;
+
+    // ---------------------------------- Variables ----------------------------------------------//
     HashMap params = new HashMap<>();
     public final static String CONNEXION_API = "http://51.254.96.53:8383/api.php";
     //public final static String CONNEXION_API = "http://192.168.1.96:8383/CaveEscapeServer/API.php";
     //public final static String CONNEXION_API = "http://192.168.0.14/CaveEscapeServer/API.php";
 
-    //idClient
     public static String idClient;
-    //private static int lastIdClient;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                          Code                                              //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         getIdClientFromPref();
-        if(idClient != "" && idClient != "0"){
-            System.out.println("idClient = " + idClient);
-        }
-        else{
-            System.out.println("pas d'idClient");
+        if(idClient == "" || idClient != "0"){
             createIdClient();
-
         }
-        System.out.println("verif idClient : " + idClient);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+
+        // ----------------------------- Loading Visual Elements ---------------------------------//
 
         background = findViewById(R.id.View_BackGround_Loading);
         Glide.with(this).load(R.drawable.loadingback).into(background);
@@ -70,14 +74,13 @@ public class LoadingActivity extends AppCompatActivity
         });
     }
 
+    // --------------------------------- Create a New Id Client  ---------------------------------//
     private void createIdClient(){
-        System.out.println("creation d'un idClient");
         idClient = Security.RandomToken(12);
-        System.out.println("le nouvel Id Client est :" + idClient );
-        System.out.println("Sauvegarde du nouvel Id Client" );
         SharedPref.SaveIdClient(this, idClient);
     }
 
+    // -------------------------------- Get The idClient from the cache --------------------------//
     private void getIdClientFromPref() {
         idClient = SharedPref.loadIdClient(this);
     }
