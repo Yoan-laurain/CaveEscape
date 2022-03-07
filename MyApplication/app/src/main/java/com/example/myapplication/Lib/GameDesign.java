@@ -16,15 +16,18 @@ public class GameDesign extends BaseAdapter
     private int[] matrix;
     private int LineHeight;
 
+    //------------------------------------------------------------------------------
 
     public GameDesign(Context c, int[] animals, int[] matrix,int LineHeight)
     {
-        context = c;
+        this.context = c;
         this.images = animals;
         inflater = (LayoutInflater.from(c));
         this.matrix = matrix;
         this.LineHeight = LineHeight;
     }
+
+    //------------------------------------------------------------------------------
 
     @Override
     public int getCount() {
@@ -32,10 +35,12 @@ public class GameDesign extends BaseAdapter
     }
 
     @Override
-    public Object getItem(int i) { return null;}
+    public Object getItem( int i ) { return null; }
 
     @Override
-    public long getItemId(int i) {return 0; }
+    public long getItemId( int i ) {return 0; }
+
+    //------------------------------------------------------------------------------
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup)
@@ -52,4 +57,6 @@ public class GameDesign extends BaseAdapter
 
         return view;
     }
+
+    //------------------------------------------------------------------------------
 }

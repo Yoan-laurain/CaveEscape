@@ -2,18 +2,13 @@ package com.example.myapplication.Lib;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class Navigation
 {
-    private static Intent NewActivities;
-
     public static void switchActivities(Context depart, Class arrive, HashMap<Key,Object> params)
     {
         Intent NewActivities = new Intent( depart, arrive );
