@@ -8,12 +8,12 @@ public class Security
      */
     public static String RandomToken(Integer nbLetters)
     {
-        String randString = "";
+        StringBuilder randString = new StringBuilder();
         String charUniverse = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\\=";
 
         for( int i = 0; i < nbLetters; i++) {
-            randString += charUniverse.charAt( (int) (Math.random() * ( charUniverse.length() - 1)));
+            randString.append( charUniverse.charAt( (int) (Math.random() * ( charUniverse.length() - 1))) );
         }
-        return randString;
+        return randString.toString();
     }
 }

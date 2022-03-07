@@ -5,10 +5,10 @@ import org.json.JSONObject;
 
 public class MapLine
 {
-    private int id;
-    private int indexRow;
+    private final int id;
+    private final int indexRow;
     private String content;
-    private int idMap;
+    private final int idMap;
 
     public MapLine(int id, int indexRow, String content, int idMap)
     {
@@ -20,11 +20,7 @@ public class MapLine
 
     //-------------------------------------------------------------------------
 
-    public void setIndexRow(int indexRow) { this.indexRow = indexRow; }
-
     public void setContent(String content) { this.content = content; }
-
-    public void setIdMap(int idMap) { this.idMap = idMap; }
 
     //-------------------------------------------------------------------------
 
@@ -40,12 +36,11 @@ public class MapLine
 
     public static MapLine hydrateMap(JSONObject json) throws JSONException
     {
-        MapLine myMap = new MapLine(
+        return new MapLine(
                 json.getInt("id"),
                 json.getInt("indexRow"),
                 json.getString("content"),
                 json.getInt("idMap")
         );
-        return myMap;
     }
 }

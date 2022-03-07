@@ -1,19 +1,19 @@
 package com.example.myapplication.LevelSelect;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
-import com.bumptech.glide.Glide;
 import android.widget.ListView;
+
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.LevelDesign;
-import com.example.myapplication.MainMenu.LoadingActivity;
-import com.example.myapplication.Option.OptionActivity;
-import com.example.myapplication.R;
 import com.example.myapplication.Lib.Navigation;
+import com.example.myapplication.MainMenu.LoadingActivity;
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +23,8 @@ public class SelectActivity extends AppCompatActivity
     Button button_return;
     ImageView background;
     HashMap params = new HashMap<>();
-    private ArrayList<String> mTitle = new ArrayList();
-    private ArrayList<Map> ListMap = new ArrayList();
+    private ArrayList<String> mTitle = new ArrayList<>();
+    private final ArrayList<Map> ListMap = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,7 +76,7 @@ public class SelectActivity extends AppCompatActivity
             }
             else
             {
-                adapter = new LevelDesign(this,R.layout.row,new ArrayList());
+                adapter = new LevelDesign(this,R.layout.row,new ArrayList<>());
             }
             listLevel.setAdapter(adapter);
         });

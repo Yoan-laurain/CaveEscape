@@ -1,16 +1,17 @@
 package com.example.myapplication.Game;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
 import android.widget.ImageButton;
+
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.R;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ public class GameActivity extends AppCompatActivity
 {
     GridView gameBoard;
     Map myMap;
-    int images[] = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
+    int[] images = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
     private int[] matrix;
     private int count;
     ImageButton left;
@@ -83,13 +84,13 @@ public class GameActivity extends AppCompatActivity
     /*
         Called after the response of the API after retrieving all map lines
      */
-    public void responseMapLigne( HashMap<Integer, MapLine> lesLignesMaps )
+    public void responseMapLine(HashMap<Integer, MapLine> lesLinesMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
 
-        List<MapLine> linesMapSorted = new ArrayList(lesLignesMaps.values());
-        Collections.sort(linesMapSorted, Comparator.comparing(MapLine::getIndexRow));
+        List<MapLine> linesMapSorted = new ArrayList(lesLinesMaps.values());
+        linesMapSorted.sort(Comparator.comparing(MapLine::getIndexRow));
 
         linesMapSorted.forEach(MapLine ->
         {
@@ -139,7 +140,7 @@ public class GameActivity extends AppCompatActivity
                 {
                     if ( matrix[ currentPosition - movement * 2 ] == images[3] )
                     {
-                        if ( matrix[ currentPosition - movement * 1 ] == images[5]  )
+                        if ( matrix[ currentPosition - movement] == images[5]  )
                         {
                             nbBoxPlaced--;
                         }
@@ -174,6 +175,6 @@ public class GameActivity extends AppCompatActivity
                 }
             }
         }
-        catch ( Exception e) {}
+        catch ( Exception ignored) {}
     }
 }
