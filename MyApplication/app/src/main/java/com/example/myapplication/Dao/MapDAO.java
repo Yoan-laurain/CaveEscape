@@ -1,10 +1,7 @@
 package com.example.myapplication.Dao;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import com.example.myapplication.Dto.Map;
-import com.example.myapplication.Dto.MapLigne;
+import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.MainMenu.LoadingActivity;
@@ -26,11 +23,13 @@ import okhttp3.Response;
 
 public class MapDAO
 {
-
-    public static void getAllMap(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
+    /*
+        Retrieve all map in the dataBase
+     */
+    public static void GetAllMap(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "getAllMap")
+                .add("command", "GetAllMap")
                 .build();
 
         Request request = new Request.Builder()
@@ -58,20 +57,20 @@ public class MapDAO
                     {
                         JSONArray jsonArrayMap = new JSONArray(responseStr);
 
-                        HashMap<Integer, Map> lesMaps = new HashMap<>();
+                        HashMap<Integer, Map> Maps = new HashMap<>();
 
                         for (int i = 0; i < jsonArrayMap.length(); i++) {
 
                             JSONObject json = jsonArrayMap.getJSONObject(i);
 
-                            Map maMap = Map.hydrateMap(json);
+                            Map myMap = Map.hydrateMap( json );
 
-                            lesMaps.put(maMap.getIdMap(),maMap);
+                            Maps.put( myMap.getIdMap() , myMap );
                         }
                         if (myActivity == null) {
-                            myActivitySandBox.responseMap(lesMaps);
+                            myActivitySandBox.responseMap(Maps);
                         } else {
-                            myActivity.responseMap(lesMaps);
+                            myActivity.responseMap(Maps);
                         }
 
                     }
@@ -83,56 +82,15 @@ public class MapDAO
             }
         });
     }
-    // ---------------------------------------------
 
-    /*public static void getMaxiDClient(Context myActivity)
+
+    /*
+        Retrieve get lines og a map
+     */
+    public static void GetMap(GameActivity myActivity, SandboxActivity mySandBoxActivity, String idMap)
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "getMaxIdClient")
-                .build();
-
-        Request request = new Request.Builder()
-                .url(LoadingActivity.CONNEXION_API)
-                .post(formBody)
-                .build();
-
-        OkHttpClient client = new OkHttpClient();
-
-        client.newCall(request).enqueue(new Callback() {
-
-            @Override
-            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Erreur : " + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                String responseStr = response.body().string();
-
-                if (!responseStr.equals("false") && !responseStr.equals(""))
-                {
-                    try
-                    {
-                        JSONObject jsonIdClient= new JSONObject();
-                        int idCli = jsonIdClient.getInt("idClient");
-                        LoadingActivity.setlastIdClient(idCli);
-
-                    }
-                    catch(JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-*/
-    // ---------------------------------------------
-    public static void getMap(GameActivity myActivity, SandboxActivity mySandBoxActivity, String idMap)
-    {
-        RequestBody formBody = new FormBody.Builder()
-                .add("command", "getMapLigneById")
+                .add("command", "GetMapLigneById")
                 .add("idMap", idMap)
                 .build();
 
@@ -159,26 +117,24 @@ public class MapDAO
                 {
                     try
                     {
-                        JSONArray jsonArrayLigneMap = new JSONArray(responseStr);
+                        JSONArray jsonArrayLinesMap = new JSONArray(responseStr);
 
-                        HashMap<Integer, MapLigne> lesLignesMaps = new HashMap<>();
+                        HashMap<Integer, MapLine> LinesMaps = new HashMap<>();
 
-                        for (int i = 0; i < jsonArrayLigneMap.length(); i++)
+                        for (int i = 0; i < jsonArrayLinesMap.length(); i++)
                         {
-                            JSONObject json = jsonArrayLigneMap.getJSONObject(i);
+                            JSONObject json = jsonArrayLinesMap.getJSONObject(i);
 
-                            MapLigne maMapLigne = MapLigne.hydrateMap(json);
+                            MapLine myMapLigne = MapLine.hydrateMap(json);
 
-                            lesLignesMaps.put(maMapLigne.getId(),maMapLigne);
+                            LinesMaps.put(myMapLigne.getId(),myMapLigne);
                         }
 
                         if (myActivity == null) {
-                            mySandBoxActivity.responseMapLigne(lesLignesMaps);
+                            mySandBoxActivity.responseMapLigne(LinesMaps);
                         } else {
-                            myActivity.responseMapLigne(lesLignesMaps);
+                            myActivity.responseMapLigne(LinesMaps);
                         }
-
-
                     }
                     catch(JSONException e)
                     {
@@ -192,7 +148,7 @@ public class MapDAO
     public static void saveMap( SandboxActivity myActivity , Map myMap)
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "saveMap")
+                .add("command", "SaveMap")
                 .add("nameMap",myMap.getNom())
                 .add("nbRows", String.valueOf( myMap.getNbRows() ) )
                 .add("nbColumns", String.valueOf( myMap.getNbColumns() ) )
@@ -235,10 +191,13 @@ public class MapDAO
         });
     }
 
-    public static void saveMapLines( SandboxActivity myActivity , MapLigne myMapLines)
+    /*
+        Save the mapLines in parameters in the dataBase
+     */
+    public static void saveMapLines( MapLine myMapLines)
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "saveMapLine")
+                .add("command", "SaveMapLine")
                 .add("indexRow", String.valueOf( myMapLines.getIndexRow() ) )
                 .add("content", myMapLines.getContent()  )
                 .add("idMap", String.valueOf( myMapLines.getIdMap() ) )
@@ -259,23 +218,18 @@ public class MapDAO
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                String responseStr = response.body().string();
-
-                if (!responseStr.equals("false") && !responseStr.equals(""))
-                {
-                }
-            }
+            public void onResponse(Call call, Response response) {}
         });
     }
 
+    /*
+        Delete the map in parameter
+     */
 
-    public static void DeleteMap( SandboxActivity myActivity , int idMap)
+    public static void DeleteMap( int idMap)
     {
-        String result;
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "deleteMap")
+                .add("command", "DeleteMap")
                 .add("idMap", String.valueOf(idMap))
                 .build();
 
@@ -298,7 +252,7 @@ public class MapDAO
 
                 String responseStr = response.body().string();
 
-                if (responseStr.equals("false") && !responseStr.equals(""))
+                if ( !responseStr.equals("") )
                 {
                     resultReturn(false);
                 }
@@ -313,11 +267,13 @@ public class MapDAO
         });
     }
 
-
+    /*
+        Retrieve all the maps of a client
+     */
     public static void getMapByClient(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "getMapByClient")
+                .add("command", "GetMapByClient")
                 .add("idClient", LoadingActivity.idClient)
                 .build();
 
@@ -346,22 +302,21 @@ public class MapDAO
                     {
                         JSONArray jsonArrayMap = new JSONArray(responseStr);
 
-                        HashMap<Integer, Map> lesMaps = new HashMap<>();
+                        HashMap<Integer, Map> Maps = new HashMap<>();
 
                         for (int i = 0; i < jsonArrayMap.length(); i++) {
 
                             JSONObject json = jsonArrayMap.getJSONObject(i);
 
-                            Map maMap = Map.hydrateMap(json);
+                            Map myMap = Map.hydrateMap(json);
 
-                            lesMaps.put(maMap.getIdMap(),maMap);
+                            Maps.put( myMap.getIdMap() , myMap );
                         }
                         if (myActivity == null) {
-                            myActivitySandBox.responseMap(lesMaps);
+                            myActivitySandBox.responseMap(Maps);
                         } else {
-                            myActivity.responseMap(lesMaps);
+                            myActivity.responseMap(Maps);
                         }
-
                     }
                     catch(JSONException e)
                     {
@@ -376,10 +331,13 @@ public class MapDAO
         });
     }
 
+    /*
+        Update the map in parameter
+     */
     public static void updateMap( SandboxActivity myActivity , Map myMap)
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "updateMap")
+                .add("command", "UpdateMap")
                 .add("nameMap",myMap.getNom())
                 .add("nbRows", String.valueOf( myMap.getNbRows() ) )
                 .add("nbColumns", String.valueOf( myMap.getNbColumns() ) )
@@ -406,23 +364,20 @@ public class MapDAO
 
                 String responseStr = response.body().string();
 
-
-                if (!responseStr.equals("false") && !responseStr.equals(""))
-                {
+                if (!responseStr.equals("false") && !responseStr.equals("")) {
                     myActivity.responseAfterUpdateMap();
-                    Toast.makeText(myActivity, "Map header succesfully Udpate", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(myActivity, "Failed to Update Map header", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public static void updateMapLines( SandboxActivity myActivity , MapLigne myMapLines)
+    /*
+        Update the mapLines in parameter
+     */
+    public static void updateMapLines( MapLine myMapLines )
     {
         RequestBody formBody = new FormBody.Builder()
-                .add("command", "updateMapLine")
+                .add("command", "UpdateMapLine")
                 .add("indexRow", String.valueOf( myMapLines.getIndexRow() ) )
                 .add("content", myMapLines.getContent()  )
                 .add("idMap", String.valueOf( myMapLines.getIdMap() ) )
@@ -443,14 +398,7 @@ public class MapDAO
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                String responseStr = response.body().string();
-
-                if (!responseStr.equals("false") && !responseStr.equals(""))
-                {
-                }
-            }
+            public void onResponse(Call call, Response response) {}
         });
     }
 

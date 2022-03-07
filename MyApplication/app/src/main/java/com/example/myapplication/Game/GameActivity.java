@@ -6,7 +6,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
-import com.example.myapplication.Dto.MapLigne;
+import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.R;
 import java.util.ArrayList;
@@ -37,25 +37,35 @@ public class GameActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        //---------------------------Retrieve parameters----------------------- //
+
         myMap = (Map) getIntent().getSerializableExtra("Map");
-        MapDAO.getMap( this,null, String.valueOf( myMap.getIdMap() ) );
+        MapDAO.GetMap( this,null, String.valueOf( myMap.getIdMap() ) );
+
+        //-------------------------------------------------------------------- //
+
+        //---------------------- Tool selector -------------------------------- //
 
         left = findViewById(R.id.button_game_left);
-        left.setOnClickListener(var ->  move( 1) );
-
         right = findViewById(R.id.button_game_right);
-        right.setOnClickListener(var ->move(- 1) );
-
         up = findViewById(R.id.button_game_up);
-        up.setOnClickListener(var -> move( myMap.getNbColumns() ) );
-
         down = findViewById(R.id.button_game_down);
+
+        //-------------------------------------------------------------------- //
+
+
+        //---------------------- Set clicks actions -------------------------- //
+
+        left.setOnClickListener(var ->  move( 1) );
+        right.setOnClickListener(var ->move(- 1) );
+        up.setOnClickListener(var -> move( myMap.getNbColumns() ) );
         down.setOnClickListener(var -> move( - myMap.getNbColumns() ) );
 
+        //-------------------------------------------------------------------- //
     }
 
     /*
-        Fill the gameBoard with the number of item of the matrix
+        Fill the gameBoard with the matrix
      */
     public void FillGameBoard()
     {
@@ -67,26 +77,25 @@ public class GameActivity extends AppCompatActivity
 
             GameDesign adapter = new GameDesign(this, images, matrix, myMap.getNbRows() * 30 );
             gameBoard.setAdapter(adapter);
-
         });
     }
 
     /*
-        Called after the response of the API
+        Called after the response of the API after retrieving all map lines
      */
-    public void responseMapLigne( HashMap<Integer, MapLigne> lesLignesMaps )
+    public void responseMapLigne( HashMap<Integer, MapLine> lesLignesMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
 
-        List<MapLigne> linesMapSorted = new ArrayList(lesLignesMaps.values());
-        Collections.sort(linesMapSorted, Comparator.comparing(MapLigne::getIndexRow));
+        List<MapLine> linesMapSorted = new ArrayList(lesLignesMaps.values());
+        Collections.sort(linesMapSorted, Comparator.comparing(MapLine::getIndexRow));
 
-        linesMapSorted.forEach(MapLigne ->
+        linesMapSorted.forEach(MapLine ->
         {
-            for (int i = 0; i < MapLigne.getContent().length(); i++)
+            for (int i = 0; i < MapLine.getContent().length(); i++)
             {
-                switch ( MapLigne.getContent().charAt(i) )
+                switch ( MapLine.getContent().charAt(i) )
                 {
                     case 'P' :
                         matrix[ count ] = images[ 0 ];
@@ -126,60 +135,45 @@ public class GameActivity extends AppCompatActivity
         {
             if ( matrix[ currentPosition - movement ] != images[ 1 ] )
             {
-                    //Si c'est la boîte et que la case suivante est l'arrivée ou un sol
-                    if ( ( matrix[ currentPosition - movement ] == images[ 4 ] || matrix[ currentPosition - movement ] == images[ 5 ]  ) && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
+                if ( ( matrix[ currentPosition - movement ] == images[ 4 ] || matrix[ currentPosition - movement ] == images[ 5 ]  ) && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
+                {
+                    if ( matrix[ currentPosition - movement * 2 ] == images[3] )
                     {
-                        //On vérifie si la case ou on pousse la caisse est une zone d'arrivée
-                        if ( matrix[ currentPosition - movement * 2 ] == images[3] )
+                        if ( matrix[ currentPosition - movement * 1 ] == images[5]  )
                         {
-                            //Si la caisse qu'on pousse était déjà bine placée
-                            if ( matrix[ currentPosition - movement * 1 ] == images[5]  )
-                            {
-                                nbBoxPlaced--;
-                            }
-
-                            //On repositionne la boite verte sur 2 cases après
-                            matrix[ currentPosition - movement * 2 ] = images[5];
-                            nbBoxPlaced++;
-                        }
-                        else
-                        {
-                            //On repositionne la boite sur 2 cases après
-                            matrix[ currentPosition - movement * 2 ] = images[4];
+                            nbBoxPlaced--;
                         }
 
-                        //On remplace le joueur par un sol
-                        matrix[currentPosition] = images[2];
-                        //Bouge le perso
-                        currentPosition -= movement;
-                        //Place l'image du perso
-                        matrix[currentPosition] = images[0];
-
-                    }//Si c'est pas la boite
-                    else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
-                    {
-                        //On remplace le joueur par la case en mémoire
-                        matrix[currentPosition] = caseTemp;
-                        //Bouge le perso
-                        currentPosition -= movement;
-
-                        caseTemp = matrix[currentPosition];
-                        //Place l'image du perso
-                        matrix[currentPosition] = images[0];
+                        matrix[ currentPosition - movement * 2 ] = images[5];
+                        nbBoxPlaced++;
                     }
-                    //Refresh le plateau
-                    FillGameBoard();
-
-                    if ( nbBoxPlaced == countNbBox )
+                    else
                     {
-                        this.finish();
+                        matrix[ currentPosition - movement * 2 ] = images[4];
                     }
+
+                    matrix[currentPosition] = caseTemp;
+                    currentPosition -= movement;
+                    matrix[currentPosition] = images[0];
+
                 }
-        }
-        catch ( Exception e)
-        {
-            System.out.println("Erreur : " + e);
-        }
-    }
+                else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
+                {
+                    matrix[currentPosition] = caseTemp;
+                    currentPosition -= movement;
 
+                    caseTemp = matrix[currentPosition];
+                    matrix[currentPosition] = images[0];
+                }
+
+                FillGameBoard();
+
+                if ( nbBoxPlaced == countNbBox )
+                {
+                    this.finish();
+                }
+            }
+        }
+        catch ( Exception e) {}
+    }
 }

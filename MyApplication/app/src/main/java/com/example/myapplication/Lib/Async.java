@@ -28,15 +28,13 @@ public class Async extends AsyncTask<String, String, String>
                 input.close();
             }
         }
-        catch (java.io.IOException e)
-        {
-            e.printStackTrace();
-        }
+        catch (java.io.IOException e) {}
+
         return response.toString();
     }
 
     @Override
-    protected void onPostExecute(String result)
+    protected void onPostExecute( String result )
     {
         super.onPostExecute(result);
     }

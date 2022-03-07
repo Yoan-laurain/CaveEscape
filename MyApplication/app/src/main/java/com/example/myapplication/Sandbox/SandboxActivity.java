@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
-import com.example.myapplication.Dto.MapLigne;
+import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
@@ -114,11 +114,11 @@ public class SandboxActivity extends AppCompatActivity
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
             deleteButton.setOnClickListener(var ->{
-                MapDAO.DeleteMap(this, myMap.getIdMap());
+                MapDAO.DeleteMap( myMap.getIdMap());
                 this.finish();
                 });
 
-            MapDAO.getMap( null,this, String.valueOf( myMap.getIdMap() ) );
+            MapDAO.GetMap( null,this, String.valueOf( myMap.getIdMap() ) );
 
             Modification = true;
 
@@ -258,14 +258,16 @@ public class SandboxActivity extends AppCompatActivity
         });
     }
 
-    // ------------------------------ Called after the API response ------------------------------//
-    public void responseMapLigne( HashMap<Integer, MapLigne> lesLignesMaps )
+    /*
+    Called after the response of the API
+ */
+    public void responseMapLigne( HashMap<Integer, MapLine> lesLignesMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
 
-        List<MapLigne> linesMapSorted = new ArrayList(lesLignesMaps.values());
-        Collections.sort(linesMapSorted, Comparator.comparing(MapLigne::getIndexRow));
+        List<MapLine> linesMapSorted = new ArrayList(lesLignesMaps.values());
+        Collections.sort(linesMapSorted, Comparator.comparing(MapLine::getIndexRow));
 
         linesMapSorted.forEach(MapLigne ->
         {
@@ -384,9 +386,9 @@ public class SandboxActivity extends AppCompatActivity
                 countNumber++;
             }
 
-            MapLigne myMapLine = new MapLigne( 0, i , content, id );
+            MapLine myMapLine = new MapLine( 0, i , content, id );
 
-            MapDAO.saveMapLines(this, myMapLine);
+            MapDAO.saveMapLines( myMapLine );
 
         }
         finish();
@@ -425,9 +427,9 @@ public class SandboxActivity extends AppCompatActivity
                 countNumber++;
             }
 
-            MapLigne myMapLine = new MapLigne( 0, i , content,  myMap.getIdMap());
+            MapLine myMapLine = new MapLine( 0, i , content,  myMap.getIdMap());
 
-            MapDAO.updateMapLines(this, myMapLine);
+            MapDAO.updateMapLines( myMapLine);
 
         }
         finish();

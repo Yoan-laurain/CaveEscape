@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import android.widget.ListView;
 import com.example.myapplication.Dao.MapDAO;
@@ -12,6 +11,7 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.LevelDesign;
 import com.example.myapplication.MainMenu.LoadingActivity;
+import com.example.myapplication.Option.OptionActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.Lib.Navigation;
 
@@ -32,47 +32,53 @@ public class SelectActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
-        background = findViewById(R.id.View_BackGround_Select);
-        Glide.with(this).load(R.drawable.selectback).into(background);
+        //---------------------- Tool selector -------------------------------- //
 
+        background = findViewById(R.id.View_BackGround_Select);
         button_return = findViewById(R.id.button_select_return);
+
+        //-------------------------------------------------------------------- //
+
+        //---------------------- Set clicks actions -------------------------- //
+
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, LoadingActivity.class,params));
 
-        MapDAO.getAllMap(this,null);
+        //-------------------------------------------------------------------- //
+
+        Glide.with(this).load(R.drawable.selectback).into(background);
+
+        MapDAO.GetAllMap(this,null);
     }
 
     /*
-        Called after response of the API
+        Called after response of the API after retrieving all maps
         Read each values receive and create an adapter for each one
         Hydrate the list of level and set the action of on click on each items
      */
-    public void responseMap(HashMap<Integer, Map> lesMaps)
+    public void responseMap(HashMap<Integer, Map> Maps)
     {
         this.runOnUiThread(() ->
         {
-            if ( lesMaps.size() > 0 )
+            ListView listLevel = findViewById(R.id.List_Level);
+            LevelDesign adapter;
+
+            if ( Maps.size() > 0 )
             {
                 mTitle = new ArrayList<>();
 
-
-                lesMaps.values().forEach(tab -> {
-                    mTitle.add(tab.getNom());
-                    ListMap.add(tab);
+                Maps.values().forEach(tab -> {
+                    mTitle.add( tab.getNom() );
+                    ListMap.add( tab );
                 });
 
-                ListView listLevel = findViewById(R.id.List_Level);
-                LevelDesign adapter = new LevelDesign(this,R.layout.row ,mTitle);
-                listLevel.setAdapter(adapter);
-
+                adapter = new LevelDesign(this,R.layout.row ,mTitle);
                 listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( ListMap.get( position ) ) );
-
             }
             else
             {
-                ListView listLevel = findViewById(R.id.List_Level);
-                LevelDesign adapter = new LevelDesign(this,R.layout.row,new ArrayList());
-                listLevel.setAdapter(adapter);
+                adapter = new LevelDesign(this,R.layout.row,new ArrayList());
             }
+            listLevel.setAdapter(adapter);
         });
     }
 
@@ -82,8 +88,6 @@ public class SelectActivity extends AppCompatActivity
     public void openLevel(Map mapSelected)
     {
         params.put("Map", mapSelected);
-
         Navigation.switchActivities(this, GameActivity.class,params);
     }
-
 }

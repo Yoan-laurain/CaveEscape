@@ -3,6 +3,9 @@ package com.example.myapplication.Lib;
 public class Security
 {
 
+    /*
+        Create a random key for idClient
+     */
     public static String RandomToken(Integer nbLetters)
     {
         String randString = "";

@@ -19,10 +19,10 @@ public class LevelDesign extends ArrayAdapter
 {
 
     // ---------------------------------------------
+
     private ArrayList<String> title;
     private int idLayout;
     private Activity context;
-
 
     // ---------------------------------------------
 
