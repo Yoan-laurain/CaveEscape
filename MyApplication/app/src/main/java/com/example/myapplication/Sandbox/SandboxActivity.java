@@ -261,12 +261,12 @@ public class SandboxActivity extends AppCompatActivity
     /*
     Called after the response of the API
  */
-    public void responseMapLigne( HashMap<Integer, MapLine> lesLignesMaps )
+    public void responseMapLigne( HashMap<Integer, MapLine> lineMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
 
-        List<MapLine> linesMapSorted = new ArrayList(lesLignesMaps.values());
+        List<MapLine> linesMapSorted = new ArrayList(lineMaps.values());
         Collections.sort(linesMapSorted, Comparator.comparing(MapLine::getIndexRow));
 
         linesMapSorted.forEach(MapLigne ->
