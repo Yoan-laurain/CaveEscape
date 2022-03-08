@@ -121,7 +121,7 @@ public class SandboxActivity extends AppCompatActivity
                 });
 
             MapDAO.GetMap( null,this, String.valueOf( myMap.getIdMap() ) );
-
+            mapName.setText(myMap.getNom());
             Modification = true;
 
         }
@@ -165,6 +165,7 @@ public class SandboxActivity extends AppCompatActivity
                         {
                             matrix[i] = matrixTemp[i];
                         }
+
                     }
                     else if ( myMap.getNbRows() < nbLinesTemp )
                     {
@@ -323,6 +324,7 @@ public class SandboxActivity extends AppCompatActivity
                         myMap.setName(mapName.getText().toString());
                         if (Modification)
                         {
+                            myMap.setIsTested(false);
                             MapDAO.updateMap(this, myMap);
                         } else
                         {

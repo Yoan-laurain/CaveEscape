@@ -329,6 +329,7 @@ public class MapDAO
                 .add("nbRows", String.valueOf( myMap.getNbRows() ) )
                 .add("nbColumns", String.valueOf( myMap.getNbColumns() ) )
                 .add("idClient", String.valueOf( myMap.getIdClient() ) )
+                .add("isTested",  myMap.getIsTested() ? "1" : "0")
                 .add("idMap", String.valueOf(myMap.getIdMap()))
                 .build();
 
