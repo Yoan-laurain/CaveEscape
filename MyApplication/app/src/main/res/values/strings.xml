@@ -23,4 +23,6 @@
     <string name="text_delete">DELETE</string>
     <string name="text_save">SAVE</string>
     <string name="input_text_sandbox">Give me a name !</string>
+    <string name="text_test">Test</string>
+
 </resources>

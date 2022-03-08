@@ -12,16 +12,18 @@ public class Map implements Serializable
     private int nbRows;
     private  int nbColumns;
     private final String idClient;
+    private final boolean isTested;
 
     //------------------------------------------------------------------------------
 
-    public Map(int idMap, String nom, int nbRows, int nbColumns, String idClient)
+    public Map(int idMap, String nom, int nbRows, int nbColumns, boolean isTested,String idClient)
     {
         this.idMap = idMap;
         this.nom = nom;
         this.nbRows = nbRows;
         this.nbColumns = nbColumns;
         this.idClient = idClient;
+        this.isTested = isTested;
     }
 
     //------------------------------------------------------------------------------
@@ -44,6 +46,8 @@ public class Map implements Serializable
 
     public String getIdClient() { return idClient; }
 
+    public boolean getIsTested() { return isTested; }
+
     //------------------------------------------------------------------------------
 
     public static Map hydrateMap(JSONObject json) throws JSONException
@@ -53,6 +57,7 @@ public class Map implements Serializable
                 json.getString("nom"),
                 json.getInt("nbRows"),
                 json.getInt("nbColumns"),
+                json.getBoolean("isTested"),
                 json.getString("idClient")
         );
     }

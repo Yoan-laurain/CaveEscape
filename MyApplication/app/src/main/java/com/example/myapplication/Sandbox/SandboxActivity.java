@@ -16,7 +16,9 @@ import android.widget.Toast;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
+import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
 
@@ -39,6 +41,7 @@ public class SandboxActivity extends AppCompatActivity
 
     Button saveButton;
     Button deleteButton;
+    Button testButton;
 
     Spinner spinnerLines;
     Spinner spinnerColumns;
@@ -74,11 +77,12 @@ public class SandboxActivity extends AppCompatActivity
         box = findViewById(R.id.button_sandbox_box);
         saveButton = findViewById(R.id.save_game);
         deleteButton = findViewById(R.id.deleteGame);
+        testButton = findViewById(R.id.testGame);
         mapName = findViewById(R.id.map_name);
         spinnerLines = findViewById(R.id.list_nb_lines);
         spinnerColumns = findViewById(R.id.list_nb_columns);
         gameBoard = findViewById(R.id.sandbox_gameBoard);
-        gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
+
 
         // --------------------- Tool Selector --------------------------- //
 
@@ -87,6 +91,9 @@ public class SandboxActivity extends AppCompatActivity
         floor.setOnClickListener(var -> currentTool = 2);
         finish.setOnClickListener(var -> currentTool = 3);
         box.setOnClickListener(var -> currentTool = 4);
+        saveButton.setOnClickListener(var -> SaveGame());
+        testButton.setOnClickListener(var -> TestGame());
+        gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
 
         // ---------------------- Adapters --------------------------- //
 
@@ -98,9 +105,6 @@ public class SandboxActivity extends AppCompatActivity
         //////////////////////////////////////////////////////////////////////////////////
         //                                      Code                                    //
         //////////////////////////////////////////////////////////////////////////////////
-
-        saveButton.setOnClickListener(var -> saveGame());
-
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
@@ -126,7 +130,7 @@ public class SandboxActivity extends AppCompatActivity
         {
             spinnerLines.setSelection(4);
             spinnerColumns.setSelection(4);
-            myMap = new Map(0,"",5,5, LoadingActivity.idClient);
+            myMap = new Map(0,"",5,5,false, LoadingActivity.idClient);
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
             for ( int i = 0; i < myMap.getNbRows()*myMap.getNbColumns(); i++)
@@ -303,7 +307,7 @@ public class SandboxActivity extends AppCompatActivity
 
     // ---------------- Called when the user try to save his map. --------------------------------//
     // ------------ Check if the map is quite correct and display toast otherwise. ---------------//
-    public void saveGame()
+    public void SaveGame()
     {
         if ( mapName.getText().toString().length() == 0 )
         {
@@ -314,21 +318,17 @@ public class SandboxActivity extends AppCompatActivity
             CountObjectOnBoard();
             if ( nbPlayerPlaced == 1 ) {
                 if (nbBoxPlaced > 0) {
-                    if (EnoughFinishPlace()) {
-                        if (MapIsClosed()) {
-                            if (PlayerInside()) {
-                                myMap.setName(mapName.getText().toString());
-                                if (Modification) {
-                                    MapDAO.updateMap(this, myMap);
-                                } else {
-                                    MapDAO.saveMap(this, myMap);
-                                }
-                            } else {
-                                Toast.makeText(this, "The player need to be inside ", Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            Toast.makeText(this, "The map need to be closed ", Toast.LENGTH_LONG).show();
+                    if (EnoughFinishPlace())
+                    {
+                        myMap.setName(mapName.getText().toString());
+                        if (Modification)
+                        {
+                            MapDAO.updateMap(this, myMap);
+                        } else
+                        {
+                            MapDAO.saveMap(this, myMap);
                         }
+
                     } else {
                         Toast.makeText(this, "You don't have enough end zone(s) for you're box(s)! ", Toast.LENGTH_LONG).show();
                     }
@@ -485,115 +485,6 @@ public class SandboxActivity extends AppCompatActivity
         FillGameBoard();
     }
 
-    // --------------------------- Check if the map is Closed ----------------------------------- //
-    public boolean MapIsClosed()
-    {
-        int index = 0;
-        for ( int j = 0 ; j < myMap.getNbRows(); j++ )
-        {
-            for (int i = 0; i < myMap.getNbColumns(); i++ )
-            {
-                if ( matrix[index] != images[2] )
-                {
-                    boolean closedUp = false;
-                    boolean closedDown = false;
-                    boolean closedLeft = false;
-                    boolean closedRight = false;
-                    try
-                    {
-                        //Check above
-                        if (matrix[index - myMap.getNbColumns()] == images[1]) { closedUp = true; }
-                    } catch (Exception ignored){}
-
-                    try{
-                        //Check en bas bas
-                        if (matrix[ index + myMap.getNbColumns() ] == images[1]) { closedDown = true; }
-                    }
-                    catch (Exception ignored){}
-
-                    try{
-                        if (matrix[index -1] == images[1]) { closedLeft = true; }
-                    }
-                    catch (Exception ignored){}
-
-                    try{
-                        //Check right
-                        if (matrix[index+1] == images[1]) { closedRight = true; }
-                    }
-                    catch (Exception ignored){}
-
-                    int countClose = (!closedDown ? 0 : 1) + (!closedLeft ? 0 : 1) + (!closedRight ? 0 : 1) + (!closedUp ? 0 : 1);
-
-                    if ( j == 0 || j == myMap.getNbRows() || i == 0 || i == myMap.getNbColumns() )
-                    {
-                        if (countClose < 1) { return false; }
-                    }
-                    else if (countClose < 2) { return false; }
-                }
-                index++;
-            }
-       }
-        return true;
-    }
-
-
-    // ------------------ check if The player is inside the Walls ------------------------------- //
-    public boolean PlayerInside()
-    {
-        boolean closedUp = false;
-        boolean closedDown = false;
-        boolean closedLeft = false;
-        boolean closedRight = false;
-
-        //Check Top
-        for ( int j = positionPlayer ; j > 0 ; j -= myMap.getNbColumns() )
-        {
-            try {
-                if ( matrix[j] == images[1] )
-                {
-                    closedUp = true;
-                }
-            }
-            catch (Exception ignored) {}
-        }
-
-        //Check Bottom
-        for ( int j = positionPlayer ; j < myMap.getNbRows()* myMap.getNbColumns() ; j += myMap.getNbColumns() )
-        {
-            try {
-                if ( matrix[j] == images[1] )
-                {
-                    closedDown = true;
-                }
-            }
-            catch (Exception ignored) {}
-        }
-
-        //Check left
-        for ( int j = positionPlayer; j >= positionPlayer - ( positionPlayer % myMap.getNbColumns()) ; j -- )
-        {
-            try {
-                if ( matrix[j] == images[1] )
-                {
-                    closedLeft = true;
-                }
-            }
-            catch (Exception ignored){}
-        }
-
-        //Check Right
-        for ( int j = positionPlayer ; j <= positionPlayer + ( (myMap.getNbColumns() ) - ( positionPlayer % myMap.getNbColumns() ) ); j ++ )
-        {
-            try {
-                if ( matrix[j] == images[1] )
-                {
-                    closedRight = true;
-                }
-            }
-            catch (Exception ignored){}
-        }
-        return closedDown && closedLeft && closedUp && closedRight;
-    }
 
     // ------------------------------ Count Object on the Game Board ---------------------------- //
     public void CountObjectOnBoard(){
@@ -607,5 +498,18 @@ public class SandboxActivity extends AppCompatActivity
                 nbBoxPlaced++;
             }
         }
+    }
+
+    // ------------------------------------------------------------------------------------------ //
+
+    public void TestGame()
+    {
+        try {
+            HashMap params = new HashMap<>();
+            params.put("Map", myMap);
+            params.put("comingFromTest", true);
+
+            Navigation.switchActivities(this, GameActivity.class, params);
+        }catch (Exception e){}
     }
 }
