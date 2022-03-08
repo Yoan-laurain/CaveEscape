@@ -31,6 +31,8 @@ public class GameActivity extends AppCompatActivity
     private int countNbBox;
     private int nbBoxPlaced;
     private int caseTemp = images[2];
+    ArrayList<Integer> leftLimits = new ArrayList<>();
+    ArrayList<Integer> rightLimits = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,6 +63,7 @@ public class GameActivity extends AppCompatActivity
         right.setOnClickListener(var ->move(- 1) );
         up.setOnClickListener(var -> move( myMap.getNbColumns() ) );
         down.setOnClickListener(var -> move( - myMap.getNbColumns() ) );
+        getMapLimits();
 
         //-------------------------------------------------------------------- //
     }
@@ -138,29 +141,33 @@ public class GameActivity extends AppCompatActivity
             {
                 if ( ( matrix[ currentPosition - movement ] == images[ 4 ] || matrix[ currentPosition - movement ] == images[ 5 ]  ) && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
                 {
-                    if ( matrix[ currentPosition - movement * 2 ] == images[3] )
-                    {
-                        if ( matrix[ currentPosition - movement] == images[5]  )
-                        {
-                            nbBoxPlaced--;
+                    //check if a box is on the edge of the map
+                    if ((!leftLimits.contains(currentPosition - movement) &&  - movement == -1) || (!rightLimits.contains(currentPosition - movement) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
+                        //check if the player is on the edge of the map
+                        if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
+
+
+                            if (matrix[currentPosition - movement * 2] == images[3]) {
+                                if (matrix[currentPosition - movement] == images[5]) {
+                                    nbBoxPlaced--;
+                                }
+
+                                matrix[currentPosition - movement * 2] = images[5];
+                                nbBoxPlaced++;
+                            } else {
+                                matrix[currentPosition - movement * 2] = images[4];
+                            }
+
+                            matrix[currentPosition] = caseTemp;
+                            currentPosition -= movement;
+                            matrix[currentPosition] = images[0];
                         }
-
-                        matrix[ currentPosition - movement * 2 ] = images[5];
-                        nbBoxPlaced++;
                     }
-                    else
-                    {
-                        matrix[ currentPosition - movement * 2 ] = images[4];
-                    }
-
-                    matrix[currentPosition] = caseTemp;
-                    currentPosition -= movement;
-                    matrix[currentPosition] = images[0];
-
                 }
                 else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
                 {
-                    if (caseTemp % myMap.getNbColumns() != 0 && caseTemp % (myMap.getNbColumns()-1) != 0  ){
+                    // check if the player is on the edge of the map 
+                    if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
                         matrix[currentPosition] = caseTemp;
                         currentPosition -= movement;
 
@@ -179,5 +186,19 @@ public class GameActivity extends AppCompatActivity
             }
         }
         catch ( Exception ignored) {}
+    }
+
+    public void getMapLimits(){
+
+        for(int i = 0; i < (myMap.getNbColumns() * myMap.getNbRows()); i++){
+            double currentLine = Math.ceil(i/ myMap.getNbColumns());
+
+            if (i % myMap.getNbColumns()  == 0 ){
+                leftLimits.add(i);
+            }
+            else if ((i - currentLine) % (myMap.getNbColumns()-1)  == 0 ){
+                rightLimits.add(i);
+            }
+        }
     }
 }
