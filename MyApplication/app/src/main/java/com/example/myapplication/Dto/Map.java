@@ -57,7 +57,7 @@ public class Map implements Serializable
                 json.getString("nom"),
                 json.getInt("nbRows"),
                 json.getInt("nbColumns"),
-                json.getBoolean("isTested"),
+                ( json.getInt("isTested") == 1 ? true : false),
                 json.getString("idClient")
         );
     }
