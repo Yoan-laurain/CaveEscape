@@ -160,11 +160,14 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
                 {
-                    matrix[currentPosition] = caseTemp;
-                    currentPosition -= movement;
+                    if (caseTemp % myMap.getNbColumns() != 0 && caseTemp % (myMap.getNbColumns()-1) != 0  ){
+                        matrix[currentPosition] = caseTemp;
+                        currentPosition -= movement;
 
-                    caseTemp = matrix[currentPosition];
-                    matrix[currentPosition] = images[0];
+                        caseTemp = matrix[currentPosition];
+                        matrix[currentPosition] = images[0];
+                    }
+
                 }
 
                 FillGameBoard();

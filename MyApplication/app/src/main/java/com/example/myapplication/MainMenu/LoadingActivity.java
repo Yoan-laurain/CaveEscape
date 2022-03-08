@@ -46,8 +46,11 @@ public class LoadingActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         getIdClientFromPref();
-        if(!idClient.equals("0")){
+        System.out.println("idClient récupéré : " + idClient);
+        if(idClient.equals("0")){
+            System.out.println("je suis dans un if ");
             createIdClient();
         }
 
