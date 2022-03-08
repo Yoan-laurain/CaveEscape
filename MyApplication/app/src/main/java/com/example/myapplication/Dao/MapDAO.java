@@ -359,6 +359,36 @@ public class MapDAO
     }
 
     /*
+    Update the map in parameter
+ */
+    public static void UpdateIsTestMap( Map myMap )
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "UpdateIsTested")
+                .add("tested",myMap.getIsTested() ? "1" : "0")
+                .add("idMap", String.valueOf(myMap.getIdMap()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Error : " + e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response)  { }
+        });
+    }
+
+    /*
         Update the mapLines in parameter
      */
     public static void updateMapLines( MapLine myMapLines )

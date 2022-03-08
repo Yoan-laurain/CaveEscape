@@ -33,6 +33,7 @@ public class GameActivity extends AppCompatActivity
     private int caseTemp = images[2];
     ArrayList<Integer> leftLimits = new ArrayList<>();
     ArrayList<Integer> rightLimits = new ArrayList<>();
+    private boolean comingFromTest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +44,8 @@ public class GameActivity extends AppCompatActivity
         //---------------------------Retrieve parameters----------------------- //
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
+        Bundle args = new Bundle();
+        comingFromTest = args.getBoolean("comingFromTest");
         MapDAO.GetMap( this,null, String.valueOf( myMap.getIdMap() ) );
 
         //-------------------------------------------------------------------- //
@@ -179,8 +182,15 @@ public class GameActivity extends AppCompatActivity
 
                 FillGameBoard();
 
-                if ( nbBoxPlaced == countNbBox )
+
+                if ( nbBoxPlaced == countNbBox && comingFromTest )
                 {
+                    this.finish();
+                }
+                else if ( nbBoxPlaced == countNbBox)
+                {
+                    myMap.setIsTested(true);
+                    MapDAO.UpdateIsTestMap( myMap );
                     this.finish();
                 }
             }

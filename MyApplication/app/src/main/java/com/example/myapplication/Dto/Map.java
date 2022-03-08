@@ -12,7 +12,7 @@ public class Map implements Serializable
     private int nbRows;
     private  int nbColumns;
     private final String idClient;
-    private final boolean isTested;
+    private boolean isTested;
 
     //------------------------------------------------------------------------------
 
@@ -33,6 +33,8 @@ public class Map implements Serializable
     public void setNbColumns ( int nbColumns ) { this.nbColumns = nbColumns;}
 
     public void setName ( String name ) { this.nom = name;}
+
+    public void setIsTested ( boolean isTested ) { this.isTested = isTested;}
 
     //------------------------------------------------------------------------------
 

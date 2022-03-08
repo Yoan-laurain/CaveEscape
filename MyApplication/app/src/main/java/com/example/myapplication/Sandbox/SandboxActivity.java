@@ -504,12 +504,18 @@ public class SandboxActivity extends AppCompatActivity
 
     public void TestGame()
     {
-        try {
+        if ( myMap.getIdMap() != 0 ){
             HashMap params = new HashMap<>();
             params.put("Map", myMap);
             params.put("comingFromTest", true);
 
             Navigation.switchActivities(this, GameActivity.class, params);
-        }catch (Exception e){}
+        }
+        else
+        {
+            Toast.makeText(this, "You need to save the map first !", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }
