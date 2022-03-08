@@ -3,7 +3,7 @@
 class MapLigneDAO {
 
 	// -------------------------------------------
-    public static function GetMapLigneById(){
+    public static function GetMapLineById(){
 
         DBConnex::runFetchAll(
             "Trying to get all map_line of a map",

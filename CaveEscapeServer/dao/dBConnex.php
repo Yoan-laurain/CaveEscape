@@ -112,12 +112,12 @@ class DBConnex extends PDO{
                 json::return($reponse);
             } 
             else {
-                log::put($messageFail, log::$LEVEL_WARN);
+                log::put($messageFail); //, log::$LEVEL_WARN);
             }
         
 
         }catch(Exception $e){
-            log::put($messageFail . '\n' . $e->getMessage(), log::$LEVEL_ERROR);
+            log::put($messageFail . '\n' . $e->getMessage()); //, log::$LEVEL_ERROR);
         }
     }
 	// -------------------------------------------
