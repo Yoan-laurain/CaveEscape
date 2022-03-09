@@ -1,13 +1,33 @@
 <resources>
     <string name="app_name">Cave Escape</string>
-    <string name="text_copyright">\@copyright sudodevelopers</string>
+    <string name="text_copyright">\@copyright sudodo_developers</string>
+    <string name="text_info">Yoan Laurain \n Hugo Carricart \n Nathan Lesourd </string>
+
+    /** PAGE  **/
     <string name="text_play">PLAY</string>
     <string name="text_sandbox">SANDBOX</string>
     <string name="text_option">OPTION</string>
     <string name="text_quit">QUIT</string>
     <string name="text_return">RETURN</string>
     <string name="text_credit">CREDIT</string>
-    <string name="text_info">Yoan Laurain \n Hugo Carricart \n Nathan Lesourd </string>
+    <string name="text_delete">DELETE</string>
+    <string name="text_save">SAVE</string>
+    <string name="input_text_sandbox">Give me a name !</string>
+    <string name="text_test">Test</string>
+
+    /** Accessibilité **/
+    <string name="image_back_loading">GIF</string>
+    <string name="image_back_select">GIF</string>
+    <string name="image_back_sandbox">GIF</string>
+    <string name="image_back_sandbox_menu">GIF</string>
+    <string name="image_back_info">GIF</string>
+    <string name="image_back_option">GIF</string>
+
+    /** SANDBOX **/
+    <string name="text_list_nb_column">Nombre de colonne</string>
+    <string name="text_list_nb_lines">Nombre de ligne</string>
+
+    /** GAMEBOARD **/
     <string name="text_up">UP</string>
     <string name="text_down">DOWN</string>
     <string name="text_left">LEFT</string>
@@ -18,11 +38,7 @@
     <string name="text_arrive">CASE DE TYPE ARRIVE</string>
     <string name="text_box">CASE DE LA BOITE</string>
     <string name="text_mur">CASE DE TYPE MUR</string>
-    <string name="text_list_nb_column">Nombre de colonne</string>
-    <string name="text_list_nb_lines">Nombre de ligne</string>
-    <string name="text_delete">DELETE</string>
-    <string name="text_save">SAVE</string>
-    <string name="input_text_sandbox">Give me a name !</string>
-    <string name="text_test">Test</string>
-
+    <string name="text_reload">RELOAD</string>
+    <string name="text_undo">UNDO</string>
+    <string name="text_goback">GO BACK</string>
 </resources>

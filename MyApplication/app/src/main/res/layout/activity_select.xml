@@ -16,7 +16,7 @@
         android:id="@+id/button_select_return"
         android:layout_width="140dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="#852813A6"
         android:fontFamily="@font/new_rocker"
         android:text="@string/text_return"

@@ -78,8 +78,8 @@
     <GridView
         android:id="@+id/gameBoard"
         android:layout_width="wrap_content"
-        android:layout_height="441dp"
-        android:layout_marginTop="84dp"
+        android:layout_height="470dp"
+        android:layout_marginTop="60dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -91,6 +91,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/text_goback"
         android:scaleType="centerCrop"
         android:scaleX="1.2"
         android:scaleY="1.2"
@@ -105,6 +106,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/text_undo"
         android:scaleType="centerCrop"
         android:scaleX="1.2"
         android:scaleY="1.2"
@@ -119,6 +121,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/text_reload"
         android:scaleType="centerCrop"
         android:scaleX="1.2"
         android:scaleY="1.2"
@@ -127,5 +130,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.004"
         app:srcCompat="@drawable/restart" />
+
+    <TextView
+        android:id="@+id/text_game_level"
+        android:layout_width="220dp"
+        android:layout_height="35dp"
+        android:fontFamily="@font/new_rocker"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
 
 </android.support.constraint.ConstraintLayout>

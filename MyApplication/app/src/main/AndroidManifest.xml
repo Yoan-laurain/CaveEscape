@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/cave_logo_round"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/Theme.MyApplication">
         <activity
             android:name=".Game.GameActivity"
