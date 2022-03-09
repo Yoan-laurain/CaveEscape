@@ -16,6 +16,7 @@ import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class SelectActivity extends AppCompatActivity
@@ -64,13 +65,14 @@ public class SelectActivity extends AppCompatActivity
 
             if ( Maps.size() > 0 )
             {
+
                 mTitle = new ArrayList<>();
 
                 Maps.values().forEach(tab -> {
                     mTitle.add( tab.getNom() );
                     ListMap.add( tab );
                 });
-
+                Collections.sort(mTitle);
                 adapter = new LevelDesign(this,R.layout.row ,mTitle);
                 listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( ListMap.get( position ) ) );
             }
