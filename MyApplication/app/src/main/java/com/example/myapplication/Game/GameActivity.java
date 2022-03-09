@@ -35,6 +35,7 @@ public class GameActivity extends AppCompatActivity
     ImageButton up;
     ImageButton down;
     ImageButton restart;
+    ImageButton quit;
     private int currentPosition = 0;
     private int countNbBox;
     private int nbBoxPlaced;
@@ -66,6 +67,7 @@ public class GameActivity extends AppCompatActivity
         up = findViewById(R.id.button_game_up);
         down = findViewById(R.id.button_game_down);
         restart = findViewById(R.id.button_game_reload);
+        quit = findViewById(R.id.button_game_goback);
 
         //-------------------------------------------------------------------- //
 
@@ -78,6 +80,7 @@ public class GameActivity extends AppCompatActivity
         down.setOnClickListener(var -> move( - myMap.getNbColumns() ) );
         getMapLimits();
         restart.setOnClickListener(var -> MapDAO.GetMap( this,null, String.valueOf( resetMap.getIdMap() ) ));
+        quit.setOnClickListener(var -> finish());
 
         //-------------------------------------------------------------------- //
     }

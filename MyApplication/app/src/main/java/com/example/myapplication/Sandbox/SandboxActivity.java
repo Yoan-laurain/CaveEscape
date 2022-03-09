@@ -56,6 +56,7 @@ public class SandboxActivity extends AppCompatActivity
     int nbPlayerPlaced;
     int nbBoxPlaced;
     int positionPlayer;
+    int nbRowTemp;
 
     boolean Modification = false;
 
@@ -122,6 +123,7 @@ public class SandboxActivity extends AppCompatActivity
 
             MapDAO.GetMap( null,this, String.valueOf( myMap.getIdMap() ) );
             mapName.setText(myMap.getNom());
+            nbRowTemp = myMap.getNbRows();
             Modification = true;
 
         }
@@ -407,7 +409,7 @@ public class SandboxActivity extends AppCompatActivity
 
             for ( int j = 0; j < myMap.getNbColumns(); j++ )
             {
-
+                //System.out.println(matrix[countNumber]);
                 switch ( matrix[ countNumber ] )
                 {
                     case R.drawable.perso :
@@ -431,7 +433,13 @@ public class SandboxActivity extends AppCompatActivity
 
             MapLine myMapLine = new MapLine( 0, i , content.toString(),  myMap.getIdMap());
 
-            MapDAO.updateMapLines( myMapLine);
+
+            if (i < nbRowTemp) {
+                MapDAO.updateMapLines(myMapLine);
+            } else {
+                MapDAO.saveMapLines(myMapLine);
+            }
+
 
         }
         finish();
