@@ -1,5 +1,6 @@
 package com.example.myapplication.Game;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -223,12 +224,16 @@ public class GameActivity extends AppCompatActivity
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest )
                 {
-                    this.finish();
+                    myMap.setIsTested(true);
+                    MapDAO.UpdateIsTestMap( myMap );
+
+                    Intent intent=new Intent();
+                    intent.putExtra("MESSAGE","true");
+                    setResult(2,intent);
+                    finish();//finishing activity
                 }
                 else if ( nbBoxPlaced == countNbBox)
                 {
-                    myMap.setIsTested(true);
-                    MapDAO.UpdateIsTestMap( myMap );
                     this.finish();
                 }
             }

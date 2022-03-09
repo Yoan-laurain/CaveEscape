@@ -2,12 +2,6 @@
 
 class log {
 	
-	// -------------------------------------------
-	public  $LEVEL_OK 		= "OK";			// Commande ok
-	public  $LEVEL_WARN 	= "WARNING";	// Erreur de l'utilisateur
-	public  $LEVEL_ERROR 	= "ERROR";		// Erreur de code
-	// -------------------------------------------
-
 
 	
 	// -------------------------------------------

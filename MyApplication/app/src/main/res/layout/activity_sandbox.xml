@@ -199,4 +199,17 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="button_sandbox_perso,button_sandbox_box,button_sandbox_arrive,button_sandbox_mur,button_sandbox_sol" />
 
+    <ImageView
+        android:id="@+id/lightIsTested"
+        android:layout_width="24dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/list_nb_lines"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/red_circle" />
+
 </android.support.constraint.ConstraintLayout>
