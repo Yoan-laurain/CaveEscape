@@ -177,8 +177,6 @@ public class GameActivity extends AppCompatActivity
 
                             if (matrix[currentPosition - movement] == images[5] )
                             {
-                                nbBoxPlaced--;
-
                                 matrix[currentPosition - movement ] = images[0];
                                 if ( matrix[currentPosition - movement * 2] == images[3] )
                                 {
@@ -186,6 +184,7 @@ public class GameActivity extends AppCompatActivity
                                 }
                                 else
                                 {
+                                    nbBoxPlaced--;
                                     matrix[currentPosition - movement * 2] = images[4];
                                 }
 
