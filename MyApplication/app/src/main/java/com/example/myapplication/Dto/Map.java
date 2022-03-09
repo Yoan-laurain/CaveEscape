@@ -1,15 +1,26 @@
 package com.example.myapplication.Dto;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Resources;
 
 import com.example.myapplication.Game.GameActivity;
+import com.example.myapplication.LevelSelect.SelectActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Map implements Serializable
 {
@@ -158,4 +169,74 @@ public class Map implements Serializable
         }
 
     }
+
+    public static Map FileMapHeader(SelectActivity myActivity ){
+        Map myMap = new Map(0,"", 0, 0,false,"0");
+        String json = "";
+        int id = myActivity.getResources().getIdentifier("mapheader", "raw", myActivity.getPackageName());
+        try {
+
+            Resources r = myActivity.getResources();
+            InputStream is = r.openRawResource(id);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int i = is.read();
+            while (i != -1) {
+                baos.write(i);
+                i = is.read();
+            }
+
+            json = baos.toString();
+            is.close();
+
+            JSONObject jsonHeader = new JSONObject(json);
+
+            myMap = Map.hydrateMap(jsonHeader);
+
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+        return myMap;
+    }
+
+    public static void FileMapLine(GameActivity myActivity) {
+
+
+        String jsonLines = "";
+        int id = myActivity.getResources().getIdentifier("mapline", "raw", myActivity.getPackageName());
+
+        try {
+            Resources r = myActivity.getResources();
+            InputStream is = r.openRawResource(id);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int i = is.read();
+            while (i != -1) {
+                baos.write(i);
+                i = is.read();
+            }
+
+            jsonLines = baos.toString();
+            System.out.println(jsonLines);
+            is.close();
+
+            JSONArray jsonArrayMap = new JSONArray(jsonLines);
+            HashMap<Integer, MapLine> LinesMaps = new HashMap<>();
+
+            for (int j = 0; j < jsonArrayMap.length(); j++) {
+                System.out.println(jsonArrayMap.getJSONObject(j).toString());
+                JSONObject json = jsonArrayMap.getJSONObject(j);
+
+                MapLine myMapLine = MapLine.hydrateMap(json);
+
+                LinesMaps.put(myMapLine.getId(), myMapLine);
+            }
+
+            myActivity.responseMapLine(LinesMaps);
+
+        } catch (IOException | JSONException e) {
+
+        }
+    }
+
 }

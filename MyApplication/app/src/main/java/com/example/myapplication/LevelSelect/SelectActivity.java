@@ -69,6 +69,8 @@ public class SelectActivity extends AppCompatActivity
                 mTitle = new ArrayList<>();
                 Map hardCoded = Map.HardCodedMapHeader();
                 Maps.put(hardCoded.getIdMap(),hardCoded);
+                Map fileMap = Map.FileMapHeader(this);
+                Maps.put(fileMap.getIdMap(),fileMap);
 
                 Maps.values().forEach(tab -> {
                     mTitle.add( tab.getNom() );
