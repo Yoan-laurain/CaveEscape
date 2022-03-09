@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
@@ -37,6 +38,8 @@ public class GameActivity extends AppCompatActivity
     ImageButton down;
     ImageButton restart;
     ImageButton quit;
+    String text_level;
+    TextView view_text_level;
     private int currentPosition = 0;
     private int countNbBox;
     private int nbBoxPlaced;
@@ -48,8 +51,21 @@ public class GameActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        //---------------------- Tool selector -------------------------------- //
+
+        view_text_level = findViewById(R.id.text_game_level);
+        left = findViewById(R.id.button_game_left);
+        right = findViewById(R.id.button_game_right);
+        up = findViewById(R.id.button_game_up);
+        down = findViewById(R.id.button_game_down);
+        restart = findViewById(R.id.button_game_reload);
+        quit = findViewById(R.id.button_game_goback);
+
+        //-------------------------------------------------------------------- //
 
         //---------------------------Retrieve parameters----------------------- //
 
@@ -63,23 +79,13 @@ public class GameActivity extends AppCompatActivity
         else {
             MapDAO.GetMap(this, null, String.valueOf(myMap.getIdMap()));
         }
+
         resetMap = myMap;
+        view_text_level.setText(myMap.getNom());
         Bundle args = new Bundle();
         comingFromTest = args.getBoolean("comingFromTest");
 
         //-------------------------------------------------------------------- //
-
-        //---------------------- Tool selector -------------------------------- //
-
-        left = findViewById(R.id.button_game_left);
-        right = findViewById(R.id.button_game_right);
-        up = findViewById(R.id.button_game_up);
-        down = findViewById(R.id.button_game_down);
-        restart = findViewById(R.id.button_game_reload);
-        quit = findViewById(R.id.button_game_goback);
-
-        //-------------------------------------------------------------------- //
-
 
         //---------------------- Set clicks actions -------------------------- //
 

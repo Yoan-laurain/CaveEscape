@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Natoshiro/Desktop/CaveEscape/MyApplication/app/src/main/res/layout/activity_game.xml" value="0.178125" />
         <entry key="..\:/Natoshiro/Desktop/CaveEscape/MyApplication/app/src/main/res/layout/activity_sandbox.xml" value="0.17447916666666666" />
         <entry key="..\:/Users/Hugo/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_game.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Hugo/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_info.xml" value="0.333786231884058" />
@@ -14,15 +13,6 @@
         <entry key="..\:/Users/Hugo/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_select.xml" value="0.333786231884058" />
         <entry key="..\:/Users/Hugo/AndroidStudioProjects/MyApplication/app/src/main/res/mipmap-anydpi-v26/cave_logo.xml" value="0.3585" />
         <entry key="..\:/Users/Hugo/AndroidStudioProjects/MyApplication/app/src/main/res/mipmap-anydpi-v26/cave_logo_round.xml" value="0.1935" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/activity_game.xml" value="0.33" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/activity_info.xml" value="0.32155797101449274" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/activity_loading.xml" value="0.5" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/activity_option.xml" value="0.32155797101449274" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/activity_sandbox.xml" value="0.32155797101449274" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/activity_select.xml" value="0.32155797101449274" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/dialog_quit_game.xml" value="0.25" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/row.xml" value="0.32155797101449274" />
-        <entry key="..\:/Users/Hugo/Documents/GitHub/CaveEscape/MyApplication/app/src/main/res/layout/row_item_game.xml" value="0.32155797101449274" />
         <entry key="..\:/Users/Yoan laurain/Desktop/Projets JAVA/CaveEscape/MyApplication/app/src/main/res/layout/activity_game.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Yoan laurain/Desktop/Projets JAVA/CaveEscape/MyApplication/app/src/main/res/layout/activity_info.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Yoan laurain/Desktop/Projets JAVA/CaveEscape/MyApplication/app/src/main/res/layout/activity_loading.xml" value="0.20863616930312098" />
@@ -35,13 +25,15 @@
         <entry key="..\:/Users/camar/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_sandbox.xml" value="0.2828649138712602" />
         <entry key="..\:/Users/camar/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_sandbox_menu.xml" value="0.2828649138712602" />
         <entry key="..\:/Users/camar/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_select.xml" value="0.2828649138712602" />
-        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_game.xml" value="0.33" />
+        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_game.xml" value="0.5" />
         <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_info.xml" value="0.3625" />
         <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_loading.xml" value="0.3625" />
         <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_option.xml" value="0.3625" />
-        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_sandbox.xml" value="0.25" />
-        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_sandbox_menu.xml" value="0.22" />
+        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_sandbox.xml" value="0.67" />
+        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_sandbox_menu.xml" value="0.33" />
         <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/activity_select.xml" value="0.3625" />
+        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/dialog_layout.xml" value="0.5439311594202898" />
+        <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/fragment_dialog__quit.xml" value="0.5359375" />
         <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/row.xml" value="0.3625" />
         <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/row_item_game.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/camar/prog/CaveEscape/MyApplication/app/src/main/res/layout/spinner_item.xml" value="0.3625" />
@@ -50,45 +42,6 @@
         <entry key="..\:/Users/ghost/Bureau/Projets JAVA/CaveEscape/MyApplication/app/src/main/res/layout/activity_sandbox_menu.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/ghost/Bureau/Projets JAVA/CaveEscape/MyApplication/app/src/main/res/layout/activity_select.xml" value="0.3009833262077811" />
       </map>
-    </option>
-  </component>
-  <component name="NullableNotNullManager">
-    <option name="myDefaultNullable" value="androidx.annotation.Nullable" />
-    <option name="myDefaultNotNull" value="org.jetbrains.annotations.NotNull" />
-    <option name="myNullables">
-      <value>
-        <list size="12">
-          <item index="0" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableDecl" />
-          <item index="1" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
-          <item index="2" class="java.lang.String" itemvalue="androidx.annotation.Nullable" />
-          <item index="3" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
-          <item index="4" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
-          <item index="5" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
-          <item index="6" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNullable" />
-          <item index="7" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
-          <item index="8" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
-          <item index="9" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
-          <item index="10" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.Nullable" />
-          <item index="11" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableType" />
-        </list>
-      </value>
-    </option>
-    <option name="myNotNulls">
-      <value>
-        <list size="11">
-          <item index="0" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNonNull" />
-          <item index="1" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.NonNull" />
-          <item index="2" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
-          <item index="3" class="java.lang.String" itemvalue="androidx.annotation.NonNull" />
-          <item index="4" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullType" />
-          <item index="5" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
-          <item index="6" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullDecl" />
-          <item index="7" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
-          <item index="8" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
-          <item index="9" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
-          <item index="10" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
-        </list>
-      </value>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">

@@ -60,7 +60,7 @@ public class LoadingActivity extends AppCompatActivity
         // ----------------------------- Loading Visual Elements ---------------------------------//
 
         background = findViewById(R.id.View_BackGround_Loading);
-        Glide.with(this).load(R.drawable.loadingback).into(background);
+        Glide.with(this).load(R.drawable.jgif).into(background);
 
         button_play = findViewById(R.id.button_play);
         button_play.setOnClickListener(view -> Navigation.switchActivities(this, SelectActivity.class,params));
