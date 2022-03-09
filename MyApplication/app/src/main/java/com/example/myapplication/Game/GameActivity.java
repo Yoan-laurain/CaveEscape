@@ -2,6 +2,7 @@ package com.example.myapplication.Game;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 
@@ -20,6 +21,7 @@ public class GameActivity extends AppCompatActivity
 {
     GridView gameBoard;
     Map myMap;
+    Map resetMap;
     int[] images = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
     private int[] matrix;
     private int count;
@@ -27,6 +29,7 @@ public class GameActivity extends AppCompatActivity
     ImageButton right;
     ImageButton up;
     ImageButton down;
+    ImageButton restart;
     private int currentPosition = 0;
     private int countNbBox;
     private int nbBoxPlaced;
@@ -44,6 +47,7 @@ public class GameActivity extends AppCompatActivity
         //---------------------------Retrieve parameters----------------------- //
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
+        resetMap = myMap;
         Bundle args = new Bundle();
         comingFromTest = args.getBoolean("comingFromTest");
         MapDAO.GetMap( this,null, String.valueOf( myMap.getIdMap() ) );
@@ -56,6 +60,7 @@ public class GameActivity extends AppCompatActivity
         right = findViewById(R.id.button_game_right);
         up = findViewById(R.id.button_game_up);
         down = findViewById(R.id.button_game_down);
+        restart = findViewById(R.id.button_game_reload);
 
         //-------------------------------------------------------------------- //
 
@@ -67,6 +72,7 @@ public class GameActivity extends AppCompatActivity
         up.setOnClickListener(var -> move( myMap.getNbColumns() ) );
         down.setOnClickListener(var -> move( - myMap.getNbColumns() ) );
         getMapLimits();
+        restart.setOnClickListener(var -> MapDAO.GetMap( this,null, String.valueOf( resetMap.getIdMap() ) ));
 
         //-------------------------------------------------------------------- //
     }
@@ -227,4 +233,5 @@ public class GameActivity extends AppCompatActivity
             }
         }
     }
+    
 }
