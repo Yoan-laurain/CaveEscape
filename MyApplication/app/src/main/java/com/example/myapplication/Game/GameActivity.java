@@ -149,39 +149,55 @@ public class GameActivity extends AppCompatActivity
                         //check if the player is on the edge of the map
                         if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
 
-
-                            if (matrix[currentPosition - movement * 2] == images[3]) {
-                                if (matrix[currentPosition - movement] == images[5]) {
-                                    nbBoxPlaced--;
-                                }
-
-                                matrix[currentPosition - movement * 2] = images[5];
-                                nbBoxPlaced++;
-                            } else {
-                                matrix[currentPosition - movement * 2] = images[4];
-                            }
-
                             matrix[currentPosition] = caseTemp;
-                            currentPosition -= movement;
-                            matrix[currentPosition] = images[0];
+                            caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? caseTemp = matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
+
+                            if (matrix[currentPosition - movement] == images[5] )
+                            {
+                                nbBoxPlaced--;
+
+                                matrix[currentPosition - movement ] = images[0];
+                                matrix[currentPosition - movement * 2] = images[4];
+                                currentPosition -= movement;
+                            }
+                            else if ( matrix[currentPosition - movement] == images[4] && matrix[currentPosition - movement * 2] == images[3])
+                            {
+                                nbBoxPlaced++;
+                                matrix[currentPosition - movement * 2] = images[5];
+                                currentPosition -= movement;
+                                matrix[currentPosition] = images[0];
+                            }
+                            else if ( matrix[currentPosition - movement] == images[4] )
+                            {
+                                matrix[currentPosition - movement * 2] = images[4];
+                                currentPosition -= movement;
+                                matrix[currentPosition] = images[0];
+                            }
+                            else
+                            {
+                                currentPosition -= movement;
+                                matrix[currentPosition] = images[0];
+                            }
                         }
                     }
                 }
                 else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
                 {
+
                     // check if the player is on the edge of the map 
                     if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
+
                         matrix[currentPosition] = caseTemp;
+
+                        caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? caseTemp = matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
+
                         currentPosition -= movement;
 
-                        caseTemp = matrix[currentPosition];
                         matrix[currentPosition] = images[0];
                     }
-
                 }
 
                 FillGameBoard();
-
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest )
                 {
