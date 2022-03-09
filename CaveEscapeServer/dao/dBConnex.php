@@ -112,12 +112,12 @@ class DBConnex extends PDO{
                 json::return($reponse);
             } 
             else {
-                log::put($messageFail); //, log::$LEVEL_WARN);
+                log::put($messageFail, "WARNING");
             }
         
 
         }catch(Exception $e){
-            log::put($messageFail . '\n' . $e->getMessage()); //, log::$LEVEL_ERROR);
+            log::put($messageFail . '\n' . $e->getMessage() ,"ERROR");
         }
     }
 	// -------------------------------------------
@@ -129,7 +129,7 @@ class DBConnex extends PDO{
         try {
             parent::__construct(Param::$dsn ,Param::$user, Param::$pass);
         } catch (Exception $e) {   
-            log::put("Impossible de se connecter.\n" . $e->getMessage(), log::$LEVEL_ERROR);       
+            log::put("Impossible de se connecter.\n" . $e->getMessage(), "ERROR");       
             die();
         }
     }

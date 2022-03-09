@@ -54,10 +54,10 @@ if (isset($_POST['command'])) {
 		call_user_func($dao . "::" . $_POST['command']);
 	} 
 	else {
-		log::put("Commande : '" . $_POST['command'] . "' inconnue !", log::$LEVEL_ERROR);
+		log::put("Commande : '" . $_POST['command'] . "' inconnue !", "ERROR");
 	}
 } 
 else {
-	log::put("Aucune commande !", log::$LEVEL_ERROR);
+	log::put("Aucune commande !", "ERROR");
 }
 // -------------------------------------------
