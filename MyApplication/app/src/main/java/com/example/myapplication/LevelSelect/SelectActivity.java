@@ -67,12 +67,14 @@ public class SelectActivity extends AppCompatActivity
             {
 
                 mTitle = new ArrayList<>();
+                Map hardCoded = Map.HardCodedMapHeader();
+                Maps.put(hardCoded.getIdMap(),hardCoded);
 
                 Maps.values().forEach(tab -> {
                     mTitle.add( tab.getNom() );
                     ListMap.add( tab );
                 });
-                Collections.sort(mTitle);
+                //Collections.sort(mTitle);
                 adapter = new LevelDesign(this,R.layout.row ,mTitle);
                 listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( ListMap.get( position ) ) );
             }
