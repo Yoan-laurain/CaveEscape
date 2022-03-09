@@ -1,40 +1,49 @@
-{
-"nbMaps" : 1,
-"Maps" : [
-	{
-	"idMap" : 1,
-	"MapName" : "Easy Tuto",
-	"MapRow" : 6,
-	"MapCol" : 9,
-    "idClient" : 1,
-	"MapLine" : 	[{
-			"idLine" : 1,
-			"IndexLigne" : 0,
-			"ContentLine" : "..####..."
-			},{
-                "idLine" : 2,
-                "IndexLigne" : 1,
-                "ContentLine" : "###..####" 
-            },{
-                "idLine" : 3,
-                "IndexLigne" : 2,
-                "ContentLine" : "#.....C.#" 
-            },{
-                "idLine" : 4,
-                "IndexLigne" : 3,
-                "ContentLine" : "#.#..#C.#" 
-            },{
-                "idLine" : 5,
-                "IndexLigne" : 4,
-                "ContentLine" : "#.X.X#P.#" 
-            },{
-                "idLine" : 6,
-                "IndexLigne" : 5,
-                "ContentLine" : "#########" 
-            }
-        ]
-	}
+[
+    {
+        "id":"2",
+        "indexRow":"0",
+        "content":"######",
+        "idMap":"1"
+    },
+    {
+        "id":"3",
+        "indexRow":"1",
+        "content":"#..P.#",
+        "idMap":"1"
+    },
+    {
+        "id":"4",
+        "indexRow":"2",
+        "content":"#C####",
+        "idMap":"1"
+    },
+    {
+        "id":"5",
+        "indexRow":"3",
+        "content":"#.#...",
+        "idMap":"1"
+    },
+    {
+        "id":"6",
+        "indexRow":"4",
+        "content":"#X#...",
+        "idMap":"1"
+    },
+    {
+        "id":"7",
+        "indexRow":"5",
+        "content":"###...",
+        "idMap":"1"
+    }
+]
 
-	]
-
-}
+[
+    {
+        "idMap":"1",
+        "nom":"Tutoriel",
+        "nbRows":"6",
+        "nbColumns":"6",
+        "idClient":"1",
+        "isTested":"1"
+    }
+]

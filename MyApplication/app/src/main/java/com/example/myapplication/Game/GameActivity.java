@@ -12,6 +12,11 @@ import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -233,5 +238,91 @@ public class GameActivity extends AppCompatActivity
             }
         }
     }
-    
+
+    public void HardCodedMap()
+    {
+        String jsonMapString = "{\n" +
+                "        \"idMap\":\"1\",\n" +
+                "        \"nom\":\"Tutoriel\",\n" +
+                "        \"nbRows\":\"6\",\n" +
+                "        \"nbColumns\":\"6\",\n" +
+                "        \"idClient\":\"1\",\n" +
+                "        \"isTested\":\"1\"\n" +
+                "    }";
+
+        try
+        {
+
+            JSONObject json = new JSONObject(jsonMapString);
+
+            myMap = Map.hydrateMap( json );
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+        String jsonString = "[\n" +
+                "    {\n" +
+                "        \"id\":\"2\",\n" +
+                "        \"indexRow\":\"0\",\n" +
+                "        \"content\":\"######\",\n" +
+                "        \"idMap\":\"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\":\"3\",\n" +
+                "        \"indexRow\":\"1\",\n" +
+                "        \"content\":\"#..P.#\",\n" +
+                "        \"idMap\":\"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\":\"4\",\n" +
+                "        \"indexRow\":\"2\",\n" +
+                "        \"content\":\"#C####\",\n" +
+                "        \"idMap\":\"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\":\"5\",\n" +
+                "        \"indexRow\":\"3\",\n" +
+                "        \"content\":\"#.#...\",\n" +
+                "        \"idMap\":\"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\":\"6\",\n" +
+                "        \"indexRow\":\"4\",\n" +
+                "        \"content\":\"#X#...\",\n" +
+                "        \"idMap\":\"1\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\":\"7\",\n" +
+                "        \"indexRow\":\"5\",\n" +
+                "        \"content\":\"###...\",\n" +
+                "        \"idMap\":\"1\"\n" +
+                "    }\n" +
+                "]";
+        try
+        {
+            JSONArray jsonArrayMap = new JSONArray(jsonString);
+            HashMap<Integer, MapLine> LinesMaps = new HashMap<>();
+
+            for (int i = 0; i < jsonArrayMap.length(); i++)
+            {
+                JSONObject json = jsonArrayMap.getJSONObject(i);
+
+                MapLine myMapLine = MapLine.hydrateMap(json);
+
+                LinesMaps.put(myMapLine.getId(),myMapLine);
+            }
+
+            responseMapLine(LinesMaps);
+
+
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
