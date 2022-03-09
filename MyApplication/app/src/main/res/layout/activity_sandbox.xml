@@ -70,22 +70,8 @@
         app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861"
+        app:layout_constraintVertical_bias="0.894"
         app:srcCompat="@drawable/perso" />
-
-    <ImageButton
-        android:id="@+id/button_sandbox_mur"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:contentDescription="@string/text_mur"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861"
-        app:srcCompat="@drawable/mur" />
 
     <ImageButton
         android:id="@+id/button_sandbox_sol"
@@ -98,8 +84,21 @@
         app:layout_constraintHorizontal_bias="0.271"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861"
+        app:layout_constraintVertical_bias="0.894"
         app:srcCompat="@drawable/sol" />
+
+    <ImageButton
+        android:id="@+id/button_sandbox_arrive"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:contentDescription="@string/text_arrive"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.894"
+        app:srcCompat="@drawable/arrivee" />
 
     <ImageButton
         android:id="@+id/button_sandbox_box"
@@ -112,21 +111,22 @@
         app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861"
+        app:layout_constraintVertical_bias="0.894"
         app:srcCompat="@drawable/boite" />
 
     <ImageButton
-        android:id="@+id/button_sandbox_arrive"
+        android:id="@+id/button_sandbox_mur"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:contentDescription="@string/text_arrive"
+        android:contentDescription="@string/text_mur"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861"
-        app:srcCompat="@drawable/arrivee" />
+        app:layout_constraintVertical_bias="0.894"
+        app:srcCompat="@drawable/mur" />
 
     <Button
         android:id="@+id/save_game"
@@ -231,14 +231,13 @@
 
     <ImageView
         android:id="@+id/lightIsTested"
-        android:layout_width="24dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="2dp"
+        android:layout_width="28dp"
+        android:layout_height="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/list_nb_lines"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toEndOf="@+id/text_sandbox_column"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/red_circle" />
 
