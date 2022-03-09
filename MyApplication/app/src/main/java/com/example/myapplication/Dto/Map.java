@@ -116,25 +116,25 @@ public class Map implements Serializable
                 "    {\n" +
                 "        \"id\":\"4\",\n" +
                 "        \"indexRow\":\"2\",\n" +
-                "        \"content\":\"#C####\",\n" +
+                "        \"content\":\"#C...#\",\n" +
                 "        \"idMap\":\"-1\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"id\":\"5\",\n" +
                 "        \"indexRow\":\"3\",\n" +
-                "        \"content\":\"#.#...\",\n" +
+                "        \"content\":\"#.#..#\",\n" +
                 "        \"idMap\":\"-1\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"id\":\"6\",\n" +
                 "        \"indexRow\":\"4\",\n" +
-                "        \"content\":\"#X#...\",\n" +
+                "        \"content\":\"#X#..#\",\n" +
                 "        \"idMap\":\"-1\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"id\":\"7\",\n" +
                 "        \"indexRow\":\"5\",\n" +
-                "        \"content\":\"###...\",\n" +
+                "        \"content\":\"######\",\n" +
                 "        \"idMap\":\"-1\"\n" +
                 "    }\n" +
                 "]";
