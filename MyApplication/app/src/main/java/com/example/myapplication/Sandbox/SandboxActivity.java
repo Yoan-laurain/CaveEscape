@@ -328,7 +328,7 @@ public class SandboxActivity extends AppCompatActivity
                         {
                             myMap.setIsTested(false);
                             MapDAO.updateMap(this, myMap);
-                        } else
+                    } else
                         {
                             MapDAO.saveMap(this, myMap);
                         }

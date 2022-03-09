@@ -56,6 +56,9 @@ public class GameActivity extends AppCompatActivity
         if (myMap.getIdMap() == -1){
             Map.HardCodedMap(this);
         }
+        else if (myMap.getIdMap() == -2){
+            Map.FileMapLine(this);
+        }
         else {
             MapDAO.GetMap(this, null, String.valueOf(myMap.getIdMap()));
         }
