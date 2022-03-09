@@ -344,7 +344,7 @@ public class SandboxActivity extends AppCompatActivity
                         if (Modification)
                         {
                             System.out.println(myMap.getIsTested());
-                            myMap.setIsTested(false);
+                            //myMap.setIsTested(false);
 
                             System.out.println(myMap.getIsTested());
                             MapDAO.updateMap(this, myMap);
