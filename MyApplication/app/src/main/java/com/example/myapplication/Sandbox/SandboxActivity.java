@@ -1,6 +1,7 @@
 package com.example.myapplication.Sandbox;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -42,6 +44,7 @@ public class SandboxActivity extends AppCompatActivity
     Button saveButton;
     Button deleteButton;
     Button testButton;
+    ImageView light;
 
     Spinner spinnerLines;
     Spinner spinnerColumns;
@@ -83,7 +86,7 @@ public class SandboxActivity extends AppCompatActivity
         spinnerLines = findViewById(R.id.list_nb_lines);
         spinnerColumns = findViewById(R.id.list_nb_columns);
         gameBoard = findViewById(R.id.sandbox_gameBoard);
-
+        light = findViewById(R.id.lightIsTested);
 
         // --------------------- Tool Selector --------------------------- //
 
@@ -110,28 +113,31 @@ public class SandboxActivity extends AppCompatActivity
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
         //----------------------------- Trying To Load a Map ---------------------------//
-        try
-        {
-            spinnerLines.setSelection( myMap.getNbRows() - 1 );
-            spinnerColumns.setSelection( myMap.getNbColumns() - 1 );
-            matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+        try {
+            spinnerLines.setSelection(myMap.getNbRows() - 1);
+            spinnerColumns.setSelection(myMap.getNbColumns() - 1);
+            matrix = new int[myMap.getNbColumns() * myMap.getNbRows()];
 
-            deleteButton.setOnClickListener(var ->{
-                MapDAO.DeleteMap( myMap.getIdMap());
+            deleteButton.setOnClickListener(var -> {
+                MapDAO.DeleteMap(myMap.getIdMap());
                 this.finish();
-                });
+            });
 
-            MapDAO.GetMap( null,this, String.valueOf( myMap.getIdMap() ) );
+            MapDAO.GetMap(null, this, String.valueOf(myMap.getIdMap()));
             mapName.setText(myMap.getNom());
             nbRowTemp = myMap.getNbRows();
             Modification = true;
 
+            if (myMap.getIsTested()) {
+                light.setImageResource(R.drawable.green_circle);
+            }
         }
         // ------------------------------- No map To load ------------------------------//
         catch(Exception e)
         {
             spinnerLines.setSelection(4);
             spinnerColumns.setSelection(4);
+
             myMap = new Map(0,"",5,5,false, LoadingActivity.idClient);
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
@@ -139,8 +145,9 @@ public class SandboxActivity extends AppCompatActivity
             {
                 matrix[i] = images[2];
             }
-            //Modification = false;
+            light.setImageResource(R.drawable.red_circle);
         }
+
 
         // --------------------------- Size Selector (Rows) --------------------------------------//
         spinnerLines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -148,6 +155,12 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
+
+                if ( position != myMap.getNbRows()-1 )
+                {
+                    light.setImageResource(R.drawable.red_circle);
+                }
+
                 int nbLinesTemp = myMap.getNbRows();
 
                 myMap.setNbRows(position + 1);
@@ -194,6 +207,10 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
+                if ( position != myMap.getNbColumns()-1 )
+                {
+                    light.setImageResource(R.drawable.red_circle);
+                }
                 int nbColumnTemp = myMap.getNbColumns();
 
                 myMap.setNbColumns(position + 1);
@@ -326,12 +343,16 @@ public class SandboxActivity extends AppCompatActivity
                         myMap.setName(mapName.getText().toString());
                         if (Modification)
                         {
+                            System.out.println(myMap.getIsTested());
                             myMap.setIsTested(false);
+
+                            System.out.println(myMap.getIsTested());
                             MapDAO.updateMap(this, myMap);
                         } else
                         {
                             MapDAO.saveMap(this, myMap);
                         }
+                        Toast.makeText(this, "Map saved ! ", Toast.LENGTH_SHORT).show();
 
                     } else {
                         Toast.makeText(this, "You don't have enough end zone(s) for you're box(s)! ", Toast.LENGTH_LONG).show();
@@ -442,7 +463,6 @@ public class SandboxActivity extends AppCompatActivity
 
 
         }
-        finish();
     }
 
      // ------- Check if there is enough finish place for the number of boxes placed. ------------//
@@ -466,6 +486,7 @@ public class SandboxActivity extends AppCompatActivity
 
     public void ClickOnBoard(int position)
     {
+        int previousImages = matrix[position];
         if ( matrix[position] == images[0] )
         {
             nbPlayerPlaced--;
@@ -492,6 +513,11 @@ public class SandboxActivity extends AppCompatActivity
         {
             nbBoxPlaced++;
         }
+
+        if ( previousImages != matrix[position])
+        {
+            this.runOnUiThread(() -> light.setImageResource(R.drawable.red_circle));
+        }
         FillGameBoard();
     }
 
@@ -515,17 +541,30 @@ public class SandboxActivity extends AppCompatActivity
     public void TestGame()
     {
         if ( myMap.getIdMap() != 0 ){
-            HashMap params = new HashMap<>();
-            params.put("Map", myMap);
-            params.put("comingFromTest", true);
 
-            Navigation.switchActivities(this, GameActivity.class, params);
+            Intent intent=new Intent(this,GameActivity.class);
+            intent.putExtra("Map", myMap);
+            intent.putExtra("comingFromTest", true);
+            startActivityForResult(intent, 2);
         }
         else
         {
             Toast.makeText(this, "You need to save the map first !", Toast.LENGTH_SHORT).show();
         }
+    }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==2)
+        {
+            this.runOnUiThread(() ->
+            {
+                light.setImageResource(R.drawable.green_circle);
+                myMap.setIsTested(true);
+                MapDAO.UpdateIsTestMap(myMap);
+            });
+        }
     }
 }

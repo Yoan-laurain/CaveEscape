@@ -333,6 +333,8 @@ public class MapDAO
                 .add("idMap", String.valueOf(myMap.getIdMap()))
                 .build();
 
+        System.out.println("Result : " + (myMap.getIsTested() ? "1" : "0"));
+
         Request request = new Request.Builder()
                 .url(LoadingActivity.CONNEXION_API)
                 .post(formBody)

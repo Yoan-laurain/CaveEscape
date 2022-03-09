@@ -57,8 +57,8 @@ class MapDAO {
             "Trying to update a map",
             "Success to update a map",
             "Failure to update a map",
-            "UPDATE map SET nom = :nameMap, nbRows = :nbRows, nbColumns = :nbColumns, idClient = :idClient where idMap = :idMap;",
-            array("nameMap","nbRows","nbColumns","idClient","idMap")
+            "UPDATE map SET nom = :nameMap, nbRows = :nbRows, nbColumns = :nbColumns, idClient = :idClient, isTested =:isTested where idMap = :idMap;",
+            array("nameMap","nbRows","nbColumns","idClient","idMap","isTested")
         );        
     }
 
