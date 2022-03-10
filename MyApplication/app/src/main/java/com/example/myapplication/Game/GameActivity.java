@@ -47,6 +47,7 @@ public class GameActivity extends AppCompatActivity
     ArrayList<Integer> leftLimits = new ArrayList<>();
     ArrayList<Integer> rightLimits = new ArrayList<>();
     private boolean comingFromTest = false;
+    private int moveCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -167,6 +168,7 @@ public class GameActivity extends AppCompatActivity
      */
     public void move ( int movement )
     {
+        int oldPosition = currentPosition;
         try
         {
             if ( matrix[ currentPosition - movement ] != images[ 1 ] )
@@ -232,7 +234,9 @@ public class GameActivity extends AppCompatActivity
                         matrix[currentPosition] = images[0];
                     }
                 }
-
+                if (oldPosition != currentPosition){
+                    moveCount++;
+                }
                 FillGameBoard();
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest )
