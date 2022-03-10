@@ -16,7 +16,6 @@ public class AudioPlayer
 
     public static void Play( Context myContext, int music )
     {
-
         AudioManager manager = (AudioManager)myContext.getSystemService(Context.AUDIO_SERVICE);
         if(!manager.isMusicActive())
         {
@@ -29,16 +28,13 @@ public class AudioPlayer
 
     public static void stop()
     {
-        System.out.println("iNooooo");
-        System.out.println("RONG" + ring);
         ring.pause();
-
-
         ring.stop();
-        //ring.setVolume((float)0,(float)0);
-
-
     }
 
+    public static void Resume()
+    {
+        ring.start();
+    }
 
 }
