@@ -10,25 +10,34 @@ public class AudioPlayer
 {
     private static MediaPlayer ring;
 
-    public AudioPlayer ( Context myContext )
-    {
-        this.ring = MediaPlayer.create(myContext, R.raw.mainmusic);
-        Play(myContext);
-    }
-
     public static MediaPlayer getRing() {
         return ring;
     }
 
-    public void Play( Context myContext )
+    public static void Play( Context myContext, int music )
     {
+
         AudioManager manager = (AudioManager)myContext.getSystemService(Context.AUDIO_SERVICE);
         if(!manager.isMusicActive())
         {
-            ring = MediaPlayer.create(myContext, R.raw.mainmusic);
+            ring = MediaPlayer.create(myContext, music);
             ring.setLooping(true);
             ring.start();
         }
+
+    }
+
+    public static void stop()
+    {
+        System.out.println("iNooooo");
+        System.out.println("RONG" + ring);
+        ring.pause();
+
+
+        ring.stop();
+        //ring.setVolume((float)0,(float)0);
+
+
     }
 
 

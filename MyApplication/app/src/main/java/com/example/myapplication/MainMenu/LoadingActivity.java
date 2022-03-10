@@ -53,7 +53,7 @@ public class LoadingActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
 
-        AudioPlayer test = new AudioPlayer(this);
+        AudioPlayer.Play(this, R.raw.mainmusic);
         getIdClientFromPref();
         System.out.println("idClient récupéré : " + idClient);
         if(idClient.equals("0")){
@@ -81,7 +81,7 @@ public class LoadingActivity extends AppCompatActivity
         button_quit = findViewById(R.id.button_quit);
         button_quit.setOnClickListener(view -> {
 
-            AudioPlayer.getRing().stop();
+            AudioPlayer.stop();
             finishAffinity();
         });
     }
