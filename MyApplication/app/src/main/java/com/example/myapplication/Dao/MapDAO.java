@@ -32,6 +32,7 @@ public class MapDAO
     {
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "GetAllMap")
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
@@ -94,6 +95,7 @@ public class MapDAO
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "GetMapLineById")
                 .add("idMap", idMap)
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
@@ -155,6 +157,7 @@ public class MapDAO
                 .add("nbRows", String.valueOf( myMap.getNbRows() ) )
                 .add("nbColumns", String.valueOf( myMap.getNbColumns() ) )
                 .add("idClient", String.valueOf( myMap.getIdClient() ) )
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
@@ -203,6 +206,7 @@ public class MapDAO
                 .add("indexRow", String.valueOf( myMapLines.getIndexRow() ) )
                 .add("content", myMapLines.getContent()  )
                 .add("idMap", String.valueOf( myMapLines.getIdMap() ) )
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
@@ -233,6 +237,7 @@ public class MapDAO
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "DeleteMap")
                 .add("idMap", String.valueOf(idMap))
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
@@ -262,6 +267,7 @@ public class MapDAO
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "GetMapByClient")
                 .add("idClient", LoadingActivity.idClient)
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
@@ -331,9 +337,9 @@ public class MapDAO
                 .add("idClient", String.valueOf( myMap.getIdClient() ) )
                 .add("isTested",  myMap.getIsTested() ? "1" : "0")
                 .add("idMap", String.valueOf(myMap.getIdMap()))
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
-        System.out.println("Result : " + (myMap.getIsTested() ? "1" : "0"));
 
         Request request = new Request.Builder()
                 .url(LoadingActivity.CONNEXION_API)
@@ -370,6 +376,7 @@ public class MapDAO
                 .add("command", "UpdateIsTested")
                 .add("tested",myMap.getIsTested() ? "1" : "0")
                 .add("idMap", String.valueOf(myMap.getIdMap()))
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
@@ -401,6 +408,7 @@ public class MapDAO
                 .add("indexRow", String.valueOf( myMapLines.getIndexRow() ) )
                 .add("content", myMapLines.getContent()  )
                 .add("idMap", String.valueOf( myMapLines.getIdMap() ) )
+                .add("api_key",LoadingActivity.API_KEY)
                 .build();
 
         Request request = new Request.Builder()
