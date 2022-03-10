@@ -47,6 +47,8 @@ public class GameActivity extends AppCompatActivity
     ArrayList<Integer> leftLimits = new ArrayList<>();
     ArrayList<Integer> rightLimits = new ArrayList<>();
     private boolean comingFromTest = false;
+    int moveCount;
+    TextView textMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +66,7 @@ public class GameActivity extends AppCompatActivity
         down = findViewById(R.id.button_game_down);
         restart = findViewById(R.id.button_game_reload);
         quit = findViewById(R.id.button_game_goback);
+        textMove = findViewById(R.id.textMoveCount);
 
         //-------------------------------------------------------------------- //
 
@@ -84,6 +87,7 @@ public class GameActivity extends AppCompatActivity
         view_text_level.setText(myMap.getNom());
         Bundle args = new Bundle();
         comingFromTest = args.getBoolean("comingFromTest");
+        textMove.setText("0");
 
         //-------------------------------------------------------------------- //
 
@@ -167,6 +171,7 @@ public class GameActivity extends AppCompatActivity
      */
     public void move ( int movement )
     {
+        int oldPosition = currentPosition;
         try
         {
             if ( matrix[ currentPosition - movement ] != images[ 1 ] )
@@ -232,7 +237,8 @@ public class GameActivity extends AppCompatActivity
                         matrix[currentPosition] = images[0];
                     }
                 }
-
+                if (oldPosition != currentPosition){ moveCount++; }
+                textMove.setText(String.valueOf(moveCount));
                 FillGameBoard();
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest )
