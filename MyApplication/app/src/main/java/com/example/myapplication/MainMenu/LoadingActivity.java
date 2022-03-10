@@ -1,12 +1,17 @@
 package com.example.myapplication.MainMenu;
 
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Lib.AudioPlayer;
 import com.example.myapplication.Lib.Security;
 import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.Option.OptionActivity;
@@ -48,6 +53,7 @@ public class LoadingActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
 
+        AudioPlayer test = new AudioPlayer(this);
         getIdClientFromPref();
         System.out.println("idClient récupéré : " + idClient);
         if(idClient.equals("0")){
@@ -73,7 +79,11 @@ public class LoadingActivity extends AppCompatActivity
         button_option.setOnClickListener(view -> Navigation.switchActivities(this, OptionActivity.class,params));
 
         button_quit = findViewById(R.id.button_quit);
-        button_quit.setOnClickListener(view -> finishAffinity());
+        button_quit.setOnClickListener(view -> {
+
+            AudioPlayer.getRing().stop();
+            finishAffinity();
+        });
     }
 
     // --------------------------------- Create a New Id Client  ---------------------------------//
@@ -86,7 +96,5 @@ public class LoadingActivity extends AppCompatActivity
     private void getIdClientFromPref() {
         idClient = SharedPref.loadIdClient(this);
     }
-
-
 
 }
