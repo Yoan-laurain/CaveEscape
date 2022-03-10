@@ -9,6 +9,7 @@ import com.example.myapplication.R;
 public class AudioPlayer
 {
     private static MediaPlayer ring;
+    private static int currentSong = 0;
 
     public static MediaPlayer getRing() {
         return ring;
@@ -17,8 +18,16 @@ public class AudioPlayer
     public static void Play( Context myContext, int music )
     {
         AudioManager manager = (AudioManager)myContext.getSystemService(Context.AUDIO_SERVICE);
-        if(!manager.isMusicActive())
+
+
+        if( !manager.isMusicActive() || ( music != currentSong && currentSong != 0 ) )
         {
+            if ( manager.isMusicActive() )
+            {
+                ring.stop();
+            }
+
+            currentSong = music;
             ring = MediaPlayer.create(myContext, music);
             ring.setLooping(true);
             ring.start();
