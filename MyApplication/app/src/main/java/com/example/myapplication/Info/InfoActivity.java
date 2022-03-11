@@ -56,6 +56,7 @@ public class InfoActivity extends AppCompatActivity
             {
                 AudioPlayer.Play(this,R.raw.hugo_easter_egg);
                 coutNbTouchH = 0;
+                AudioPlayer.isAnEasterEgg = true;
             }
 
         });
@@ -68,6 +69,7 @@ public class InfoActivity extends AppCompatActivity
             {
                 AudioPlayer.Play(this,R.raw.nathan_esater_oeuf);
                 coutNbTouchN = 0;
+                AudioPlayer.isAnEasterEgg = true;
             }
 
         });
@@ -80,6 +82,7 @@ public class InfoActivity extends AppCompatActivity
             {
                 AudioPlayer.Play(this,R.raw.yoan_easter_oeuf);
                 coutNbTouchY = 0;
+                AudioPlayer.isAnEasterEgg = true;
             }
 
         });

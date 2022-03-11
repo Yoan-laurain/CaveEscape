@@ -53,7 +53,9 @@ public class LoadingActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
 
-        AudioPlayer.Play(this, R.raw.mainmusic);
+        if (!AudioPlayer.isAnEasterEgg){
+            AudioPlayer.Play(this, R.raw.mainmusic);
+        }
         getIdClientFromPref();
         System.out.println("idClient récupéré : " + idClient);
         if(idClient.equals("0")){

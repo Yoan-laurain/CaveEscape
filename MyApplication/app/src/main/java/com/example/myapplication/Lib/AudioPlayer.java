@@ -10,6 +10,7 @@ public class AudioPlayer
 {
     private static MediaPlayer ring;
     private static int currentSong = 0;
+    public static boolean isAnEasterEgg = false;
 
     public static MediaPlayer getRing() {
         return ring;
