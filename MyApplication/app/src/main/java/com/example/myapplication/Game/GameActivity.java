@@ -98,7 +98,11 @@ public class GameActivity extends AppCompatActivity
         up.setOnClickListener(var -> move( myMap.getNbColumns() ) );
         down.setOnClickListener(var -> move( - myMap.getNbColumns() ) );
         getMapLimits();
-        restart.setOnClickListener(var -> MapDAO.GetMap( this,null, String.valueOf( resetMap.getIdMap() ) ));
+        restart.setOnClickListener(var ->{
+            MapDAO.GetMap( this,null, String.valueOf( resetMap.getIdMap() ) );
+            moveCount = 0;
+            textMove.setText("0");
+        });
         quit.setOnClickListener(var -> finish());
 
         //-------------------------------------------------------------------- //
