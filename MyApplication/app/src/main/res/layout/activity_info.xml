@@ -46,22 +46,55 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/text_Info"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:id="@+id/text_Info2"
+        android:layout_width="369dp"
+        android:layout_height="66dp"
         android:layout_marginTop="140dp"
         android:fontFamily="@font/new_rocker"
-        android:text="@string/text_info"
+        android:text="@string/text_info2"
         android:textAlignment="center"
         android:textColor="#F2FFFFFF"
         android:textSize="40sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/button_info_return"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633" />
+        app:layout_constraintVertical_bias="0.186" />
+
+    <TextView
+        android:id="@+id/text_Info3"
+        android:layout_width="369dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="140dp"
+        android:fontFamily="@font/new_rocker"
+        android:text="@string/text_info3"
+        android:textAlignment="center"
+        android:textColor="#F2FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/button_info_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.352" />
+
+    <TextView
+        android:id="@+id/text_Info"
+        android:layout_width="369dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="140dp"
+        android:fontFamily="@font/new_rocker"
+        android:text="@string/text_info1"
+        android:textAlignment="center"
+        android:textColor="#F2FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/button_info_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02" />
 
 
 </android.support.constraint.ConstraintLayout>

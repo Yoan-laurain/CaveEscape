@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Cave Escape</string>
     <string name="text_copyright">\@copyright sudodo_developers</string>
-    <string name="text_info">Yoan Laurain \n Hugo Carricart \n Nathan Lesourd </string>
+    <string name="text_info1">Yoan Laurain</string>
+    <string name="text_info2">Hugo Carricart</string>
+    <string name="text_info3">Nathan Lesourd</string>
 
     /** PAGE  **/
     <string name="text_play">PLAY</string>

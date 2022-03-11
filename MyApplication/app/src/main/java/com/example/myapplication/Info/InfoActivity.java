@@ -19,8 +19,12 @@ public class InfoActivity extends AppCompatActivity
     Button button_return;
     ImageView background;
     HashMap params = new HashMap<>();
-    TextView easterEgg;
-    int coutNbTouch = 0;
+    TextView easterEggYoan;
+    TextView easterEggHugo;
+    TextView easterEggNathan;
+    int coutNbTouchH = 0;
+    int coutNbTouchN = 0;
+    int coutNbTouchY = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,7 +36,10 @@ public class InfoActivity extends AppCompatActivity
 
         background = findViewById(R.id.View_BackGround_Info);
         button_return = findViewById(R.id.button_info_return);
-        easterEgg = findViewById(R.id.text_Info);
+        easterEggYoan = findViewById(R.id.text_Info);
+        easterEggHugo = findViewById(R.id.text_Info2);
+        easterEggNathan = findViewById(R.id.text_Info3);
+
 
 
         //-------------------------------------------------------------------- //
@@ -40,13 +47,27 @@ public class InfoActivity extends AppCompatActivity
         //---------------------- Set clicks actions -------------------------- //
 
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, OptionActivity.class,params));
-        easterEgg.setOnClickListener(var ->
+        easterEggHugo.setOnClickListener(var ->
         {
-            coutNbTouch++;
-            if ( coutNbTouch == 5 )
+            coutNbTouchH++;
+            coutNbTouchN = 0;
+            coutNbTouchY = 0;
+            if ( coutNbTouchH == 5 )
             {
                 AudioPlayer.Play(this,R.raw.hugo_easter_egg);
-                coutNbTouch = 0;
+                coutNbTouchH = 0;
+            }
+
+        });
+        easterEggNathan.setOnClickListener(var ->
+        {
+            coutNbTouchN++;
+            coutNbTouchH = 0;
+            coutNbTouchY = 0;
+            if ( coutNbTouchN == 5 )
+            {
+                AudioPlayer.Play(this,R.raw.nathan_esater_oeuf);
+                coutNbTouchN = 0;
             }
 
         });
