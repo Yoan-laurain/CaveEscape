@@ -102,6 +102,10 @@ public class GameActivity extends AppCompatActivity
             MapDAO.GetMap( this,null, String.valueOf( resetMap.getIdMap() ) );
             moveCount = 0;
             textMove.setText("0");
+            nbBoxPlaced = 0;
+            countNbBox = 0;
+            caseTemp = images[2];
+
         });
         quit.setOnClickListener(var -> finish());
 
