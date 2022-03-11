@@ -71,6 +71,18 @@ public class InfoActivity extends AppCompatActivity
             }
 
         });
+        easterEggYoan.setOnClickListener(var ->
+        {
+            coutNbTouchY++;
+            coutNbTouchH = 0;
+            coutNbTouchN = 0;
+            if ( coutNbTouchY == 5 )
+            {
+                AudioPlayer.Play(this,R.raw.yoan_easter_oeuf);
+                coutNbTouchY = 0;
+            }
+
+        });
 
         //-------------------------------------------------------------------- //
 
