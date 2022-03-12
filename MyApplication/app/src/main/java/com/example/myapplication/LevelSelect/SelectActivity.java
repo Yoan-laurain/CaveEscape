@@ -27,16 +27,21 @@ public class SelectActivity extends AppCompatActivity
     private ArrayList<String> mTitle = new ArrayList<>();
     private final ArrayList<Map> ListMap = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        LevelDesign adapter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
+        ArrayList<String> bTitle = new ArrayList<>();
+
 
         //---------------------- Tool selector -------------------------------- //
 
         background = findViewById(R.id.View_BackGround_Select);
         button_return = findViewById(R.id.button_select_return);
+        ListView listLevel = findViewById(R.id.List_Level);
 
         //-------------------------------------------------------------------- //
 
@@ -47,8 +52,12 @@ public class SelectActivity extends AppCompatActivity
         //-------------------------------------------------------------------- //
 
         Glide.with(this).load(R.drawable.selectback).into(background);
-
-        MapDAO.GetAllMap(this,null);
+        bTitle.add("\n \n \n History");
+        bTitle.add("\n \n \n Community");
+        adapter = new LevelDesign(this,R.layout.row_title ,bTitle);
+        listLevel.setOnItemClickListener( (parent, view, position, id) -> callRightMethod(bTitle.get(position)));
+        listLevel.setAdapter(adapter);
+        //MapDAO.GetAllMap(this,null);
     }
 
     /*
@@ -95,5 +104,21 @@ public class SelectActivity extends AppCompatActivity
     {
         params.put("Map", mapSelected);
         Navigation.switchActivities(this, GameActivity.class,params);
+    }
+
+    public void callRightMethod(String titre ){
+        System.out.println(titre);
+        switch(titre){
+            case "\n \n \n Community" :
+                MapDAO.GetCommunityMap(this,null);
+                break;
+
+            case "\n \n \n History" :
+                MapDAO.GetHistoryMap(this,null);
+
+                break;
+        }
+
+
     }
 }
