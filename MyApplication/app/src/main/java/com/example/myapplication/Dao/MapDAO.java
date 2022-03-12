@@ -430,4 +430,120 @@ public class MapDAO
         });
     }
 
+    public static void GetHistoryMap(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "GetHistoryMap")
+                .add("api_key",LoadingActivity.API_KEY)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Error : " + e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String responseStr = Objects.requireNonNull(response.body()).string();
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    try
+                    {
+                        JSONArray jsonArrayMap = new JSONArray(responseStr);
+
+                        HashMap<Integer, Map> Maps = new HashMap<>();
+
+                        for (int i = 0; i < jsonArrayMap.length(); i++) {
+
+                            JSONObject json = jsonArrayMap.getJSONObject(i);
+
+                            Map myMap = Map.hydrateMap( json );
+
+                            Maps.put( myMap.getIdMap() , myMap );
+                        }
+                        if (myActivity == null) {
+                            myActivitySandBox.responseMap(Maps);
+                        } else {
+                            myActivity.responseMap(Maps);
+                        }
+
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void GetCommunityMap(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "GetCommunityMap")
+                .add("api_key",LoadingActivity.API_KEY)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Error : " + e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String responseStr = Objects.requireNonNull(response.body()).string();
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    try
+                    {
+                        JSONArray jsonArrayMap = new JSONArray(responseStr);
+
+                        HashMap<Integer, Map> Maps = new HashMap<>();
+
+                        for (int i = 0; i < jsonArrayMap.length(); i++) {
+
+                            JSONObject json = jsonArrayMap.getJSONObject(i);
+
+                            Map myMap = Map.hydrateMap( json );
+
+                            Maps.put( myMap.getIdMap() , myMap );
+                        }
+                        if (myActivity == null) {
+                            myActivitySandBox.responseMap(Maps);
+                        } else {
+                            myActivity.responseMap(Maps);
+                        }
+
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
 }

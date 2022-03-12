@@ -400,6 +400,7 @@ public class GameActivity extends AppCompatActivity
         nbBoxPlaced = 0;
         textMove.setText("0");
         currentStepTuto = 0;
+        caseTemp = images[2];
         responseMapLine(lesLinesMapsTemp);
     }
 

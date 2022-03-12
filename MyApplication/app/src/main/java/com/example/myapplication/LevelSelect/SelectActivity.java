@@ -26,29 +26,34 @@ public class SelectActivity extends AppCompatActivity
     HashMap params = new HashMap<>();
     private ArrayList<String> mTitle = new ArrayList<>();
     private final ArrayList<Map> ListMap = new ArrayList<>();
+    boolean selectedMenu = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
-
         //---------------------- Tool selector -------------------------------- //
 
         background = findViewById(R.id.View_BackGround_Select);
         button_return = findViewById(R.id.button_select_return);
+        ListView listLevel = findViewById(R.id.List_Level);
+
 
         //-------------------------------------------------------------------- //
 
         //---------------------- Set clicks actions -------------------------- //
 
-        button_return.setOnClickListener(view -> Navigation.switchActivities(this, LoadingActivity.class,params));
+        button_return.setOnClickListener(view -> returnAction());
 
         //-------------------------------------------------------------------- //
 
         Glide.with(this).load(R.drawable.selectback).into(background);
 
-        MapDAO.GetAllMap(this,null);
+        printChoices();
+
     }
 
     /*
@@ -96,4 +101,47 @@ public class SelectActivity extends AppCompatActivity
         params.put("Map", mapSelected);
         Navigation.switchActivities(this, GameActivity.class,params);
     }
+
+    public void printChoices(){
+        System.out.println("print choices");
+        ListView listLevel = findViewById(R.id.List_Level);
+
+        ArrayList<String> bTitle = new ArrayList<>();
+        LevelDesign adapter;
+
+        bTitle.add("\n \n \n History");
+        bTitle.add("\n \n \n Community");
+
+        adapter = new LevelDesign(this,R.layout.row_title ,bTitle);
+        listLevel.setOnItemClickListener( (parent, view, position, id) -> callRightMethod(bTitle.get(position)));
+        listLevel.setAdapter(adapter);
+    }
+
+    public void callRightMethod(String titre ){
+        System.out.println(titre);
+        selectedMenu = true;
+        switch(titre){
+            case "\n \n \n Community" :
+                MapDAO.GetCommunityMap(this,null);
+                break;
+
+            case "\n \n \n History" :
+                MapDAO.GetHistoryMap(this,null);
+                break;
+
+            default:
+                System.out.println("default case" );
+                break;
+        }
+    }
+
+    public void returnAction(){
+        if (selectedMenu) {
+            selectedMenu = false;
+            printChoices();
+        } else {
+            Navigation.switchActivities(this, LoadingActivity.class, params);
+        }
+    }
+
 }

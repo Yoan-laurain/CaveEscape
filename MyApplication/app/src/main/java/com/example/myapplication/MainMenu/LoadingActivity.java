@@ -61,7 +61,6 @@ public class LoadingActivity extends AppCompatActivity
         getIdClientFromPref();
         System.out.println("idClient récupéré : " + idClient);
         if(idClient.equals("0")){
-            System.out.println("je suis dans un if ");
             createIdClient();
 
             params.put("Map", Map.HardCodedMapHeader());
