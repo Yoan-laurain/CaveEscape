@@ -93,8 +93,6 @@ public class GameActivity extends AppCompatActivity
         comingFromTest = args.getBoolean("comingFromTest");
         textMove.setText("0");
 
-
-
         if (myMap.getIdMap() == -1){
             Map.HardCodedMap(this);
             try{

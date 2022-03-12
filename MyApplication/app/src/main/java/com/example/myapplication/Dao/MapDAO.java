@@ -4,6 +4,7 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.LevelSelect.SelectActivity;
+import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.Sandbox.SandboxActivity;
 import com.example.myapplication.Sandbox.SandboxMenuActivity;
@@ -25,66 +26,7 @@ import okhttp3.Response;
 
 public class MapDAO
 {
-    /*
-        Retrieve all map in the dataBase
-     */
-    public static void GetAllMap(SelectActivity myActivity, SandboxMenuActivity myActivitySandBox)
-    {
-        RequestBody formBody = new FormBody.Builder()
-                .add("command", "GetAllMap")
-                .add("api_key",LoadingActivity.API_KEY)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(LoadingActivity.CONNEXION_API)
-                .post(formBody)
-                .build();
-
-        OkHttpClient client = new OkHttpClient();
-
-        client.newCall(request).enqueue(new Callback() {
-
-            @Override
-            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Error : " + e);
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-                String responseStr = Objects.requireNonNull(response.body()).string();
-
-                if (!responseStr.equals("false") && !responseStr.equals(""))
-                {
-                    try
-                    {
-                        JSONArray jsonArrayMap = new JSONArray(responseStr);
-
-                        HashMap<Integer, Map> Maps = new HashMap<>();
-
-                        for (int i = 0; i < jsonArrayMap.length(); i++) {
-
-                            JSONObject json = jsonArrayMap.getJSONObject(i);
-
-                            Map myMap = Map.hydrateMap( json );
-
-                            Maps.put( myMap.getIdMap() , myMap );
-                        }
-                        if (myActivity == null) {
-                            myActivitySandBox.responseMap(Maps);
-                        } else {
-                            myActivity.responseMap(Maps);
-                        }
-
-                    }
-                    catch(JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
+    private static HashMap params = new HashMap();
 
 
     /*
@@ -145,6 +87,10 @@ public class MapDAO
                         e.printStackTrace();
                     }
                 }
+                else
+                {
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
+                }
             }
         });
     }
@@ -191,6 +137,10 @@ public class MapDAO
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+                else
+                {
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
                 }
             }
         });
@@ -319,6 +269,10 @@ public class MapDAO
                 else if(responseStr.equals("")){
                     HashMap<Integer, Map> lesMaps = new HashMap<>();
                     myActivitySandBox.responseMap(lesMaps);
+                }
+                else
+                {
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
                 }
             }
         });
@@ -484,6 +438,11 @@ public class MapDAO
                         e.printStackTrace();
                     }
                 }
+                else
+                {
+                    params.put("NetworkFailure","true");
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
+                }
             }
         });
     }
@@ -541,6 +500,11 @@ public class MapDAO
                     {
                         e.printStackTrace();
                     }
+                }
+                else
+                {
+                    params.put("NetworkFailure","true");
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
                 }
             }
         });

@@ -7,8 +7,11 @@ import android.media.MediaPlayer;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Dto.Map;
@@ -54,6 +57,12 @@ public class LoadingActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_loading);
+
+        ImageView warning = findViewById(R.id.warning);
+        View myView = findViewById(R.id.text_zone_warning);
+        TextView textWarning = findViewById(R.id.warning_text);
 
         if (!AudioPlayer.isAnEasterEgg){
             AudioPlayer.Play(this, R.raw.mainmusic);
@@ -69,8 +78,28 @@ public class LoadingActivity extends AppCompatActivity
             Navigation.switchActivities(this, GameActivity.class,params);
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loading);
+        Bundle args = getIntent().getExtras();
+
+        try {
+
+            String failure = args.getString("NetworkFailure");
+
+            if (  failure.equals("true") )
+            {
+                warning.setVisibility(View.VISIBLE);
+                myView.setVisibility(View.VISIBLE);
+                textWarning.setText("You might have trouble with your'e internet connexion or our server does come back later.");
+                textWarning.setVisibility(View.VISIBLE);
+
+                Toast.makeText(this, "Oups error ! Check your'e internet connexion", Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            warning.setVisibility(View.INVISIBLE);
+            myView.setVisibility(View.INVISIBLE);
+            textWarning.setVisibility(View.INVISIBLE);
+        }
 
         // ----------------------------- Loading Visual Elements ---------------------------------//
 
