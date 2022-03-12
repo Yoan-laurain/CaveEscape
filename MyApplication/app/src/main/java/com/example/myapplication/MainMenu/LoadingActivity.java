@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Dto.Map;
+import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.AudioPlayer;
 import com.example.myapplication.Lib.Security;
 import com.example.myapplication.Lib.SharedPref;
@@ -61,6 +63,11 @@ public class LoadingActivity extends AppCompatActivity
         if(idClient.equals("0")){
             System.out.println("je suis dans un if ");
             createIdClient();
+
+            params.put("Map", Map.HardCodedMapHeader());
+            params.put("Tuto", true);
+
+            Navigation.switchActivities(this, GameActivity.class,params);
         }
 
         super.onCreate(savedInstanceState);
