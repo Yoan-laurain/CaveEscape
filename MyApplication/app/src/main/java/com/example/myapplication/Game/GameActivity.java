@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity
 {
     GridView gameBoard;
     Map myMap;
-    int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.grass50,R.drawable.opened_cage,R.drawable.free_monster,R.drawable.caged_monster};
+    int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
     private int[] matrix;
     HashMap<Integer, MapLine> lesLinesMapsTemp;
     private int count;
