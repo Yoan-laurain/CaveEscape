@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.LevelDesign;
 import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
@@ -41,7 +43,7 @@ public class GameActivity extends AppCompatActivity
 {
     GridView gameBoard;
     Map myMap;
-    int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.grass50,R.drawable.opened_cage,R.drawable.free_monster,R.drawable.caged_monster};
+    int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
     private int[] matrix;
     HashMap<Integer, MapLine> lesLinesMapsTemp;
     private int count;
@@ -63,6 +65,7 @@ public class GameActivity extends AppCompatActivity
     TextView textMove;
     public PropertyChangeListener listener;
     private int currentStepTuto = 0;
+    private boolean tuto = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,7 +98,11 @@ public class GameActivity extends AppCompatActivity
         if (myMap.getIdMap() == -1){
             Map.HardCodedMap(this);
             try{
-                if ( args.getBoolean("Tuto") )
+
+                Bundle extras = getIntent().getExtras();
+                String isTuto = extras.getString("Tuto");
+
+                if ( isTuto.equals("true") )
                 {
                     ShowMovement();
                 }
@@ -297,11 +304,15 @@ public class GameActivity extends AppCompatActivity
                     Intent intent=new Intent();
                     intent.putExtra("MESSAGE","true");
                     setResult(2,intent);
-                    callPopUpEndGame();
+                    finish();
                 }
-                else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 )
+                else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
                     callPopUpEndGame();
+                }
+                else if ( nbBoxPlaced == countNbBox && tuto  )
+                {
+                    finish();
                 }
             }
         }
@@ -328,8 +339,9 @@ public class GameActivity extends AppCompatActivity
         if ( currentStepTuto == 0 )
         {
             ArrayList<String> text = new ArrayList<>();
-            text.add(" Bonjour et bienvenue dans Cave Escape ! Je m’appelle Noopy.Je suis ici pour vous expliquer les règles de mon jeu.");
-            text.add( " L'objectif est simple : placer les boîtes sur les zones d'arriver comment ? voyons ça ensemble ! ");
+            text.add(" Bonjour et bienvenue jeune héros ! Je m’appelle Noopy. Notre royaume c'est fait attaquer nous avons besoin de ton aide.");
+            text.add( " Il y a des aztaroth dans le royaume il faut les enfermer et vite ! Ils vont tous détruire !!");
+            text.add( " Je te montre comment faire et après c'est à ton tour ok? ");
             CallPopUp(text);
         }
         if ( currentStepTuto == 1 )
@@ -340,8 +352,8 @@ public class GameActivity extends AppCompatActivity
 
                 move( 1);
                 ArrayList<String> text = new ArrayList<>();
-                text.add(" Remarquez que vous ne pouvez pas sortir de la map ! les murs sont des obstacles qui vous poserons souvent soucis réfléchissez bien ! ");
-                text.add(" Allez déplaçons la caisse !");
+                text.add(" Tu feras attention il y a des murs ! ");
+                text.add(" Allez ramenons cet aztaroth dans sa cage et vite !");
                 CallPopUp(text);
 
             }, 500);
@@ -350,12 +362,15 @@ public class GameActivity extends AppCompatActivity
         {
             move( - myMap.getNbColumns());
             Handler handler = new Handler();
+            tuto = false;
             handler.postDelayed(() -> {
 
                 move( - myMap.getNbColumns());
                 ArrayList<String> text = new ArrayList<>();
-                text.add(" Voilà la partie est fini ! Vous pouvez vous amuser à travers les différents niveaux histoire ou communautaire ou créez en vous-même.");
-                text.add(" Allez à votre tour bonne chance !");
+                text.add(" Voilà le travail est terminé ! Merci infiniment le royaume à encore besoin de ton aide tu sais. ");
+                text.add(" Explore les différents niveaux et enferme tous les aztaroth ");
+                text.add(" Tu peux créé des niveaux si tu le souhaites mais ce n'est pas sympa il y a déjà beaucoup des monstres...");
+                text.add(" Allez à ton tour bonne chance !");
                 CallPopUp(text);
 
             }, 500);
@@ -363,6 +378,7 @@ public class GameActivity extends AppCompatActivity
         else
         {
             RefreshGame();
+            tuto = true;
         }
     }
 
@@ -410,9 +426,11 @@ public class GameActivity extends AppCompatActivity
         });
 
         popup.getnextLevel().setOnClickListener(var -> {
-            //CHARGE MAP HERE
+            MapDAO.GetNextMap(this,myMap.getIdMap() );
             myDiag.dismiss();
         });
+
+        popup.getReturn_back().setOnClickListener(var -> finish());
 
         myDiag.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myDiag.show();
@@ -423,6 +441,7 @@ public class GameActivity extends AppCompatActivity
         moveCount = 0;
         nbBoxPlaced = 0;
         textMove.setText("0");
+        view_text_level.setText(myMap.getNom());
         currentStepTuto = 0;
         caseTemp = images[2];
         responseMapLine(lesLinesMapsTemp);
@@ -445,5 +464,21 @@ public class GameActivity extends AppCompatActivity
                 popup.listenerActive=false;
             }
         }
+    }
+
+    public void ResponseNextLevel(Map newMap)
+    {
+        this.runOnUiThread(() ->
+        {
+            myMap = newMap;
+
+            MapDAO.GetMap(this, null, String.valueOf(myMap.getIdMap()));
+            moveCount = 0;
+            nbBoxPlaced = 0;
+            textMove.setText("0");
+            view_text_level.setText(myMap.getNom());
+            currentStepTuto = 0;
+            caseTemp = images[2];
+        });
     }
 }

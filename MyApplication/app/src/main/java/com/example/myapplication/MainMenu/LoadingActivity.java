@@ -69,11 +69,13 @@ public class LoadingActivity extends AppCompatActivity
         }
         getIdClientFromPref();
         System.out.println("idClient récupéré : " + idClient);
+
+
         if(idClient.equals("0")){
             createIdClient();
 
             params.put("Map", Map.HardCodedMapHeader());
-            params.put("Tuto", true);
+            params.put("Tuto", "true");
 
             Navigation.switchActivities(this, GameActivity.class,params);
         }
