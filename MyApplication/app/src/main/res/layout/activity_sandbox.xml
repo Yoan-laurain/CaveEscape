@@ -71,7 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.894"
-        app:srcCompat="@drawable/perso" />
+        app:srcCompat="@drawable/left_player" />
 
     <ImageButton
         android:id="@+id/button_sandbox_sol"
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.894"
-        app:srcCompat="@drawable/sol" />
+        app:srcCompat="@drawable/grass50" />
 
     <ImageButton
         android:id="@+id/button_sandbox_arrive"
@@ -98,7 +98,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.894"
-        app:srcCompat="@drawable/arrivee" />
+        app:srcCompat="@drawable/caged_monster" />
 
     <ImageButton
         android:id="@+id/button_sandbox_box"
@@ -112,7 +112,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.894"
-        app:srcCompat="@drawable/boite" />
+        app:srcCompat="@drawable/free_monster" />
 
     <ImageButton
         android:id="@+id/button_sandbox_mur"
@@ -126,7 +126,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.894"
-        app:srcCompat="@drawable/mur" />
+        app:srcCompat="@drawable/middle_straight_wall" />
 
     <Button
         android:id="@+id/save_game"

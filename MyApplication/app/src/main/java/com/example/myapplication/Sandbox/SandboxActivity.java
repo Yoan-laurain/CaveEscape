@@ -49,7 +49,7 @@ public class SandboxActivity extends AppCompatActivity
     Spinner spinnerLines;
     Spinner spinnerColumns;
     ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10) ) ;
-    int[] images = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
+    int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.grass50,R.drawable.opened_cage,R.drawable.free_monster,R.drawable.caged_monster};
     private int[] matrix;
     private int[] matrixTemp;
     private int count;
