@@ -71,8 +71,8 @@ public class LoadingActivity extends AppCompatActivity
         System.out.println("idClient récupéré : " + idClient);
 
 
-        if(!idClient.equals("0")){
-            //createIdClient();
+        if(idClient.equals("0")){
+            createIdClient();
 
             params.put("Map", Map.HardCodedMapHeader());
             params.put("Tuto", "true");

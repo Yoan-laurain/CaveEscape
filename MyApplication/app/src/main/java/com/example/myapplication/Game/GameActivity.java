@@ -65,6 +65,7 @@ public class GameActivity extends AppCompatActivity
     TextView textMove;
     public PropertyChangeListener listener;
     private int currentStepTuto = 0;
+    private boolean tuto = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -303,11 +304,15 @@ public class GameActivity extends AppCompatActivity
                     Intent intent=new Intent();
                     intent.putExtra("MESSAGE","true");
                     setResult(2,intent);
-                    callPopUpEndGame();
+                    finish();
                 }
-                else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 )
+                else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
                     callPopUpEndGame();
+                }
+                else if ( nbBoxPlaced == countNbBox && tuto  )
+                {
+                    finish();
                 }
             }
         }
@@ -357,6 +362,7 @@ public class GameActivity extends AppCompatActivity
         {
             move( - myMap.getNbColumns());
             Handler handler = new Handler();
+            tuto = false;
             handler.postDelayed(() -> {
 
                 move( - myMap.getNbColumns());
@@ -372,6 +378,7 @@ public class GameActivity extends AppCompatActivity
         else
         {
             RefreshGame();
+            tuto = true;
         }
     }
 
