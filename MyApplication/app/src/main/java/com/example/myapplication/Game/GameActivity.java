@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
+import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.Lib.TutoDesign;
@@ -42,7 +43,6 @@ public class GameActivity extends AppCompatActivity
     Map myMap;
     int[] images = {R.drawable.perso,R.drawable.mur,R.drawable.sol,R.drawable.arrivee,R.drawable.boite,R.drawable.caisse_verte};
     private int[] matrix;
-    private int[] matrixTemp;
     HashMap<Integer, MapLine> lesLinesMapsTemp;
     private int count;
     ImageButton left;
@@ -63,7 +63,6 @@ public class GameActivity extends AppCompatActivity
     TextView textMove;
     public PropertyChangeListener listener;
     private int currentStepTuto = 0;
-    private boolean isTutuPlayed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -92,8 +91,6 @@ public class GameActivity extends AppCompatActivity
         Bundle args = new Bundle();
         comingFromTest = args.getBoolean("comingFromTest");
         textMove.setText("0");
-
-
 
         if (myMap.getIdMap() == -1){
             Map.HardCodedMap(this);
@@ -300,11 +297,11 @@ public class GameActivity extends AppCompatActivity
                     Intent intent=new Intent();
                     intent.putExtra("MESSAGE","true");
                     setResult(2,intent);
-                    finish();//finishing activity
+                    callPopUpEndGame();
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 )
                 {
-                    this.finish();
+                    callPopUpEndGame();
                 }
             }
         }
@@ -378,8 +375,6 @@ public class GameActivity extends AppCompatActivity
         listener = event -> {
            RefreshTextPopUp(myDiag,popup,text);
         };
-
-
         popup.changes.addPropertyChangeListener(listener);
 
         Window window = myDiag.getWindow();
@@ -390,6 +385,35 @@ public class GameActivity extends AppCompatActivity
         window.setAttributes(wlp);
 
         myDiag.setContentView( popup.getView( null ) );
+        myDiag.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        myDiag.show();
+    }
+
+    public void callPopUpEndGame()
+    {
+        EndGame popup = new EndGame(this,R.layout.popup_end_game);
+        Dialog myDiag = new Dialog(this);
+        myDiag.setCanceledOnTouchOutside(false);
+
+        Window window = myDiag.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.CENTER;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+        myDiag.setContentView( popup.getView( null ) );
+
+        popup.getReplayGame().setOnClickListener(var -> {
+            RefreshGame();
+            myDiag.dismiss();
+        });
+
+        popup.getnextLevel().setOnClickListener(var -> {
+            //CHARGE MAP HERE
+            myDiag.dismiss();
+        });
+
         myDiag.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myDiag.show();
     }

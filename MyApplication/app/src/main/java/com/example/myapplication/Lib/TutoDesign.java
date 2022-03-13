@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
-public class TutoDesign extends Dialog implements PropertyChangeListener
+public class TutoDesign extends Dialog
 {
     // ---------------------------------------------
 
@@ -47,10 +47,6 @@ public class TutoDesign extends Dialog implements PropertyChangeListener
 
     // ---------------------------------------------
 
-    public String getText( int position ) {
-        return text.get(position);
-    }
-
     public int getCurrentText() {
         return currentText;
     }
@@ -72,18 +68,12 @@ public class TutoDesign extends Dialog implements PropertyChangeListener
         Button hidden_button = convertView.findViewById(R.id.hidden_button);
         hidden_button.setOnClickListener(var ->
                 {
-                    if ( end )
-                    {
-
-                    }
-                    else
+                    if ( !end )
                     {
                         currentText++;
                         this.listenerActive = true;
                         this.changes.firePropertyChange("listenerActive",false,true);
-
                     }
-
                 });
 
         dialog.setText( text.get(currentText) );
@@ -91,10 +81,6 @@ public class TutoDesign extends Dialog implements PropertyChangeListener
         return convertView;
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        System.out.println("Property changes");
-    }
     // ---------------------------------------------
 
 }

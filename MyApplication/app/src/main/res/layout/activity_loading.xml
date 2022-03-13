@@ -114,5 +114,43 @@
         app:layout_constraintVertical_bias="0.199"
         tools:ignore="TextContrastCheck" />
 
+    <ImageView
+        android:id="@+id/warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/text_titre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.221"
+        app:srcCompat="@drawable/warning" />
+
+    <view
+        android:id="@+id/text_zone_warning"
+        class="android.support.v7.widget.ActionMenuView"
+        android:layout_width="294dp"
+        android:layout_height="43dp"
+        android:background="#FFFCFC"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/text_titre"
+        app:layout_constraintEnd_toStartOf="@+id/warning"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.237" />
+
+    <TextView
+        android:id="@+id/warning_text"
+        android:layout_width="285dp"
+        android:layout_height="42dp"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/text_zone_warning"
+        app:layout_constraintEnd_toStartOf="@+id/warning"
+        app:layout_constraintStart_toStartOf="@+id/text_zone_warning"
+        app:layout_constraintTop_toTopOf="@+id/text_zone_warning" />
+
 </android.support.constraint.ConstraintLayout>
 
