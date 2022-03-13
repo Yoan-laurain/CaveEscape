@@ -15,9 +15,7 @@ public class Navigation
     {
         Intent NewActivities = new Intent( depart, arrive );
 
-
         Bundle b = new Bundle();
-
 
         for (Map.Entry mapEntry : params.entrySet() )
         {
