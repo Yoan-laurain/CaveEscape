@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.LevelDesign;
 import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
@@ -410,9 +412,11 @@ public class GameActivity extends AppCompatActivity
         });
 
         popup.getnextLevel().setOnClickListener(var -> {
-            //CHARGE MAP HERE
+            MapDAO.GetNextMap(this,myMap.getIdMap() );
             myDiag.dismiss();
         });
+
+        popup.getReturn_back().setOnClickListener(var -> finish());
 
         myDiag.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myDiag.show();
@@ -423,6 +427,7 @@ public class GameActivity extends AppCompatActivity
         moveCount = 0;
         nbBoxPlaced = 0;
         textMove.setText("0");
+        view_text_level.setText(myMap.getNom());
         currentStepTuto = 0;
         caseTemp = images[2];
         responseMapLine(lesLinesMapsTemp);
@@ -445,5 +450,21 @@ public class GameActivity extends AppCompatActivity
                 popup.listenerActive=false;
             }
         }
+    }
+
+    public void ResponseNextLevel(Map newMap)
+    {
+        this.runOnUiThread(() ->
+        {
+            myMap = newMap;
+
+            MapDAO.GetMap(this, null, String.valueOf(myMap.getIdMap()));
+            moveCount = 0;
+            nbBoxPlaced = 0;
+            textMove.setText("0");
+            view_text_level.setText(myMap.getNom());
+            currentStepTuto = 0;
+            caseTemp = images[2];
+        });
     }
 }

@@ -22,6 +22,11 @@ public class LifeCycle extends Application implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void onAppForegrounded()
     {
-        AudioPlayer.Resume();
+        try
+        {
+            AudioPlayer.Resume();
+        }
+        catch(Exception e){}
+
     }
 }
