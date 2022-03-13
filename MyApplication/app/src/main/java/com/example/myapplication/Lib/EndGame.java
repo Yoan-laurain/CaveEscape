@@ -21,6 +21,7 @@ public class EndGame extends Dialog
     private int idLayout;
     ImageView replayGame;
     Button nextLevel;
+    Button return_back;
 
     // ---------------------------------------------
 
@@ -36,6 +37,9 @@ public class EndGame extends Dialog
     public ImageView getReplayGame() { return replayGame; }
 
     public Button getnextLevel() { return nextLevel; }
+
+    public Button getReturn_back() { return return_back; }
+
     // ---------------------------------------------
 
     public View getView(View convertView)
@@ -50,8 +54,8 @@ public class EndGame extends Dialog
 
         replayGame = convertView.findViewById(R.id.replay_game_end);
 
-        Button return_back = convertView.findViewById(R.id.button_return);
-        return_back.setOnClickListener(var -> Navigation.switchActivities(context, SelectActivity.class,params));
+        return_back = convertView.findViewById(R.id.button_return);
+
 
         nextLevel = convertView.findViewById(R.id.button_next_level);
 

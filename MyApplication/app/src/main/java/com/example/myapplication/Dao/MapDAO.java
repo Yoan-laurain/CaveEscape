@@ -510,4 +510,55 @@ public class MapDAO
         });
     }
 
+    public static void GetNextMap(GameActivity myActivity, int idMap)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "GetNextMap")
+                .add("api_key",LoadingActivity.API_KEY)
+                .add("idMap",String.valueOf( idMap ) )
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Error : " + e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String responseStr = Objects.requireNonNull(response.body()).string();
+
+                if (!responseStr.equals("false") && !responseStr.equals(""))
+                {
+                    try
+                    {
+                        JSONObject json = new JSONObject(responseStr);
+
+                        Map myMap = Map.hydrateMap( json );
+
+                        myActivity.ResponseNextLevel(myMap);
+                    }
+                    catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    params.put("NetworkFailure","true");
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
+                }
+            }
+        });
+    }
+
 }
