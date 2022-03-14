@@ -61,6 +61,8 @@ public class LoadingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+        //setidNato();
+
         ImageView warning = findViewById(R.id.warning);
         View myView = findViewById(R.id.text_zone_warning);
         TextView textWarning = findViewById(R.id.warning_text);
@@ -138,4 +140,8 @@ public class LoadingActivity extends AppCompatActivity
         idClient = SharedPref.loadIdClient(this);
     }
 
+
+    private void setidNato(){
+        SharedPref.SaveIdClient(this, "BKxkND1Bb80N");
+    }
 }

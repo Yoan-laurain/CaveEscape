@@ -68,6 +68,10 @@ public class SelectActivity extends AppCompatActivity
             ListView listLevel = findViewById(R.id.List_Level);
             LevelDesign adapter;
 
+            
+            mTitle.clear();
+            ListMap.clear();
+
             if ( Maps.size() > 0 )
             {
 
