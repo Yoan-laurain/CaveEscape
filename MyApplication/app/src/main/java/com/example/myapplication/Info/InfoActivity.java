@@ -22,6 +22,7 @@ public class InfoActivity extends AppCompatActivity
     TextView easterEggYoan;
     TextView easterEggHugo;
     TextView easterEggNathan;
+
     int coutNbTouchH = 0;
     int coutNbTouchN = 0;
     int coutNbTouchY = 0;
@@ -39,8 +40,6 @@ public class InfoActivity extends AppCompatActivity
         easterEggYoan = findViewById(R.id.text_Info);
         easterEggHugo = findViewById(R.id.text_Info2);
         easterEggNathan = findViewById(R.id.text_Info3);
-
-
 
         //-------------------------------------------------------------------- //
 

@@ -60,10 +60,7 @@ public class TextModeration
                         {
                             myActivity.ResponseTextModeration(false);
                         }
-                        else
-                        {
-                            System.out.println(true);
-                        }
+
                     }
                     catch (JSONException e)
                     {

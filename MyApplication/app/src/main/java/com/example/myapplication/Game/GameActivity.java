@@ -339,9 +339,9 @@ public class GameActivity extends AppCompatActivity
         if ( currentStepTuto == 0 )
         {
             ArrayList<String> text = new ArrayList<>();
-            text.add(" Bonjour et bienvenue jeune héros ! Je m’appelle Noopy. Notre royaume c'est fait attaquer nous avons besoin de ton aide.");
-            text.add( " Il y a des aztaroth dans le royaume il faut les enfermer et vite ! Ils vont tous détruire !!");
-            text.add( " Je te montre comment faire et après c'est à ton tour ok? ");
+            text.add(" Hello and welcome young hero! My name is Noopy. Our kingdom is under attack, we need your help.");
+            text.add( "There are aztaroths in the kingdom, they must be locked up and quickly! They will destroy everything!!");
+            text.add( " I show you how to do it and then it's your turn ok? ");
             CallPopUp(text);
         }
         if ( currentStepTuto == 1 )
@@ -352,8 +352,8 @@ public class GameActivity extends AppCompatActivity
 
                 move( 1);
                 ArrayList<String> text = new ArrayList<>();
-                text.add(" Tu feras attention il y a des murs ! ");
-                text.add(" Allez ramenons cet aztaroth dans sa cage et vite !");
+                text.add(" You need to be careful there are walls! ");
+                text.add(" Come on, let's bring this aztaroth back to its cage and quickly !");
                 CallPopUp(text);
 
             }, 500);
@@ -367,10 +367,9 @@ public class GameActivity extends AppCompatActivity
 
                 move( - myMap.getNbColumns());
                 ArrayList<String> text = new ArrayList<>();
-                text.add(" Voilà le travail est terminé ! Merci infiniment le royaume à encore besoin de ton aide tu sais. ");
-                text.add(" Explore les différents niveaux et enferme tous les aztaroth ");
-                text.add(" Tu peux créé des niveaux si tu le souhaites mais ce n'est pas sympa il y a déjà beaucoup des monstres...");
-                text.add(" Allez à ton tour bonne chance !");
+                text.add(" Well the job is done! Thank you very much. The kingdom still needs your help you know. ");
+                text.add(" You can create levels if you want but it's not nice there are already a lot of monsters...");
+                text.add(" Now it's your'e turn good luck ! ");
                 CallPopUp(text);
 
             }, 500);

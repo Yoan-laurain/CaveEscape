@@ -350,10 +350,7 @@ public class SandboxActivity extends AppCompatActivity
                             myMap.setName(mapName.getText().toString());
                             if (Modification)
                             {
-                                System.out.println(myMap.getIsTested());
                                 //myMap.setIsTested(false);
-
-                                System.out.println(myMap.getIsTested());
                                 MapDAO.updateMap(this, myMap);
                             } else
                             {
@@ -375,7 +372,7 @@ public class SandboxActivity extends AppCompatActivity
             }
             else
             {
-                Toast.makeText(this, "The name of the name is unacceptable", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "The name of the map is unacceptable", Toast.LENGTH_SHORT).show();
             }
 
         }
