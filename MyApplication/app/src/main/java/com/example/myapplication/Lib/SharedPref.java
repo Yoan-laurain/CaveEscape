@@ -28,7 +28,6 @@ public class SharedPref
         editor.putString("idClient",myIdClient);
         editor.apply();
 
-        Toast.makeText(myActivity,"Setting saved!",Toast.LENGTH_LONG).show();
     }
 
 }

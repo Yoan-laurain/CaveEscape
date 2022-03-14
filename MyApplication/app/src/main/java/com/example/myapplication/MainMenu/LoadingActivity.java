@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Dao.HistoryDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.AudioPlayer;
@@ -43,9 +44,9 @@ public class LoadingActivity extends AppCompatActivity
 
     // ---------------------------------- Variables ----------------------------------------------//
     HashMap params = new HashMap<>();
-    public final static String CONNEXION_API = "http://51.254.96.53:8383/api.php";
+    //public final static String CONNEXION_API = "http://51.254.96.53:8383/api.php";
     public final static String API_KEY = "43d24893a0ca4dfdacbbc6f0b3067804";
-    //public final static String CONNEXION_API = "http://192.168.1.96:8383/CaveEscapeServer/API.php";
+    public final static String CONNEXION_API = "http://192.168.1.96:8383/CaveEscapeServer/API.php";
     //public final static String CONNEXION_API = "http://192.168.0.14/CaveEscapeServer/API.php";
 
     public static String idClient;
@@ -73,6 +74,7 @@ public class LoadingActivity extends AppCompatActivity
 
         if(idClient.equals("0")){
             createIdClient();
+            HistoryDAO.NewPlayer(idClient);
 
             params.put("Map", Map.HardCodedMapHeader());
             params.put("Tuto", "true");
