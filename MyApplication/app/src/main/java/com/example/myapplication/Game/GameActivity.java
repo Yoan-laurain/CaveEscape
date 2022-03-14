@@ -97,7 +97,6 @@ public class GameActivity extends AppCompatActivity
         }
         catch(Exception e){}
 
-
         textMove.setText("0");
 
         if (myMap.getIdMap() == -1){
@@ -241,8 +240,8 @@ public class GameActivity extends AppCompatActivity
                     //check if a box is on the edge of the map
                     if ((!leftLimits.contains(currentPosition - movement) &&  - movement == -1) || (!rightLimits.contains(currentPosition - movement) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
                         //check if the player is on the edge of the map
-                        if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
-
+                        if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1)
+                        {
                             matrix[currentPosition] = caseTemp;
                             caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? caseTemp = matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
 
@@ -327,6 +326,9 @@ public class GameActivity extends AppCompatActivity
     }
 
     public void getMapLimits(){
+
+        leftLimits = new ArrayList<>();
+        rightLimits = new ArrayList<>();
 
         for(int i = 0; i < (myMap.getNbColumns() * myMap.getNbRows()); i++){
             double currentLine = Math.ceil(i/ myMap.getNbColumns());
@@ -484,6 +486,7 @@ public class GameActivity extends AppCompatActivity
             view_text_level.setText(myMap.getNom());
             currentStepTuto = 0;
             caseTemp = images[2];
+            getMapLimits();
         });
     }
 }
