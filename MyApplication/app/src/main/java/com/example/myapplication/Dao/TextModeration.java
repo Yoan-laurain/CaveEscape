@@ -22,7 +22,7 @@ public class TextModeration
     {
         RequestBody formBody = new FormBody.Builder()
                 .add("text", myText)
-                .add("lang", "fr")
+                .add("lang", "fr,en")
                 .add("opt_countries","us,gb,fr")
                 .add("mode","standard")
                 .add("api_user","1461132288")
@@ -55,6 +55,7 @@ public class TextModeration
                         JSONObject json = new JSONObject(responseStr);
 
                         JSONArray jsonArray = json.getJSONObject("profanity").getJSONArray("matches");
+                        System.out.println("Response : " + jsonArray.length());
 
                         if ( jsonArray.length() != 0 )
                         {
