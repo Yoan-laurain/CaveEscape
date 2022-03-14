@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Lib.LevelDesign;
+import com.example.myapplication.Lib.SandBoxLevelDesigner;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.Lib.Navigation;
@@ -32,6 +33,7 @@ public class SandboxMenuActivity extends AppCompatActivity
     // ---------------------------------------- Variables ----------------------------------------//
     HashMap params = new HashMap<>();
     private ArrayList<String> mTitle = new ArrayList<>();
+    private ArrayList<Boolean> mIsTested = new ArrayList<>();
     private ArrayList<Map> ListMap = new ArrayList<>();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,13 +78,15 @@ public class SandboxMenuActivity extends AppCompatActivity
             if ( lesMaps.size() > 0 )
             {
                 mTitle = new ArrayList<>();
+                mIsTested = new ArrayList<>();
                 ListMap = new ArrayList<>();
                 lesMaps.values().forEach(tab -> {
                     mTitle.add(tab.getNom());
+                    mIsTested.add(tab.getIsTested());
                     ListMap.add(tab);
                 });
                 ListView listLevel = findViewById(R.id.List_Level_SandBox);
-                LevelDesign adapter = new LevelDesign(this,R.layout.row ,mTitle);
+                SandBoxLevelDesigner adapter = new SandBoxLevelDesigner(this,R.layout.sandbox_level ,mTitle,mIsTested);
                 listLevel.setAdapter(adapter);
 
                 listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( ListMap.get( position ) ) );
@@ -90,7 +94,7 @@ public class SandboxMenuActivity extends AppCompatActivity
             else
             {
                 ListView listLevel = findViewById(R.id.List_Level_SandBox);
-                LevelDesign adapter = new LevelDesign(this,R.layout.row,new ArrayList<>());
+                SandBoxLevelDesigner adapter = new SandBoxLevelDesigner(this,R.layout.row,new ArrayList<>(),new ArrayList<>());
                 listLevel.setAdapter(adapter);
             }
         });

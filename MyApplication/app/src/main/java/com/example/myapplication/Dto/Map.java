@@ -224,7 +224,7 @@ public class Map implements Serializable
             HashMap<Integer, MapLine> LinesMaps = new HashMap<>();
 
             for (int j = 0; j < jsonArrayMap.length(); j++) {
-                System.out.println(jsonArrayMap.getJSONObject(j).toString());
+
                 JSONObject json = jsonArrayMap.getJSONObject(j);
 
                 MapLine myMapLine = MapLine.hydrateMap(json);

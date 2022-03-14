@@ -49,7 +49,7 @@ public class SandboxActivity extends AppCompatActivity
 
     Spinner spinnerLines;
     Spinner spinnerColumns;
-    ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10) ) ;
+    ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8) ) ;
     int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
     private int[] matrix;
     private int[] matrixTemp;
@@ -288,6 +288,7 @@ public class SandboxActivity extends AppCompatActivity
     public void responseMapLine(HashMap<Integer, MapLine> lineMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+
         count = 0;
 
         List<MapLine> linesMapSorted = new ArrayList<>(lineMaps.values());
@@ -319,9 +320,11 @@ public class SandboxActivity extends AppCompatActivity
                         matrix[ count ] = images[ 4 ];
                         break;
                 }
+
                 count++;
             }
         });
+
 
         FillGameBoard();
     }
@@ -396,10 +399,9 @@ public class SandboxActivity extends AppCompatActivity
 
             for ( int j = 0; j < myMap.getNbColumns(); j++ )
             {
-
                 switch ( matrix[ countNumber ] )
                 {
-                    case R.drawable.perso :
+                    case R.drawable.left_player :
                         content.append("P");
                         break;
 
@@ -407,15 +409,15 @@ public class SandboxActivity extends AppCompatActivity
                         content.append("#");
                         break;
 
-                    case R.drawable.sol:
+                    case R.drawable.blue_grass:
                         content.append(".");
                         break;
 
-                    case R.drawable.arrivee:
+                    case R.drawable.opened_cage_blue:
                         content.append("X");
                         break;
 
-                    case R.drawable.boite:
+                    case R.drawable.free_monster_blue:
                         content.append("C");
                         break;
                 }
@@ -446,19 +448,19 @@ public class SandboxActivity extends AppCompatActivity
                 //System.out.println(matrix[countNumber]);
                 switch ( matrix[ countNumber ] )
                 {
-                    case R.drawable.perso :
+                    case R.drawable.left_player :
                         content.append("P");
                         break;
                     case R.drawable.mur:
                         content.append("#");
                         break;
-                    case R.drawable.sol:
+                    case R.drawable.blue_grass:
                         content.append(".");
                         break;
-                    case R.drawable.arrivee:
+                    case R.drawable.opened_cage_blue:
                         content.append("X");
                         break;
-                    case R.drawable.boite:
+                    case R.drawable.free_monster_blue:
                         content.append("C");
                         break;
                 }
