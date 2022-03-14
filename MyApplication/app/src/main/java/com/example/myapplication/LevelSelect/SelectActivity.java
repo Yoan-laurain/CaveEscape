@@ -27,6 +27,8 @@ public class SelectActivity extends AppCompatActivity
     private ArrayList<String> mTitle = new ArrayList<>();
     private final ArrayList<Map> ListMap = new ArrayList<>();
     boolean selectedMenu = false;
+    boolean Community = false;
+
 
 
     @Override
@@ -68,14 +70,21 @@ public class SelectActivity extends AppCompatActivity
             ListView listLevel = findViewById(R.id.List_Level);
             LevelDesign adapter;
 
-            if ( Maps.size() > 0 )
-            {
 
+            mTitle.clear();
+            ListMap.clear();
+
+            if(!Community){
                 mTitle = new ArrayList<>();
                 Map hardCoded = Map.HardCodedMapHeader();
                 Maps.put(hardCoded.getIdMap(),hardCoded);
                 Map fileMap = Map.FileMapHeader(this);
                 Maps.put(fileMap.getIdMap(),fileMap);
+            }
+            if ( Maps.size() > 0 )
+            {
+
+
 
                 Maps.values().forEach(tab -> {
                     mTitle.add( tab.getNom() );
@@ -122,10 +131,12 @@ public class SelectActivity extends AppCompatActivity
         selectedMenu = true;
         switch(titre){
             case "\n \n \n Community" :
+                Community = true;
                 MapDAO.GetCommunityMap(this,null);
                 break;
 
             case "\n \n \n History" :
+                Community = false;
                 MapDAO.GetHistoryMap(this,null);
                 break;
 
