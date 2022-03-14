@@ -97,7 +97,7 @@ public class SandboxActivity extends AppCompatActivity
         floor.setOnClickListener(var -> currentTool = 2);
         finish.setOnClickListener(var -> currentTool = 3);
         box.setOnClickListener(var -> currentTool = 4);
-        saveButton.setOnClickListener(var -> SaveGame());
+        saveButton.setOnClickListener(var -> ScanText());
         testButton.setOnClickListener(var -> TestGame());
         gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
 
@@ -329,12 +329,8 @@ public class SandboxActivity extends AppCompatActivity
         FillGameBoard();
     }
 
-
-    // ---------------- Called when the user try to save his map. --------------------------------//
-    // ------------ Check if the map is quite correct and display toast otherwise. ---------------//
-    public void SaveGame()
+    public void ScanText()
     {
-        TextModeration.ScanText(this,mapName.getText().toString());
 
         if ( mapName.getText().toString().length() == 0 )
         {
@@ -342,21 +338,26 @@ public class SandboxActivity extends AppCompatActivity
         }
         else
         {
-            CountObjectOnBoard();
+            TextModeration.ScanText(this,mapName.getText().toString());
+        }
+    }
 
-            if ( textClean )
-            {
-                if ( nbPlayerPlaced == 1 ) {
+    // ---------------- Called when the user try to save his map. --------------------------------//
+    // ------------ Check if the map is quite correct and display toast otherwise. ---------------//
+    public void SaveGame()
+    {
+        CountObjectOnBoard();
+        this.runOnUiThread(() ->
+        {
+            if (textClean) {
+                if (nbPlayerPlaced == 1) {
                     if (nbBoxPlaced > 0) {
-                        if (EnoughFinishPlace())
-                        {
+                        if (EnoughFinishPlace()) {
                             myMap.setName(mapName.getText().toString());
-                            if (Modification)
-                            {
+                            if (Modification) {
                                 //myMap.setIsTested(false);
                                 MapDAO.updateMap(this, myMap);
-                            } else
-                            {
+                            } else {
                                 MapDAO.saveMap(this, myMap);
                             }
                             Toast.makeText(this, "Map saved ! ", Toast.LENGTH_SHORT).show();
@@ -367,23 +368,19 @@ public class SandboxActivity extends AppCompatActivity
                     } else {
                         Toast.makeText(this, "You need at least one box. ", Toast.LENGTH_LONG).show();
                     }
-                }
-                else
-                {
+                } else {
                     Toast.makeText(this, "You need at least one player. ", Toast.LENGTH_LONG).show();
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, "The name of the map is unacceptable", Toast.LENGTH_SHORT).show();
             }
-
-        }
+        });
     }
 
     public void ResponseTextModeration(Boolean response)
     {
         textClean = response;
+        SaveGame();
     }
     // ---------- Called after the save of a map ( header )  in the dataBase. --------------------//
     //------ Create mapLines object to save them too with the id of the map created --------------//

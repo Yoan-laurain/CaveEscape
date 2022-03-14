@@ -91,7 +91,7 @@ public class GameActivity extends AppCompatActivity
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
         view_text_level.setText(myMap.getNom());
-        Bundle args = new Bundle();
+
         comingFromTest = (boolean) getIntent().getSerializableExtra("comingFromTest");
 
         textMove.setText("0");
@@ -299,7 +299,6 @@ public class GameActivity extends AppCompatActivity
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest && currentStepTuto == 0 )
                 {
-                    System.out.println("TEST");
                     myMap.setIsTested(true);
                     MapDAO.UpdateIsTestMap( myMap );
 
