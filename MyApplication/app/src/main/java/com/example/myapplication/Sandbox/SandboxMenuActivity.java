@@ -45,7 +45,15 @@ public class SandboxMenuActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        MapDAO.getMapByClient(null,this);
+        if ( LoadingActivity.idClient.equals("fNzlhc9eBfZm") || LoadingActivity.idClient.equals("BKxkND1Bb80N") || LoadingActivity.idClient.equals("fNzlhc9eBfZm"))
+        {
+            MapDAO.GetAllMap(this);
+        }
+        else
+        {
+            MapDAO.getMapByClient(null,this);
+        }
+
     }
 
     // ---------------------------------- Loading Visuals elements ----------------------------//
