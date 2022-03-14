@@ -2,7 +2,6 @@ package com.example.myapplication.Lib;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 public class SharedPref
 {
@@ -27,8 +26,29 @@ public class SharedPref
 
         editor.putString("idClient",myIdClient);
         editor.apply();
+    }
 
-        Toast.makeText(myActivity,"Setting saved!",Toast.LENGTH_LONG).show();
+    //----------------------------------------------------------------------------------------------------------
+
+    /*
+    Save volume preferences
+ */
+    public static void SaveVolumePreferences(Context myActivity,float volume)
+    {
+        SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("Volume",String.valueOf( volume ) );
+        editor.apply();
+    }
+
+    /*
+    Try lo load the volume in the cache otherwise send nothing
+ */
+    public static float LoadVolumePreferences(Context myActivity)
+    {
+        SharedPreferences sharedPreferences= myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        return ( sharedPreferences != null ? Float.parseFloat( sharedPreferences.getString("Volume","80") ) : 100 );
     }
 
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Dao.HistoryDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.AudioPlayer;
@@ -73,6 +74,7 @@ public class LoadingActivity extends AppCompatActivity
 
         if(idClient.equals("0")){
             createIdClient();
+            HistoryDAO.NewPlayer(idClient);
 
             params.put("Map", Map.HardCodedMapHeader());
             params.put("Tuto", "true");

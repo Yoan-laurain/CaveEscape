@@ -103,7 +103,7 @@ public class SelectActivity extends AppCompatActivity
     }
 
     public void printChoices(){
-        System.out.println("print choices");
+
         ListView listLevel = findViewById(R.id.List_Level);
 
         ArrayList<String> bTitle = new ArrayList<>();
@@ -118,7 +118,7 @@ public class SelectActivity extends AppCompatActivity
     }
 
     public void callRightMethod(String titre ){
-        System.out.println(titre);
+
         selectedMenu = true;
         switch(titre){
             case "\n \n \n Community" :
@@ -130,7 +130,6 @@ public class SelectActivity extends AppCompatActivity
                 break;
 
             default:
-                System.out.println("default case" );
                 break;
         }
     }

@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.myapplication.Dao.MapDAO;
+import com.example.myapplication.Dao.TextModeration;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;
@@ -60,6 +61,7 @@ public class SandboxActivity extends AppCompatActivity
     int nbBoxPlaced;
     int positionPlayer;
     int nbRowTemp;
+    boolean textClean = true;
 
     boolean Modification = false;
 
@@ -329,6 +331,8 @@ public class SandboxActivity extends AppCompatActivity
     // ------------ Check if the map is quite correct and display toast otherwise. ---------------//
     public void SaveGame()
     {
+        TextModeration.ScanText(this,mapName.getText().toString());
+
         if ( mapName.getText().toString().length() == 0 )
         {
             Toast.makeText(this, "Fill the name section ! ", Toast.LENGTH_LONG).show();
@@ -336,39 +340,48 @@ public class SandboxActivity extends AppCompatActivity
         else
         {
             CountObjectOnBoard();
-            if ( nbPlayerPlaced == 1 ) {
-                if (nbBoxPlaced > 0) {
-                    if (EnoughFinishPlace())
-                    {
-                        myMap.setName(mapName.getText().toString());
-                        if (Modification)
-                        {
-                            System.out.println(myMap.getIsTested());
-                            //myMap.setIsTested(false);
 
-                            System.out.println(myMap.getIsTested());
-                            MapDAO.updateMap(this, myMap);
-                    } else
+            if ( textClean )
+            {
+                if ( nbPlayerPlaced == 1 ) {
+                    if (nbBoxPlaced > 0) {
+                        if (EnoughFinishPlace())
                         {
-                            MapDAO.saveMap(this, myMap);
+                            myMap.setName(mapName.getText().toString());
+                            if (Modification)
+                            {
+                                //myMap.setIsTested(false);
+                                MapDAO.updateMap(this, myMap);
+                            } else
+                            {
+                                MapDAO.saveMap(this, myMap);
+                            }
+                            Toast.makeText(this, "Map saved ! ", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(this, "You don't have enough end zone(s) for you're box(s)! ", Toast.LENGTH_LONG).show();
                         }
-                        Toast.makeText(this, "Map saved ! ", Toast.LENGTH_SHORT).show();
-
                     } else {
-                        Toast.makeText(this, "You don't have enough end zone(s) for you're box(s)! ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "You need at least one box. ", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(this, "You need at least one box. ", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(this, "You need at least one player. ", Toast.LENGTH_LONG).show();
                 }
             }
             else
             {
-                Toast.makeText(this, "You need at least one player. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "The name of the map is unacceptable", Toast.LENGTH_SHORT).show();
             }
+
         }
     }
 
-
+    public void ResponseTextModeration(Boolean response)
+    {
+        textClean = response;
+    }
     // ---------- Called after the save of a map ( header )  in the dataBase. --------------------//
     //------ Create mapLines object to save them too with the id of the map created --------------//
 
