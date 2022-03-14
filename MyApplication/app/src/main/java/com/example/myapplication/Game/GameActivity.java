@@ -92,7 +92,8 @@ public class GameActivity extends AppCompatActivity
         myMap = (Map) getIntent().getSerializableExtra("Map");
         view_text_level.setText(myMap.getNom());
         Bundle args = new Bundle();
-        comingFromTest = args.getBoolean("comingFromTest");
+        comingFromTest = (boolean) getIntent().getSerializableExtra("comingFromTest");
+
         textMove.setText("0");
 
         if (myMap.getIdMap() == -1){
@@ -298,6 +299,7 @@ public class GameActivity extends AppCompatActivity
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest && currentStepTuto == 0 )
                 {
+                    System.out.println("TEST");
                     myMap.setIsTested(true);
                     MapDAO.UpdateIsTestMap( myMap );
 
@@ -308,6 +310,7 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
+                    System.out.println("NOOPY");
                     callPopUpEndGame();
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )

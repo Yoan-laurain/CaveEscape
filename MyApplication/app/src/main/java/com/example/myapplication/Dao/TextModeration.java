@@ -60,10 +60,15 @@ public class TextModeration
                         {
                             myActivity.ResponseTextModeration(false);
                         }
+                        else
+                        {
+                            myActivity.ResponseTextModeration(true);
+                        }
 
                     }
                     catch (JSONException e)
                     {
+                        myActivity.ResponseTextModeration(true);
                         e.printStackTrace();
                     }
                 }
