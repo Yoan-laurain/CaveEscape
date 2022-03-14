@@ -181,7 +181,7 @@ public class GameActivity extends AppCompatActivity
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
 
-            GameDesign adapter = new GameDesign(this, images, matrix,*myMap.getNbRows() * 30 );
+            GameDesign adapter = new GameDesign(this, images, matrix,myMap.getNbRows() * 30 );
             gameBoard.setAdapter(adapter);
         });
     }
