@@ -75,6 +75,7 @@ public class LoadingActivity extends AppCompatActivity
         if(idClient.equals("0")){
             createIdClient();
             HistoryDAO.NewPlayer(idClient);
+            System.out.println("IdClient : " + idClient);
 
             params.put("Map", Map.HardCodedMapHeader());
             params.put("Tuto", "true");

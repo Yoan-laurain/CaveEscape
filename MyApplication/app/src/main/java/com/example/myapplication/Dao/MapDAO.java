@@ -28,6 +28,71 @@ public class MapDAO
 {
     private static HashMap params = new HashMap();
 
+    /*
+    Retrieve get lines og a map
+ */
+    public static void GetAllMap(SandboxMenuActivity myActivity)
+    {
+        RequestBody formBody = new FormBody.Builder()
+                .add("command", "GetAllMap")
+                .add("api_key",LoadingActivity.API_KEY)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(LoadingActivity.CONNEXION_API)
+                .post(formBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                System.out.println("Error : " + e);
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String responseStr = Objects.requireNonNull(response.body()).string();
+
+                if (!responseStr.equals("false"))
+                {
+                    if ( !responseStr.equals("") )
+                    {
+                        try
+                        {
+                            JSONArray jsonArrayMap = new JSONArray(responseStr);
+
+                            HashMap<Integer, Map> Maps = new HashMap<>();
+
+                            for (int i = 0; i < jsonArrayMap.length(); i++) {
+
+                                JSONObject json = jsonArrayMap.getJSONObject(i);
+
+                                Map myMap = Map.hydrateMap(json);
+
+                                Maps.put( myMap.getIdMap() , myMap );
+                            }
+
+                            myActivity.responseMap(Maps);
+                        }
+                        catch(JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                else
+                {
+                    params.put("NetworkFailure","true");
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
+                }
+            }
+        });
+    }
 
     /*
         Retrieve get lines og a map
@@ -272,6 +337,7 @@ public class MapDAO
                 }
                 else
                 {
+                    params.put("NetworkFailure","true");
                     Navigation.switchActivities(myActivity,LoadingActivity.class,params);
                 }
             }
