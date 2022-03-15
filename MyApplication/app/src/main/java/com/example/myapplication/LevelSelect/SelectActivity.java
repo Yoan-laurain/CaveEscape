@@ -1,6 +1,8 @@
 package com.example.myapplication.LevelSelect;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -105,6 +107,7 @@ public class SelectActivity extends AppCompatActivity
     /*
         Open the page game with the id of the level in parameter
      */
+    @RequiresApi(api = Build.VERSION_CODES.R)
     public void openLevel(Map mapSelected)
     {
         params.put("Map", mapSelected);

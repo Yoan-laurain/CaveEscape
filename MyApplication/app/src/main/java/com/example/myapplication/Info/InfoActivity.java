@@ -66,7 +66,7 @@ public class InfoActivity extends AppCompatActivity
             coutNbTouchY = 0;
             if ( coutNbTouchN == 5 )
             {
-                AudioPlayer.Play(this,R.raw.nathan_esater_oeuf);
+                AudioPlayer.Play(this,R.raw.nathan_easter_oeuf);
                 coutNbTouchN = 0;
                 AudioPlayer.isAnEasterEgg = true;
             }

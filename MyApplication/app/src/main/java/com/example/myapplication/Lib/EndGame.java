@@ -5,12 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.myapplication.Game.GameActivity;
-import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.R;
+
 import java.util.HashMap;
 
 public class EndGame extends Dialog
@@ -36,7 +35,7 @@ public class EndGame extends Dialog
 
     public ImageView getReplayGame() { return replayGame; }
 
-    public Button getnextLevel() { return nextLevel; }
+    public Button getNextLevel() { return nextLevel; }
 
     public Button getReturn_back() { return return_back; }
 

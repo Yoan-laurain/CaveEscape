@@ -375,7 +375,7 @@ public class GameActivity extends AppCompatActivity
                 ArrayList<String> text = new ArrayList<>();
                 text.add(" Well the job is done! Thank you very much. The kingdom still needs your help you know. ");
                 text.add(" You can create levels if you want but it's not nice there are already a lot of monsters...");
-                text.add(" Now it's your'e turn good luck ! ");
+                text.add(" Now it's you're turn good luck ! ");
                 CallPopUp(text);
 
             }, 500);
@@ -430,7 +430,7 @@ public class GameActivity extends AppCompatActivity
             myDiag.dismiss();
         });
 
-        popup.getnextLevel().setOnClickListener(var -> {
+        popup.getNextLevel().setOnClickListener(var -> {
             MapDAO.GetNextMap(this,myMap.getIdMap() );
             myDiag.dismiss();
         });
