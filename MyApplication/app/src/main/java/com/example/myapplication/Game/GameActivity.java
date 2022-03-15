@@ -309,7 +309,7 @@ public class GameActivity extends AppCompatActivity
                 if ( nbBoxPlaced == countNbBox && comingFromTest && currentStepTuto == 0 )
                 {
                     myMap.setIsTested(true);
-                    MapDAO.UpdateIsTestMap( myMap );
+                    MapDAO.UpdateIsTestMap( this,null,myMap );
 
                     Intent intent=new Intent();
                     intent.putExtra("MESSAGE","true");
