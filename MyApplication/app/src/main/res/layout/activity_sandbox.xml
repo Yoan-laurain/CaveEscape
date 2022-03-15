@@ -91,8 +91,9 @@
         app:layout_constraintBottom_toTopOf="@+id/deleteGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_name"
-        app:srcCompat="@drawable/caged_monster_blue" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.894"
+        app:srcCompat="@drawable/opened_cage_blue" />
 
     <ImageButton
         android:id="@+id/button_sandbox_box"
