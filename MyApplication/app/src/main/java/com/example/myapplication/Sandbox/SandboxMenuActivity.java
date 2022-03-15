@@ -47,6 +47,7 @@ public class SandboxMenuActivity extends AppCompatActivity
         super.onResume();
         if ( LoadingActivity.idClient.equals("fNzlhc9eBfZm") || LoadingActivity.idClient.equals("BKxkND1Bb80N") || LoadingActivity.idClient.equals("fNzlhc9eBfZm"))
         {
+            System.out.println("MARKER");
             MapDAO.GetAllMap(this);
         }
         else

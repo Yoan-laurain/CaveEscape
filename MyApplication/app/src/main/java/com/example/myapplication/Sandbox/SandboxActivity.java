@@ -121,7 +121,7 @@ public class SandboxActivity extends AppCompatActivity
             matrix = new int[myMap.getNbColumns() * myMap.getNbRows()];
 
             deleteButton.setOnClickListener(var -> {
-                MapDAO.DeleteMap(myMap.getIdMap());
+                MapDAO.DeleteMap(this,myMap.getIdMap());
                 this.finish();
             });
 
@@ -424,7 +424,7 @@ public class SandboxActivity extends AppCompatActivity
 
             MapLine myMapLine = new MapLine( 0, i , content.toString(), id );
 
-            MapDAO.saveMapLines( myMapLine );
+            MapDAO.saveMapLines( this,myMapLine );
 
         }
         finish();
@@ -468,9 +468,9 @@ public class SandboxActivity extends AppCompatActivity
 
 
             if (i < nbRowTemp) {
-                MapDAO.updateMapLines(myMapLine);
+                MapDAO.updateMapLines(this,myMapLine);
             } else {
-                MapDAO.saveMapLines(myMapLine);
+                MapDAO.saveMapLines(this,myMapLine);
             }
 
 
@@ -575,7 +575,7 @@ public class SandboxActivity extends AppCompatActivity
             {
                 light.setImageResource(R.drawable.green_circle);
                 myMap.setIsTested(true);
-                MapDAO.UpdateIsTestMap(myMap);
+                MapDAO.UpdateIsTestMap(null,this,myMap);
             });
         }
     }
