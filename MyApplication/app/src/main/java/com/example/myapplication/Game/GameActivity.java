@@ -174,8 +174,21 @@ public class GameActivity extends AppCompatActivity
             gameBoard = findViewById(R.id.gameBoard);
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
+            ViewGroup.LayoutParams params = gameBoard.getLayoutParams();
 
-            GameDesign adapter = new GameDesign(this, matrix, gameBoard.getHeight() / myMap.getNbRows());
+            int gameBoardHeight = gameBoard.getHeight() / myMap.getNbRows();
+            //int gameBoardWidth = gameBoard.getWidth() / myMap.getNbColumns();
+
+            // check the height of a line is good to display
+            if(gameBoardHeight > 300){
+                gameBoardHeight = 300;
+                params.height = myMap.getNbRows() * gameBoardHeight;
+            }
+            /*if(gameBoardWidth > 300){
+                gameBoardWidth = 300;
+                params.width = myMap.getNbColumns() * gameBoardHeight;
+            }*/
+            GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
         });
     }
