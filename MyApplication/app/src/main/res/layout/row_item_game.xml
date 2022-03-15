@@ -9,11 +9,15 @@
     android:layout_centerVertical="true"
     android:overScrollMode="never">
 
-    <ImageView
-        android:id="@+id/caseGameImage"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/caseGameImage"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"/>
+    </RelativeLayout>
 </LinearLayout>

@@ -47,4 +47,8 @@
     <string name="text_goback">GO BACK</string>
 
     <string name="text_next">NEXT</string>
+
+    /** POP UP NEXT **/
+    <string name="text_well">WELL DONE !</string>
+
 </resources>

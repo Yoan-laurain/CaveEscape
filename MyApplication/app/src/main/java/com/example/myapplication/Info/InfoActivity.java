@@ -75,7 +75,7 @@ public class InfoActivity extends AppCompatActivity
             countNbTouchY = 0;
             if ( countNbTouchN == 5 )
             {
-                AudioPlayer.Play(this,R.raw.nathan_esater_oeuf);
+                AudioPlayer.Play(this,R.raw.nathan_easter_oeuf);
                 countNbTouchN = 0;
                 AudioPlayer.isAnEasterEgg = true;
             }
