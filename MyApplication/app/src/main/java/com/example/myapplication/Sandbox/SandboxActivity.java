@@ -2,6 +2,8 @@ package com.example.myapplication.Sandbox;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -50,7 +52,7 @@ public class SandboxActivity extends AppCompatActivity
     Spinner spinnerLines;
     Spinner spinnerColumns;
     ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8) ) ;
-    int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+    int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
     private int[] matrix;
     private int[] matrixTemp;
     private int count;
@@ -65,6 +67,8 @@ public class SandboxActivity extends AppCompatActivity
 
     boolean Modification = false;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -276,7 +280,7 @@ public class SandboxActivity extends AppCompatActivity
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
 
-            GameDesign adapter = new GameDesign(this, images, matrix, myMap.getNbRows() * 30 );
+            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight()/myMap.getNbRows());
             gameBoard.setAdapter(adapter);
 
         });
@@ -398,7 +402,7 @@ public class SandboxActivity extends AppCompatActivity
             {
                 switch ( matrix[ countNumber ] )
                 {
-                    case R.drawable.left_player :
+                    case R.drawable.left_player_blue:
                         content.append("P");
                         break;
 
@@ -550,6 +554,7 @@ public class SandboxActivity extends AppCompatActivity
 
     // ------------------------------------------------------------------------------------------ //
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     public void TestGame()
     {
         if ( myMap.getIdMap() != 0 ){
