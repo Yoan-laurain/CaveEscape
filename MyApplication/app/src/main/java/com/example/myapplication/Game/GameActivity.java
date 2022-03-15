@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +41,33 @@ public class GameActivity extends AppCompatActivity
     TextView textMove;
     GridView gameBoard;
 
+
+
     //-------------------------------------
 
     private final int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+
+    private final int[] wallsTab = {R.drawable.bottom_left_angle_wall_blue,R.drawable.bottom_right_angle_wall_blue,
+            R.drawable.bottom_vertical_wall_blue,R.drawable.middle_vertical_wall_blue,R.drawable.middle_straight_wall_blue,
+            R.drawable.left_straight_wall_blue,R.drawable.right_straight_wall_blue,R.drawable.top_left_angle_wall_blue,
+            R.drawable.top_right_angle_wall_blue,R.drawable.top_vertical_wall_blue,R.drawable.top_t_wall50,
+            R.drawable.bottom_t_wall50};
+
+    HashMap<Character,Integer> wallRelation = new HashMap<Character,Integer>(){{
+        put('A',    wallsTab[0]);
+        put('B',    wallsTab[1]);
+        put('V',    wallsTab[2]);
+        put('D',    wallsTab[3]);
+        put('E',    wallsTab[4]);
+        put('F',    wallsTab[5]);
+        put('G',    wallsTab[6]);
+        put('H',    wallsTab[7]);
+        put('I',    wallsTab[8]);
+        put('J',    wallsTab[9]);
+        put('T',    wallsTab[10]);
+        put('U',    wallsTab[11]);
+    }};
+
 
     private int count;
     private int currentPosition = 0;
@@ -244,6 +270,45 @@ public class GameActivity extends AppCompatActivity
                         matrix[ count ] = images[ 4 ];
                         countNbBox++;
                         break;
+
+                    case 'A':
+                        matrix[ count ] = wallRelation.get('A');
+                        break;
+
+                    case 'B':
+                        matrix[ count ] = wallRelation.get('B');
+                        break;
+
+                    case 'V':
+                        matrix[ count ] = wallRelation.get('C');
+                        break;
+                    case 'D':
+                        matrix[ count ] = wallRelation.get('D');
+                        break;
+                    case 'E':
+                        matrix[ count ] = wallRelation.get('E');
+                        break;
+                    case 'F':
+                        matrix[ count ] = wallRelation.get('F');
+                        break;
+                    case 'G':
+                        matrix[ count ] = wallRelation.get('G');
+                        break;
+                    case 'H':
+                        matrix[ count ] = wallRelation.get('H');
+                        break;
+                    case 'I':
+                        matrix[ count ] = wallRelation.get('I');
+                        break;
+                    case 'J':
+                        matrix[ count ] = wallRelation.get('J');
+                        break;
+                    case 'T':
+                        matrix[ count ] = wallRelation.get('T');
+                        break;
+                    case 'U':
+                        matrix[ count ] = wallRelation.get('U');
+                        break;
                 }
                 count++;
             }
@@ -260,7 +325,7 @@ public class GameActivity extends AppCompatActivity
         int oldPosition = currentPosition;
         try
         {
-            if ( matrix[ currentPosition - movement ] != images[ 1 ] )
+            if ( !contains(wallsTab,matrix[ currentPosition - movement ] ) && matrix[ currentPosition - movement ] != images[ 1 ])
             {
                 if ( ( matrix[ currentPosition - movement ] == images[ 4 ] || matrix[ currentPosition - movement ] == images[ 5 ]  ) && ( matrix[ currentPosition -movement * 2 ] == images[ 2 ] || matrix[ currentPosition - movement * 2 ] == images[ 3 ] ))
                 {
@@ -540,5 +605,9 @@ public class GameActivity extends AppCompatActivity
             caseTemp = images[2];
             GetMapLimits();
         });
+    }
+
+    static public boolean contains(int[] T,int val){
+        return Arrays.toString(T).contains(String.valueOf(val));
     }
 }
