@@ -425,6 +425,8 @@ public class SandboxActivity extends AppCompatActivity
     {
         int countNumber = 0;
 
+        myMap.setIdMap(id);
+
         for ( int i = 0; i < myMap.getNbRows(); i++ )
         {
             StringBuilder content = new StringBuilder();

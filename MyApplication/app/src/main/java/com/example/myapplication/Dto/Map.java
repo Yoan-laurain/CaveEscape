@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class Map implements Serializable
 {
-    private final int idMap;
+    private int idMap;
     private String nom;
     private int nbRows;
     private  int nbColumns;
@@ -42,6 +42,8 @@ public class Map implements Serializable
     public void setName ( String name ) { this.nom = name;}
 
     public void setIsTested ( boolean isTested ) { this.isTested = isTested;}
+
+    public void setIdMap( int idMap ) { this.idMap = idMap;}
 
     //------------------------------------------------------------------------------
 

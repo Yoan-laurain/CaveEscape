@@ -473,8 +473,9 @@ public class GameActivity extends AppCompatActivity
         });
 
         popup.getNextLevel().setOnClickListener(var -> {
-            MapDAO.GetNextMap(this,myMap.getIdMap() );
             myDialog.dismiss();
+            MapDAO.GetNextMap(this,myMap.getIdMap() );
+
         });
 
         popup.getReturn_back().setOnClickListener(var -> finish());
