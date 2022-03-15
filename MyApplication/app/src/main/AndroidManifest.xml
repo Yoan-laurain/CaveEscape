@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:screenOrientation="portrait"
-        android:name=".Lib.LifeCycle"
-        >
+        android:name=".Lib.LifeCycle">
 
         <activity
             android:name=".Game.GameActivity"

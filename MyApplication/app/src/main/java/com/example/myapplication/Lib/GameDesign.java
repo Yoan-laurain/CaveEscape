@@ -1,6 +1,5 @@
 package com.example.myapplication.Lib;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,7 @@ public class GameDesign extends BaseAdapter
 
     //------------------------------------------------------------------------------
 
-    @SuppressLint("InflateParams")
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup)
     {
@@ -51,6 +50,7 @@ public class GameDesign extends BaseAdapter
         }
 
         ImageView aCase = view.findViewById(R.id.caseGameImage);
+
         aCase.getLayoutParams().height = LineHeight;
 
         aCase.setImageResource(matrix[i]);

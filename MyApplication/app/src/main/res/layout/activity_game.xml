@@ -15,7 +15,7 @@
         android:id="@+id/button_game_left"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="44dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/text_left"
         android:scaleType="centerCrop"
@@ -23,7 +23,7 @@
         android:scaleY="1.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.232"
+        app:layout_constraintHorizontal_bias="0.256"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/circled_left" />
 
@@ -31,7 +31,7 @@
         android:id="@+id/button_game_right"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="44dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/text_right"
         android:scaleType="centerCrop"
@@ -39,7 +39,7 @@
         android:scaleY="1.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.764"
+        app:layout_constraintHorizontal_bias="0.74"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/circled_right" />
 
@@ -47,7 +47,7 @@
         android:id="@+id/button_game_up"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/text_up"
         android:scaleType="centerCrop"
@@ -77,14 +77,15 @@
 
     <GridView
         android:id="@+id/gameBoard"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="@id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/textMoveCount"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline3"
-        app:layout_constraintBottom_toBottomOf="@id/guideline4"/>
+        app:layout_constraintTop_toTopOf="@id/guideline3" />
 
     <ImageButton
         android:id="@+id/button_game_goback"
@@ -110,6 +111,7 @@
         android:scaleType="centerCrop"
         android:scaleX="1.2"
         android:scaleY="1.2"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_game_reload"
         app:layout_constraintTop_toTopOf="parent"
@@ -135,31 +137,32 @@
         android:id="@+id/text_game_level"
         android:layout_width="220dp"
         android:layout_height="35dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/new_rocker"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gameBoard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textMoveCount"
-        android:layout_width="108dp"
-        android:layout_height="34dp"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
         android:fontFamily="@font/new_rocker"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.8" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
@@ -174,5 +177,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.73" />
+
+    <ImageView
+        android:id="@+id/image_foot"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.236"
+        app:layout_constraintStart_toEndOf="@+id/textMoveCount"
+        app:layout_constraintTop_toBottomOf="@+id/gameBoard"
+        app:srcCompat="@drawable/foot" />
 
 </android.support.constraint.ConstraintLayout>

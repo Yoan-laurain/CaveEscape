@@ -460,9 +460,7 @@ public class SandboxActivity extends AppCompatActivity
             MapLine myMapLine = new MapLine( 0, i , content.toString(), id );
 
             MapDAO.saveMapLines( this,myMapLine );
-
         }
-        finish();
     }
 
     /* Called After API Response */
