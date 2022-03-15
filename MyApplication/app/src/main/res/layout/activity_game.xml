@@ -80,12 +80,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="@id/guideline4"
         app:layout_constraintBottom_toTopOf="@+id/textMoveCount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline3"
-        app:layout_constraintBottom_toBottomOf="@id/guideline4"/>
+        app:layout_constraintTop_toTopOf="@id/guideline3" />
 
     <ImageButton
         android:id="@+id/button_game_goback"
@@ -151,18 +151,18 @@
 
     <TextView
         android:id="@+id/textMoveCount"
-        android:layout_width="108dp"
-        android:layout_height="34dp"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
         android:fontFamily="@font/new_rocker"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.79" />
+        app:layout_constraintVertical_bias="0.8" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
@@ -177,5 +177,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.73" />
+
+    <ImageView
+        android:id="@+id/image_foot"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.236"
+        app:layout_constraintStart_toEndOf="@+id/textMoveCount"
+        app:layout_constraintTop_toBottomOf="@+id/gameBoard"
+        app:srcCompat="@drawable/foot" />
 
 </android.support.constraint.ConstraintLayout>
