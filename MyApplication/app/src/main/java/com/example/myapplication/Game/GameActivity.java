@@ -79,6 +79,7 @@ public class GameActivity extends AppCompatActivity
         restart = findViewById(R.id.button_game_reload);
         quit = findViewById(R.id.button_game_goback);
         textMove = findViewById(R.id.textMoveCount);
+        gameBoard = findViewById(R.id.gameBoard);
 
         //-------------------------------------------------------------------- //
 
@@ -169,15 +170,22 @@ public class GameActivity extends AppCompatActivity
      */
     public void FillGameBoard()
     {
+
         this.runOnUiThread(() ->
         {
-            gameBoard = findViewById(R.id.gameBoard);
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
+
             ViewGroup.LayoutParams params = gameBoard.getLayoutParams();
+
 
             int gameBoardHeight = gameBoard.getHeight() / myMap.getNbRows();
             //int gameBoardWidth = gameBoard.getWidth() / myMap.getNbColumns();
+
+            if ( myMap.getIdMap() == -1 || myMap.getIdMap() == -2 )
+            {
+                gameBoardHeight = 200;
+            }
 
             // check the height of a line is good to display
             if(gameBoardHeight > 300){
@@ -188,6 +196,7 @@ public class GameActivity extends AppCompatActivity
                 gameBoardWidth = 300;
                 params.width = myMap.getNbColumns() * gameBoardHeight;
             }*/
+
             GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
         });
@@ -199,6 +208,7 @@ public class GameActivity extends AppCompatActivity
     public void ResponseMapLine( HashMap<Integer, MapLine> linesMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+
         count = 0;
         countNbBox =0;
 
@@ -350,17 +360,17 @@ public class GameActivity extends AppCompatActivity
         leftLimits = new ArrayList<>();
         rightLimits = new ArrayList<>();
 
-        for( double i = 0; i < ( myMap.getNbColumns() * myMap.getNbRows() ); i++ )
+        for( int i = 0; i < ( myMap.getNbColumns() * myMap.getNbRows() ); i++ )
         {
             double currentLine = Math.ceil( i / myMap.getNbColumns() );
 
-            if (i % myMap.getNbColumns()  == 0 )
+            if (i % myMap.getNbColumns() == 0 )
             {
-                leftLimits.add( (int) Math.round(i));
+                leftLimits.add( i );
             }
             else if ( ( i - currentLine ) % ( myMap.getNbColumns() - 1 )  == 0 )
             {
-                rightLimits.add( (int) Math.round(i) );
+                rightLimits.add( i );
             }
         }
     }
