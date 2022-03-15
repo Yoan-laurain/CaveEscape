@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -64,6 +65,7 @@ public class SandboxActivity extends AppCompatActivity
     int positionPlayer;
     int nbRowTemp;
     boolean textClean = true;
+    
 
     boolean Modification = false;
 
@@ -104,6 +106,8 @@ public class SandboxActivity extends AppCompatActivity
         saveButton.setOnClickListener(var -> ScanText());
         testButton.setOnClickListener(var -> TestGame());
         gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
+
+
 
         // ---------------------- Adapters --------------------------- //
 
@@ -279,8 +283,22 @@ public class SandboxActivity extends AppCompatActivity
         {
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
+            ViewGroup.LayoutParams params = gameBoard.getLayoutParams();
 
-            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight()/myMap.getNbRows());
+            int gameBoardHeight = gameBoard.getHeight() / myMap.getNbRows();
+            //int gameBoardWidth = gameBoard.getWidth() / myMap.getNbColumns();
+
+            // check the height of a line is good to display
+            if(gameBoardHeight > 300){
+                gameBoardHeight = 300;
+                //params.height = myMap.getNbRows() * gameBoardHeight;
+            }
+            /*if(gameBoardWidth > 300){
+                gameBoardWidth = 300;
+                params.width = myMap.getNbColumns() * gameBoardHeight;
+            }*/
+
+            GameDesign adapter = new GameDesign(this, images, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
 
         });
@@ -449,7 +467,7 @@ public class SandboxActivity extends AppCompatActivity
                 //System.out.println(matrix[countNumber]);
                 switch ( matrix[ countNumber ] )
                 {
-                    case R.drawable.left_player :
+                    case R.drawable.left_player_blue :
                         content.append("P");
                         break;
                     case R.drawable.mur:
