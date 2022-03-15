@@ -168,8 +168,16 @@ public class GameActivity extends AppCompatActivity
             gameBoard = findViewById(R.id.gameBoard);
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
+            ViewGroup.LayoutParams params = gameBoard.getLayoutParams();
 
-            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight() / myMap.getNbRows());
+            int gameBoardSize = gameBoard.getHeight() / myMap.getNbRows();
+
+            if(gameBoardSize > 30){
+                gameBoardSize = 30;
+                params.height = myMap.getNbRows() * 30;
+            }
+
+            GameDesign adapter = new GameDesign(this, images, matrix, gameBoardSize);
             gameBoard.setAdapter(adapter);
         });
     }
