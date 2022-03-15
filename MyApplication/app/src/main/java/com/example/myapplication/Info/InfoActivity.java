@@ -5,27 +5,33 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Lib.AudioPlayer;
 import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.Option.OptionActivity;
 import com.example.myapplication.R;
-
+import java.security.Key;
 import java.util.HashMap;
 
 public class InfoActivity extends AppCompatActivity
 {
+    //-----------------------------------------
+
     Button button_return;
     ImageView background;
-    HashMap params = new HashMap<>();
     TextView easterEggYoan;
     TextView easterEggHugo;
     TextView easterEggNathan;
 
-    int coutNbTouchH = 0;
-    int coutNbTouchN = 0;
-    int coutNbTouchY = 0;
+    //-----------------------------------------
+
+    HashMap<Key, Object> params = new HashMap<>();
+
+    int countNbTouchH = 0;
+    int countNbTouchN = 0;
+    int countNbTouchY = 0;
+
+    //-----------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,25 +52,28 @@ public class InfoActivity extends AppCompatActivity
         //---------------------- Set clicks actions -------------------------- //
 
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, OptionActivity.class,params));
+
         easterEggHugo.setOnClickListener(var ->
         {
-            coutNbTouchH++;
-            coutNbTouchN = 0;
-            coutNbTouchY = 0;
-            if ( coutNbTouchH == 5 )
+            countNbTouchH++;
+            countNbTouchN = 0;
+            countNbTouchY = 0;
+
+            if ( countNbTouchH == 5 )
             {
                 AudioPlayer.Play(this,R.raw.hugo_easter_egg);
-                coutNbTouchH = 0;
+                countNbTouchH = 0;
                 AudioPlayer.isAnEasterEgg = true;
             }
 
         });
+
         easterEggNathan.setOnClickListener(var ->
         {
-            coutNbTouchN++;
-            coutNbTouchH = 0;
-            coutNbTouchY = 0;
-            if ( coutNbTouchN == 5 )
+            countNbTouchN++;
+            countNbTouchH = 0;
+            countNbTouchY = 0;
+            if ( countNbTouchN == 5 )
             {
                 AudioPlayer.Play(this,R.raw.nathan_easter_oeuf);
                 coutNbTouchN = 0;
@@ -72,18 +81,19 @@ public class InfoActivity extends AppCompatActivity
             }
 
         });
+
         easterEggYoan.setOnClickListener(var ->
         {
-            coutNbTouchY++;
-            coutNbTouchH = 0;
-            coutNbTouchN = 0;
-            if ( coutNbTouchY == 5 )
+            countNbTouchY++;
+            countNbTouchH = 0;
+            countNbTouchN = 0;
+
+            if ( countNbTouchY == 5 )
             {
                 AudioPlayer.Play(this,R.raw.yoan_easter_oeuf);
-                coutNbTouchY = 0;
+                countNbTouchY = 0;
                 AudioPlayer.isAnEasterEgg = true;
             }
-
         });
 
         //-------------------------------------------------------------------- //

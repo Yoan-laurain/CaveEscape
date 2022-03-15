@@ -55,7 +55,6 @@ public class TextModeration
                         JSONObject json = new JSONObject(responseStr);
 
                         JSONArray jsonArray = json.getJSONObject("profanity").getJSONArray("matches");
-                        System.out.println("Response : " + jsonArray.length());
 
                         if ( jsonArray.length() != 0 )
                         {

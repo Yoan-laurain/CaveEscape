@@ -1,12 +1,12 @@
 package com.example.myapplication.Dao;
 
-import com.example.myapplication.Dto.Map;
+
+import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.MainMenu.LoadingActivity;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
-
+import java.util.HashMap;
+import java.util.Objects;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -17,11 +17,16 @@ import okhttp3.Response;
 
 public class HistoryDAO
 {
+    //-------------------
+
+    private static final HashMap params = new HashMap<>();
+
+    //-------------------
 
     /*
-Update the map in parameter
-*/
-    public static void NewPlayer( String idClient )
+       Insert new player in the dataBase
+    */
+    public static void NewPlayer( LoadingActivity myActivity, String idClient )
     {
         RequestBody formBody = new FormBody.Builder()
                 .add("command", "InsertNewPlayer")
@@ -40,13 +45,22 @@ Update the map in parameter
 
             @Override
             public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                System.out.println("Error : " + e);
+                params.put("NetworkFailure","true");
+                Navigation.switchActivities(myActivity,LoadingActivity.class,params);
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response)  { }
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                String responseStr = Objects.requireNonNull(response.body()).string();
+
+                if ( responseStr.equals("false") )
+                {
+                    params.put("NetworkFailure","true");
+                    Navigation.switchActivities(myActivity,LoadingActivity.class,params);
+                }
+            }
         });
     }
-
 
 }

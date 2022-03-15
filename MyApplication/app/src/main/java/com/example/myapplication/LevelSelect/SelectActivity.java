@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
@@ -16,48 +15,52 @@ import com.example.myapplication.Lib.LevelDesign;
 import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class SelectActivity extends AppCompatActivity
 {
+    //-----------------------------------------
+
     Button button_return;
     ImageView background;
-    HashMap params = new HashMap<>();
+    ListView listLevel;
+
+    //-----------------------------------------
+
+    private final HashMap params = new HashMap<>();
+
     private ArrayList<String> mTitle = new ArrayList<>();
     private final ArrayList<Map> ListMap = new ArrayList<>();
-    boolean selectedMenu = false;
-    boolean Community = false;
 
+    private boolean selectedMenu = false;
+    private boolean Community = false;
 
+    //-----------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
+
         //---------------------- Tool selector -------------------------------- //
 
         background = findViewById(R.id.View_BackGround_Select);
         button_return = findViewById(R.id.button_select_return);
-        ListView listLevel = findViewById(R.id.List_Level);
-
+        listLevel = findViewById(R.id.List_Level);
 
         //-------------------------------------------------------------------- //
 
         //---------------------- Set clicks actions -------------------------- //
 
-        button_return.setOnClickListener(view -> returnAction());
+        button_return.setOnClickListener(view -> ReturnAction());
 
         //-------------------------------------------------------------------- //
 
         Glide.with(this).load(R.drawable.selectback).into(background);
 
-        printChoices();
-
+        DisplayMenuLevel();
     }
 
     /*
@@ -65,18 +68,17 @@ public class SelectActivity extends AppCompatActivity
         Read each values receive and create an adapter for each one
         Hydrate the list of level and set the action of on click on each items
      */
-    public void responseMap(HashMap<Integer, Map> Maps)
+    public void ResponseMap(HashMap<Integer, Map> Maps)
     {
         this.runOnUiThread(() ->
         {
-            ListView listLevel = findViewById(R.id.List_Level);
             LevelDesign adapter;
-
 
             mTitle.clear();
             ListMap.clear();
 
-            if(!Community){
+            if( !Community )
+            {
                 mTitle = new ArrayList<>();
                 Map hardCoded = Map.HardCodedMapHeader();
                 Maps.put(hardCoded.getIdMap(),hardCoded);
@@ -85,16 +87,14 @@ public class SelectActivity extends AppCompatActivity
             }
             if ( Maps.size() > 0 )
             {
-
-
-
-                Maps.values().forEach(tab -> {
+                Maps.values().forEach(tab ->
+                {
                     mTitle.add( tab.getNom() );
                     ListMap.add( tab );
                 });
-                //Collections.sort(mTitle);
+
                 adapter = new LevelDesign(this,R.layout.row ,mTitle);
-                listLevel.setOnItemClickListener( (parent, view, position, id) -> openLevel( ListMap.get( position ) ) );
+                listLevel.setOnItemClickListener( (parent, view, position, id) -> OpenLevel( ListMap.get( position ) ) );
             }
             else
             {
@@ -107,15 +107,17 @@ public class SelectActivity extends AppCompatActivity
     /*
         Open the page game with the id of the level in parameter
      */
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    public void openLevel(Map mapSelected)
+    public void OpenLevel( Map mapSelected )
     {
         params.put("Map", mapSelected);
         Navigation.switchActivities(this, GameActivity.class,params);
     }
 
-    public void printChoices(){
-
+    /*
+        Display the the menu to choose between History or community
+     */
+    public void DisplayMenuLevel()
+    {
         ListView listLevel = findViewById(R.id.List_Level);
 
         ArrayList<String> bTitle = new ArrayList<>();
@@ -125,14 +127,18 @@ public class SelectActivity extends AppCompatActivity
         bTitle.add("\n \n \n Community");
 
         adapter = new LevelDesign(this,R.layout.row_title ,bTitle);
-        listLevel.setOnItemClickListener( (parent, view, position, id) -> callRightMethod(bTitle.get(position)));
+        listLevel.setOnItemClickListener( (parent, view, position, id) -> FillListLevel(bTitle.get(position)));
         listLevel.setAdapter(adapter);
     }
 
-    public void callRightMethod(String titre ){
-
+    /*
+        Fill the list level depending on which section the player has chosen
+     */
+    public void FillListLevel( String title )
+    {
         selectedMenu = true;
-        switch(titre){
+        switch( title )
+        {
             case "\n \n \n Community" :
                 Community = true;
                 MapDAO.GetCommunityMap(this,null);
@@ -148,11 +154,18 @@ public class SelectActivity extends AppCompatActivity
         }
     }
 
-    public void returnAction(){
-        if (selectedMenu) {
+    /*
+         Return to the previous page depending if the player already has selected game mode or hes actually choosing
+     */
+    public void ReturnAction()
+    {
+        if ( selectedMenu )
+        {
             selectedMenu = false;
-            printChoices();
-        } else {
+            DisplayMenuLevel();
+        }
+        else
+        {
             Navigation.switchActivities(this, LoadingActivity.class, params);
         }
     }

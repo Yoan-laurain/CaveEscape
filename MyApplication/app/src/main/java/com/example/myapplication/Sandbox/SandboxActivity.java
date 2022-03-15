@@ -2,11 +2,10 @@ package com.example.myapplication.Sandbox;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,26 +15,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dao.TextModeration;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.GameDesign;
-import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class SandboxActivity extends AppCompatActivity
 {
+    //----------------------------------------------------
+
     ImageButton player;
     ImageButton box;
     ImageButton floor;
@@ -51,35 +48,37 @@ public class SandboxActivity extends AppCompatActivity
 
     Spinner spinnerLines;
     Spinner spinnerColumns;
-    ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8) ) ;
-    int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
-    private int[] matrix;
-    private int[] matrixTemp;
-    private int count;
+
     GridView gameBoard;
     Map myMap;
-    int currentTool = 2;
-    int nbPlayerPlaced;
-    int nbBoxPlaced;
-    int positionPlayer;
-    int nbRowTemp;
-    boolean textClean = true;
 
+    //----------------------------------------------------
+
+    private int currentTool = 2;
+    private int count;
+    private int nbPlayerPlaced;
+    private int nbBoxPlaced;
+    private int positionPlayer;
+    private int nbRowTemp;
+    private int[] matrix;
+    private int[] matrixTemp;
+    int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+
+    boolean textClean = true;
     boolean Modification = false;
 
+    ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8) ) ;
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
+    //----------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandbox);
 
-        //////////////////////////////////////////////////////////////////////////////////
-        //                              Variables                                       //
-        //////////////////////////////////////////////////////////////////////////////////
-
         // -------------------- Retrieving Visual Elements --------------------------- //
+
         player = findViewById(R.id.button_sandbox_perso);
         wall = findViewById(R.id.button_sandbox_mur);
         floor = findViewById(R.id.button_sandbox_sol);
@@ -105,6 +104,8 @@ public class SandboxActivity extends AppCompatActivity
         testButton.setOnClickListener(var -> TestGame());
         gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
 
+
+
         // ---------------------- Adapters --------------------------- //
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, listNumbers);
@@ -112,19 +113,23 @@ public class SandboxActivity extends AppCompatActivity
         spinnerLines.setAdapter(adapter);
         spinnerColumns.setAdapter(adapter);
 
-        //////////////////////////////////////////////////////////////////////////////////
-        //                                      Code                                    //
-        //////////////////////////////////////////////////////////////////////////////////
+        //------------------------------------------------------------//
+
+        // ---------------------- Retrieve parameters --------------------------- //
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
 
+        //------------------------------------------------------------//
+
         //----------------------------- Trying To Load a Map ---------------------------//
-        try {
+        try
+        {
             spinnerLines.setSelection(myMap.getNbRows() - 1);
             spinnerColumns.setSelection(myMap.getNbColumns() - 1);
             matrix = new int[myMap.getNbColumns() * myMap.getNbRows()];
 
-            deleteButton.setOnClickListener(var -> {
+            deleteButton.setOnClickListener(var ->
+            {
                 MapDAO.DeleteMap(this,myMap.getIdMap());
                 this.finish();
             });
@@ -134,7 +139,8 @@ public class SandboxActivity extends AppCompatActivity
             nbRowTemp = myMap.getNbRows();
             Modification = true;
 
-            if (myMap.getIsTested()) {
+            if ( myMap.getIsTested() )
+            {
                 light.setImageResource(R.drawable.green_circle);
             }
         }
@@ -154,15 +160,14 @@ public class SandboxActivity extends AppCompatActivity
             light.setImageResource(R.drawable.red_circle);
         }
 
-
         // --------------------------- Size Selector (Rows) --------------------------------------//
+
         spinnerLines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-
-                if ( position != myMap.getNbRows()-1 )
+                if ( position != myMap.getNbRows() - 1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
                 }
@@ -273,14 +278,29 @@ public class SandboxActivity extends AppCompatActivity
     }
 
     // -------------------------- Fill the Game Board With The Matrix ----------------------------//
+
     public void FillGameBoard()
     {
         this.runOnUiThread(() ->
         {
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
+            ViewGroup.LayoutParams params = gameBoard.getLayoutParams();
 
-            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight()/myMap.getNbRows());
+            int gameBoardHeight = gameBoard.getHeight() / myMap.getNbRows();
+            //int gameBoardWidth = gameBoard.getWidth() / myMap.getNbColumns();
+
+            // check the height of a line is good to display
+            if(gameBoardHeight > 300){
+                gameBoardHeight = 300;
+                //params.height = myMap.getNbRows() * gameBoardHeight;
+            }
+            /*if(gameBoardWidth > 300){
+                gameBoardWidth = 300;
+                params.width = myMap.getNbColumns() * gameBoardHeight;
+            }*/
+
+            GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
 
         });
@@ -289,7 +309,7 @@ public class SandboxActivity extends AppCompatActivity
     /*
     Called after the response of the API
  */
-    public void responseMapLine(HashMap<Integer, MapLine> lineMaps )
+    public void ResponseMapLine(HashMap<Integer, MapLine> lineMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
@@ -329,13 +349,15 @@ public class SandboxActivity extends AppCompatActivity
             }
         });
 
-
         FillGameBoard();
     }
 
+    /*
+        Check if the name not empty and then call api to verify his ethically correct
+        hydrate boolean textClean with the value
+     */
     public void ScanText()
     {
-
         if ( mapName.getText().toString().length() == 0 )
         {
             Toast.makeText(this, "Fill the name section ! ", Toast.LENGTH_LONG).show();
@@ -346,8 +368,10 @@ public class SandboxActivity extends AppCompatActivity
         }
     }
 
-    // ---------------- Called when the user try to save his map. --------------------------------//
-    // ------------ Check if the map is quite correct and display toast otherwise. ---------------//
+    /*
+        Called when the user try to save his map.
+        Check if the map is quite correct and display toast otherwise.
+    */
     public void SaveGame()
     {
         CountObjectOnBoard();
@@ -359,7 +383,6 @@ public class SandboxActivity extends AppCompatActivity
                         if (EnoughFinishPlace()) {
                             myMap.setName(mapName.getText().toString());
                             if (Modification) {
-                                //myMap.setIsTested(false);
                                 MapDAO.updateMap(this, myMap);
                             } else {
                                 MapDAO.saveMap(this, myMap);
@@ -381,16 +404,24 @@ public class SandboxActivity extends AppCompatActivity
         });
     }
 
+    /*
+        Called after the response of the moderation language API
+        Hydrate the boolean text clean with the response
+        and call the Save Game method
+     */
     public void ResponseTextModeration(Boolean response)
     {
         textClean = response;
         SaveGame();
     }
-    // ---------- Called after the save of a map ( header )  in the dataBase. --------------------//
-    //------ Create mapLines object to save them too with the id of the map created --------------//
+
+    /*
+         Called after the save of a map ( header )  in the dataBase.
+         Create mapLines object to save them too with the id of the map created
+     */
 
     @SuppressLint("NonConstantResourceId")
-    public void responseAfterSaveMap(int id )
+    public void ResponseAfterSaveMap(int id )
     {
         int countNumber = 0;
 
@@ -434,7 +465,8 @@ public class SandboxActivity extends AppCompatActivity
         finish();
     }
 
-    // --------------------- Called After API Response -------------------------------------------//
+    /* Called After API Response */
+
     @SuppressLint("NonConstantResourceId")
     public void responseAfterUpdateMap()
     {
@@ -446,10 +478,9 @@ public class SandboxActivity extends AppCompatActivity
 
             for ( int j = 0; j < myMap.getNbColumns(); j++ )
             {
-                //System.out.println(matrix[countNumber]);
                 switch ( matrix[ countNumber ] )
                 {
-                    case R.drawable.left_player :
+                    case R.drawable.left_player_blue :
                         content.append("P");
                         break;
                     case R.drawable.mur:
@@ -470,35 +501,43 @@ public class SandboxActivity extends AppCompatActivity
 
             MapLine myMapLine = new MapLine( 0, i , content.toString(),  myMap.getIdMap());
 
-
-            if (i < nbRowTemp) {
+            if ( i < nbRowTemp )
+            {
                 MapDAO.updateMapLines(this,myMapLine);
-            } else {
+            }
+            else
+            {
                 MapDAO.saveMapLines(this,myMapLine);
             }
-
-
         }
     }
 
-     // ------- Check if there is enough finish place for the number of boxes placed. ------------//
+     /*
+      Check if there is enough finish place for the number of boxes placed.
+      */
     public boolean EnoughFinishPlace ()
     {
         int nbBox = 0;
         int nbFinishZone = 0;
 
-        for (int j : matrix) {
-            if (j == images[3]) {
+        for ( int j : matrix )
+        {
+            if ( j == images[3] )
+            {
                 nbFinishZone++;
-            } else if (j == images[4]) {
+            }
+            else if ( j == images[4] )
+            {
                 nbBox++;
             }
         }
-        return (nbBox <= nbFinishZone);
+        return ( nbBox <= nbFinishZone );
     }
 
-    // ----------------- Called when the user click on the map to place item. --------------------//
-    // ---------------------- Call the method to refresh the board. -----------------------------//
+    /*
+        Called when the user click on the map to place item.
+        Call the method to refresh the board.
+     */
 
     public void ClickOnBoard(int position)
     {
@@ -537,24 +576,33 @@ public class SandboxActivity extends AppCompatActivity
         FillGameBoard();
     }
 
+    /*
+     Count Object on the Game Board
+     */
 
-    // ------------------------------ Count Object on the Game Board ---------------------------- //
-    public void CountObjectOnBoard(){
+    public void CountObjectOnBoard()
+    {
         nbPlayerPlaced = 0;
         nbBoxPlaced = 0;
 
-        for (int j : matrix) {
-            if (j == images[0]) {
+        for (int j : matrix)
+        {
+            if ( j == images[0] )
+            {
                 nbPlayerPlaced++;
-            } else if (j == images[4]) {
+            }
+            else if ( j == images[4] )
+            {
                 nbBoxPlaced++;
             }
         }
     }
 
-    // ------------------------------------------------------------------------------------------ //
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
+    /*
+        Called when the player try to test his map
+        Open game activity with the current map
+     */
     public void TestGame()
     {
         if ( myMap.getIdMap() != 0 ){
@@ -570,6 +618,10 @@ public class SandboxActivity extends AppCompatActivity
         }
     }
 
+    /*
+        Called when the user has finish to test his map or just return without finishing
+        Change the light color of the test indicator depending on the result
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {

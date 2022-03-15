@@ -9,7 +9,7 @@ public class SharedPref
     /*
         Try lo load the idClient in the cache otherwise send nothing
      */
-    public static String loadIdClient(Context myActivity)
+    public static String LoadIdClient(Context myActivity)
     {
         SharedPreferences sharedPreferences= myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
@@ -31,8 +31,8 @@ public class SharedPref
     //----------------------------------------------------------------------------------------------------------
 
     /*
-    Save volume preferences
- */
+        Save volume preferences
+    */
     public static void SaveVolumePreferences(Context myActivity,float volume)
     {
         SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);

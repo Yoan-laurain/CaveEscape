@@ -3,25 +3,23 @@ package com.example.myapplication.Option;
 import android.support.v7.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Toast;
-
 import com.example.myapplication.Info.InfoActivity;
 import com.example.myapplication.Lib.AudioPlayer;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.Lib.Navigation;
 
+import java.security.Key;
 import java.util.HashMap;
 
 public class OptionActivity extends AppCompatActivity
 {
     Button button_return;
     Button button_credit;
-    HashMap params = new HashMap<>();
+    HashMap<Key,Object> params = new HashMap<>();
     ImageView background;
     ImageView sound;
     SeekBar volume;
@@ -41,7 +39,6 @@ public class OptionActivity extends AppCompatActivity
         sound = findViewById(R.id.sound);
         volume = findViewById(R.id.volume_level);
 
-
         //-------------------------------------------------------------------- //
 
         //---------------------- Set clicks actions -------------------------- //
@@ -51,7 +48,8 @@ public class OptionActivity extends AppCompatActivity
 
         sound.setOnClickListener(v -> {
 
-            if ((Integer)v.getTag() == R.drawable.sound) {
+            if ((Integer)v.getTag() == R.drawable.sound)
+            {
                 sound.setImageResource(R.drawable.sound_mute);
                 sound.setTag(R.drawable.sound_mute);
                 AudioPlayer.ChangeVolume(0);
@@ -62,12 +60,9 @@ public class OptionActivity extends AppCompatActivity
                 sound.setImageResource(R.drawable.sound);
                 sound.setTag(R.drawable.sound);
                 AudioPlayer.ChangeVolume(currentVolume - 1);
-
                 volume.setProgress( currentVolume - 1 );
             }
         });
-
-
 
         //-------------------------------------------------------------------- //
 
@@ -90,12 +85,13 @@ public class OptionActivity extends AppCompatActivity
         currentVolume = volume.getProgress();
 
 
-        volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
 
             // When Progress value changed.
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser)
+            {
                 if ( progressValue != 0 )
                 {
                     currentVolume = progressValue;
@@ -116,6 +112,4 @@ public class OptionActivity extends AppCompatActivity
         });
 
     }
-
-
 }

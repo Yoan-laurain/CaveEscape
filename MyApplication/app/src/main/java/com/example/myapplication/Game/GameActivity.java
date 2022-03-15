@@ -2,25 +2,16 @@ package com.example.myapplication.Game;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Insets;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.Size;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowInsets;
 import android.view.WindowManager;
-import android.view.WindowMetrics;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
@@ -28,23 +19,16 @@ import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
-
-
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-@RequiresApi(api = Build.VERSION_CODES.R)
 public class GameActivity extends AppCompatActivity
 {
-    GridView gameBoard;
-    Map myMap;
-    int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
-    private int[] matrix;
-    HashMap<Integer, MapLine> lesLinesMapsTemp;
-    private int count;
+    //-------------------------------------
+
     ImageButton left;
     ImageButton right;
     ImageButton up;
@@ -52,18 +36,31 @@ public class GameActivity extends AppCompatActivity
     ImageButton restart;
     ImageButton quit;
     TextView view_text_level;
+    TextView textMove;
+    GridView gameBoard;
+
+    //-------------------------------------
+
+    private final int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+
+    private int count;
     private int currentPosition = 0;
     private int countNbBox;
     private int nbBoxPlaced;
     private int caseTemp = images[2];
-    ArrayList<Integer> leftLimits = new ArrayList<>();
-    ArrayList<Integer> rightLimits = new ArrayList<>();
-    private boolean comingFromTest = false;
-    int moveCount;
-    TextView textMove;
-    public PropertyChangeListener listener;
+    private int moveCount;
     private int currentStepTuto = 0;
+    private int[] matrix;
+
+    private boolean comingFromTest = false;
     private boolean tuto = false;
+
+    private ArrayList<Integer> leftLimits = new ArrayList<>();
+    private ArrayList<Integer> rightLimits = new ArrayList<>();
+
+    private Map myMap;
+    private HashMap<Integer, MapLine> linesMapsTemp;
+    public PropertyChangeListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,35 +85,44 @@ public class GameActivity extends AppCompatActivity
         //---------------------------Retrieve parameters----------------------- //
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
-        view_text_level.setText(myMap.getNom());
 
-        try{
+        try
+        {
             comingFromTest = (boolean) getIntent().getSerializableExtra("comingFromTest");
-        }
-        catch(Exception e){}
+        }catch(Exception ignored){}
 
+        //-------------------------------------------------------------------- //
+
+        //---------------------------Change interface----------------------- //
+
+        view_text_level.setText( myMap.getNom() );
         textMove.setText("0");
 
-        if (myMap.getIdMap() == -1){
-            Map.HardCodedMap(this);
-            try{
+        //-------------------------------------------------------------------- //
 
-                Bundle extras = getIntent().getExtras();
-                String isTuto = extras.getString("Tuto");
+        //---------------------------LOAD MAP----------------------- //
+
+        if ( myMap.getIdMap() == -1 )
+        {
+            Map.HardCodedMap(this);
+            try
+            {
+                String isTuto = (String) getIntent().getSerializableExtra("Tuto");
 
                 if ( isTuto.equals("true") )
                 {
-                    ShowMovement();
+                    TutorialGuide();
                 }
-            }catch (Exception e){}
+            }catch (Exception ignored){}
         }
-        else if (myMap.getIdMap() == -2){
+        else if (myMap.getIdMap() == -2)
+        {
             Map.FileMapLine(this);
         }
-        else {
+        else
+        {
             MapDAO.GetMap(this, null, String.valueOf(myMap.getIdMap()));
         }
-
 
         //-------------------------------------------------------------------- //
 
@@ -124,26 +130,26 @@ public class GameActivity extends AppCompatActivity
 
         left.setOnClickListener(var ->  {
             if ( currentStepTuto == 0 ) {
-                move( 1);
+                Move( 1);
             }
 
         } );
         right.setOnClickListener(var -> {
             if ( currentStepTuto == 0 ) {
-                move(-1);
+                Move(-1);
             }
         } );
         up.setOnClickListener(var -> {
             if ( currentStepTuto == 0 ) {
-                move(myMap.getNbColumns());
+                Move(myMap.getNbColumns());
             }
         } );
         down.setOnClickListener(var -> {
             if ( currentStepTuto == 0 ) {
-                move(-myMap.getNbColumns());
+                Move(-myMap.getNbColumns());
             }
         } );
-        getMapLimits();
+        GetMapLimits();
         restart.setOnClickListener(var -> {
             if ( currentStepTuto == 0 ) {
                 RefreshGame();
@@ -168,8 +174,21 @@ public class GameActivity extends AppCompatActivity
             gameBoard = findViewById(R.id.gameBoard);
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
+            ViewGroup.LayoutParams params = gameBoard.getLayoutParams();
 
-            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight() / myMap.getNbRows());
+            int gameBoardHeight = gameBoard.getHeight() / myMap.getNbRows();
+            //int gameBoardWidth = gameBoard.getWidth() / myMap.getNbColumns();
+
+            // check the height of a line is good to display
+            if(gameBoardHeight > 300){
+                gameBoardHeight = 300;
+                params.height = myMap.getNbRows() * gameBoardHeight;
+            }
+            /*if(gameBoardWidth > 300){
+                gameBoardWidth = 300;
+                params.width = myMap.getNbColumns() * gameBoardHeight;
+            }*/
+            GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
         });
     }
@@ -177,16 +196,16 @@ public class GameActivity extends AppCompatActivity
     /*
         Called after the response of the API after retrieving all map lines
      */
-    public void responseMapLine(HashMap<Integer, MapLine> lesLinesMaps )
+    public void ResponseMapLine( HashMap<Integer, MapLine> linesMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         count = 0;
         countNbBox =0;
 
-        List<MapLine> linesMapSorted = new ArrayList(lesLinesMaps.values());
+        List<MapLine> linesMapSorted = new ArrayList<>(linesMaps.values());
         linesMapSorted.sort(Comparator.comparing(MapLine::getIndexRow));
 
-        lesLinesMapsTemp = lesLinesMaps;
+        linesMapsTemp = linesMaps;
 
         linesMapSorted.forEach(MapLine ->
         {
@@ -226,7 +245,7 @@ public class GameActivity extends AppCompatActivity
     /*
         Rules the physics movement of the player and move him in the gameBoard
      */
-    public void move ( int movement )
+    public void Move ( int movement )
     {
         int oldPosition = currentPosition;
         try
@@ -310,8 +329,7 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
-                    System.out.println("NOOPY");
-                    callPopUpEndGame();
+                    CallPopUpEndGame();
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )
                 {
@@ -323,24 +341,34 @@ public class GameActivity extends AppCompatActivity
 
     }
 
-    public void getMapLimits(){
-
+    /*
+        Retrieve all cases that are the limit of the map to restrict movements
+        Store those values in 2 list left and right unaccepted movement
+     */
+    public void GetMapLimits()
+    {
         leftLimits = new ArrayList<>();
         rightLimits = new ArrayList<>();
 
-        for(int i = 0; i < (myMap.getNbColumns() * myMap.getNbRows()); i++){
-            double currentLine = Math.ceil(i/ myMap.getNbColumns());
+        for( double i = 0; i < ( myMap.getNbColumns() * myMap.getNbRows() ); i++ )
+        {
+            double currentLine = Math.ceil( i / myMap.getNbColumns() );
 
-            if (i % myMap.getNbColumns()  == 0 ){
-                leftLimits.add(i);
+            if (i % myMap.getNbColumns()  == 0 )
+            {
+                leftLimits.add( (int) Math.round(i));
             }
-            else if ((i - currentLine) % (myMap.getNbColumns()-1)  == 0 ){
-                rightLimits.add(i);
+            else if ( ( i - currentLine ) % ( myMap.getNbColumns() - 1 )  == 0 )
+            {
+                rightLimits.add( (int) Math.round(i) );
             }
         }
     }
 
-    public void ShowMovement()
+    /*
+        Display pop up with text to guide the player on in first time on the game
+     */
+    public void TutorialGuide()
     {
         if ( currentStepTuto == 0 )
         {
@@ -352,11 +380,11 @@ public class GameActivity extends AppCompatActivity
         }
         if ( currentStepTuto == 1 )
         {
-            move( 1);
+            Move( 1);
             Handler handler = new Handler();
             handler.postDelayed(() -> {
 
-                move( 1);
+                Move( 1);
                 ArrayList<String> text = new ArrayList<>();
                 text.add(" You need to be careful there are walls! ");
                 text.add(" Come on, let's bring this aztaroth back to its cage and quickly !");
@@ -366,12 +394,12 @@ public class GameActivity extends AppCompatActivity
         }
         else if ( currentStepTuto == 2 )
         {
-            move( - myMap.getNbColumns());
+            Move( - myMap.getNbColumns());
             Handler handler = new Handler();
             tuto = false;
             handler.postDelayed(() -> {
 
-                move( - myMap.getNbColumns());
+                Move( - myMap.getNbColumns());
                 ArrayList<String> text = new ArrayList<>();
                 text.add(" Well the job is done! Thank you very much. The kingdom still needs your help you know. ");
                 text.add(" You can create levels if you want but it's not nice there are already a lot of monsters...");
@@ -387,60 +415,67 @@ public class GameActivity extends AppCompatActivity
         }
     }
 
+    /*
+        Call pop up dialog with the text in parameter
+     */
     public void CallPopUp( ArrayList<String> text  )
     {
         TutoDesign popup = new TutoDesign(this,R.layout.popup_tuto,text);
-        Dialog myDiag = new Dialog(this);
-        myDiag.setCanceledOnTouchOutside(false);
+        Dialog myDialog = new Dialog(this);
+        myDialog.setCanceledOnTouchOutside(false);
 
-        listener = event -> {
-           RefreshTextPopUp(myDiag,popup,text);
-        };
+        listener = event -> RefreshTextPopUp(myDialog,popup,text);
         popup.changes.addPropertyChangeListener(listener);
 
-        Window window = myDiag.getWindow();
+        Window window = myDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.BOTTOM;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
 
-        myDiag.setContentView( popup.getView( null ) );
-        myDiag.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        myDiag.show();
+        myDialog.setContentView( popup.getView( null ) );
+        myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        myDialog.show();
     }
 
-    public void callPopUpEndGame()
+    /*
+        Display a pop up at the end of the level to go to next level or quit or replay
+     */
+    public void CallPopUpEndGame()
     {
         EndGame popup = new EndGame(this,R.layout.popup_end_game);
-        Dialog myDiag = new Dialog(this);
-        myDiag.setCanceledOnTouchOutside(false);
+        Dialog myDialog = new Dialog(this);
+        myDialog.setCanceledOnTouchOutside(false);
 
-        Window window = myDiag.getWindow();
+        Window window = myDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.CENTER;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
 
-        myDiag.setContentView( popup.getView( null ) );
+        myDialog.setContentView( popup.getView( null ) );
 
         popup.getReplayGame().setOnClickListener(var -> {
             RefreshGame();
-            myDiag.dismiss();
+            myDialog.dismiss();
         });
 
         popup.getNextLevel().setOnClickListener(var -> {
             MapDAO.GetNextMap(this,myMap.getIdMap() );
-            myDiag.dismiss();
+            myDialog.dismiss();
         });
 
         popup.getReturn_back().setOnClickListener(var -> finish());
 
-        myDiag.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        myDiag.show();
+        myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        myDialog.show();
     }
 
+    /*
+        Refresh all the level with the map of the class
+     */
     public void RefreshGame()
     {
         moveCount = 0;
@@ -449,28 +484,36 @@ public class GameActivity extends AppCompatActivity
         view_text_level.setText(myMap.getNom());
         currentStepTuto = 0;
         caseTemp = images[2];
-        responseMapLine(lesLinesMapsTemp);
+        ResponseMapLine( linesMapsTemp);
     }
 
-    public void RefreshTextPopUp( Dialog myDiag, TutoDesign popup , ArrayList<String> text )
+    /*
+        Change the current text which is display on the pop up in parameter with the list of text
+        also in parameter
+     */
+    public void RefreshTextPopUp( Dialog myDialog, TutoDesign popup , ArrayList<String> text )
     {
         if (popup.listenerActive) {
 
-            if ( popup.getCurrentText() == text.size() )
+            if ( popup.GetCurrentText() == text.size() )
             {
-                myDiag.dismiss();
+                myDialog.dismiss();
                 currentStepTuto++;
-                ShowMovement();
+                TutorialGuide();
             }
             else
             {
-                myDiag.setContentView( popup.getView( null ) );
-                myDiag.show();
+                myDialog.setContentView( popup.getView( null ) );
+                myDialog.show();
                 popup.listenerActive=false;
             }
         }
     }
 
+    /*
+        Called after retrieving the next map to play
+        Refresh the level with the new map in parameter
+     */
     public void ResponseNextLevel(Map newMap)
     {
         this.runOnUiThread(() ->
@@ -484,7 +527,7 @@ public class GameActivity extends AppCompatActivity
             view_text_level.setText(myMap.getNom());
             currentStepTuto = 0;
             caseTemp = images[2];
-            getMapLimits();
+            GetMapLimits();
         });
     }
 }
