@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import java.util.ArrayList;
 
-public class SandBoxLevelDesigner extends ArrayAdapter
+public class SandBoxLevelDesigner extends ArrayAdapter<String>
 {
     // ---------------------------------------------
 
@@ -43,24 +43,20 @@ public class SandBoxLevelDesigner extends ArrayAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        if(convertView == null)
+        if( convertView == null )
         {
             LayoutInflater inflater = context.getLayoutInflater();
             convertView = inflater.inflate(idLayout, null, true);
         }
 
         TextView textViewTitle = convertView.findViewById(R.id.TitreLevelSandbox);
+        ImageView lightIsTested = convertView.findViewById(R.id.lightLevelTested);
+
         textViewTitle.setText(title.get(position));
 
-        ImageView lightIsTested = convertView.findViewById(R.id.lightLevelTested);
-        if ( isTested.get(position) )
-        {
-            lightIsTested.setImageResource(R.drawable.green_circle);
-        }
-        else
-        {
-            lightIsTested.setImageResource(R.drawable.red_circle);
-        }
+        int imageToDisplay =  ( isTested.get( position ) ? R.drawable.green_circle : R.drawable.red_circle );
+
+        lightIsTested.setImageResource( imageToDisplay );
 
         return  convertView;
     }

@@ -69,8 +69,6 @@ public class SandboxActivity extends AppCompatActivity
 
     boolean Modification = false;
 
-
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -572,7 +570,6 @@ public class SandboxActivity extends AppCompatActivity
 
     // ------------------------------------------------------------------------------------------ //
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     public void TestGame()
     {
         if ( myMap.getIdMap() != 0 ){

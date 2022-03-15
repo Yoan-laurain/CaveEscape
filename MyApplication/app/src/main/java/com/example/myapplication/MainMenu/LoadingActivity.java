@@ -1,10 +1,6 @@
 package com.example.myapplication.MainMenu;
 
 
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Dao.HistoryDAO;
 import com.example.myapplication.Dto.Map;
@@ -76,7 +71,7 @@ public class LoadingActivity extends AppCompatActivity
 
         if(idClient.equals("0")){
             createIdClient();
-            HistoryDAO.NewPlayer(idClient);
+            HistoryDAO.NewPlayer(this,idClient);
             System.out.println("IdClient : " + idClient);
 
             params.put("Map", Map.HardCodedMapHeader());
@@ -125,7 +120,7 @@ public class LoadingActivity extends AppCompatActivity
         button_quit = findViewById(R.id.button_quit);
         button_quit.setOnClickListener(view -> {
 
-            AudioPlayer.stop();
+            AudioPlayer.Stop();
             finishAffinity();
         });
     }
@@ -138,7 +133,7 @@ public class LoadingActivity extends AppCompatActivity
 
     // -------------------------------- Get The idClient from the cache --------------------------//
     private void getIdClientFromPref() {
-        idClient = SharedPref.loadIdClient(this);
+        idClient = SharedPref.LoadIdClient(this);
     }
 
 
