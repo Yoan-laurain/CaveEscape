@@ -83,7 +83,7 @@
         app:layout_constraintStart_toEndOf="@+id/button_sandbox_mur"
         app:layout_constraintTop_toBottomOf="@+id/map_name"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/grass50"
+        app:srcCompat="@drawable/blue_grass"
         tools:ignore="ImageContrastCheck" />
 
     <ImageButton
@@ -96,7 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map_name"
-        app:srcCompat="@drawable/caged_monster" />
+        app:srcCompat="@drawable/caged_monster_blue" />
 
     <ImageButton
         android:id="@+id/button_sandbox_box"
@@ -111,7 +111,7 @@
         app:layout_constraintStart_toEndOf="@+id/button_sandbox_arrive"
         app:layout_constraintTop_toBottomOf="@+id/map_name"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/free_monster" />
+        app:srcCompat="@drawable/free_monster_blue" />
 
     <ImageButton
         android:id="@+id/button_sandbox_mur"
