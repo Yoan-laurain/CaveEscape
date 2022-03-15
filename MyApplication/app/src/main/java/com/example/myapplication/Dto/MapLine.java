@@ -10,6 +10,8 @@ public class MapLine
     private String content;
     private final int idMap;
 
+    //-------------------------------------------------------------------------
+
     public MapLine(int id, int indexRow, String content, int idMap)
     {
         this.id = id;

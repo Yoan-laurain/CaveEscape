@@ -10,9 +10,8 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import java.util.ArrayList;
 
-public class LevelDesign extends ArrayAdapter
+public class LevelDesign extends ArrayAdapter<String>
 {
-
     // ---------------------------------------------
 
     private final ArrayList<String> title;

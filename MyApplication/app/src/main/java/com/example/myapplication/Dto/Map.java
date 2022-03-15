@@ -1,26 +1,16 @@
 package com.example.myapplication.Dto;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.res.Resources;
-
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.LevelSelect.SelectActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Map implements Serializable
 {
@@ -69,21 +59,28 @@ public class Map implements Serializable
 
     //------------------------------------------------------------------------------
 
-    public static Map hydrateMap(JSONObject json) throws JSONException
+    /*
+        Hydrate a map object with value of the json object in parameter
+     */
+    public static Map HydrateMap( JSONObject json ) throws JSONException
     {
         return new Map(
                 json.getInt("idMap"),
                 json.getString("nom"),
                 json.getInt("nbRows"),
                 json.getInt("nbColumns"),
-                ( json.getInt("isTested") == 1 ? true : false),
+                (json.getInt("isTested") == 1),
                 json.getString("idClient")
         );
     }
 
+    /*
+        Hydrate a map object with a created json
+     */
     public static Map HardCodedMapHeader()
     {
         Map myMap = new Map(0,"", 0, 0,false,"0");
+
         String jsonMapString = "{\n" +
                 "        \"idMap\":\"-1\",\n" +
                 "        \"nom\":\"HardCoded Map\",\n" +
@@ -95,21 +92,20 @@ public class Map implements Serializable
 
         try
         {
-
-            JSONObject json = new JSONObject(jsonMapString);
-
-            myMap = Map.hydrateMap( json );
-
+            JSONObject json = new JSONObject( jsonMapString );
+            myMap = Map.HydrateMap( json );
         }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
+        catch (JSONException ignored){}
+
         return myMap;
-
     }
 
-    public static void HardCodedMap(GameActivity myActivity) {
+    /*
+        Hydrate map line object with a created json and called method
+        in GameActivity to load map
+     */
+    public static void HardCodedMap( GameActivity myActivity )
+    {
 
         String jsonString = "[\n" +
                 "    {\n" +
@@ -149,39 +145,47 @@ public class Map implements Serializable
                 "        \"idMap\":\"-1\"\n" +
                 "    }\n" +
                 "]";
-        try {
-            JSONArray jsonArrayMap = new JSONArray(jsonString);
+        try
+        {
+            JSONArray jsonArrayMap = new JSONArray( jsonString );
             HashMap<Integer, MapLine> LinesMaps = new HashMap<>();
 
-            for (int i = 0; i < jsonArrayMap.length(); i++) {
-                JSONObject json = jsonArrayMap.getJSONObject(i);
+            for (int i = 0; i < jsonArrayMap.length(); i++)
+            {
+                JSONObject json = jsonArrayMap.getJSONObject( i );
 
-                MapLine myMapLine = MapLine.hydrateMap(json);
+                MapLine myMapLine = MapLine.hydrateMap( json );
 
-                LinesMaps.put(myMapLine.getId(), myMapLine);
+                LinesMaps.put( myMapLine.getId(), myMapLine );
             }
 
-            myActivity.responseMapLine(LinesMaps);
+            myActivity.ResponseMapLine( LinesMaps );
 
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        } catch ( JSONException ignored ) {}
 
     }
 
-    public static Map FileMapHeader(SelectActivity myActivity ){
-        Map myMap = new Map(0,"", 0, 0,false,"0");
-        String json = "";
-        int id = myActivity.getResources().getIdentifier("mapheader", "raw", myActivity.getPackageName());
-        try {
+    /*
+        Hydrate a map object with json in a file
+     */
 
+    public static Map FileMapHeader( SelectActivity myActivity )
+    {
+        Map myMap = new Map(0,"", 0, 0,false,"0");
+
+        String json;
+        int id = myActivity.getResources().getIdentifier("mapheader", "raw", myActivity.getPackageName());
+
+        try
+        {
             Resources r = myActivity.getResources();
             InputStream is = r.openRawResource(id);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int i = is.read();
-            while (i != -1) {
+
+            while (i != -1)
+            {
                 baos.write(i);
                 i = is.read();
             }
@@ -190,34 +194,36 @@ public class Map implements Serializable
             is.close();
 
             JSONObject jsonHeader = new JSONObject(json);
+            myMap = Map.HydrateMap(jsonHeader);
 
-            myMap = Map.hydrateMap(jsonHeader);
+        } catch (JSONException | IOException ignored) {}
 
-        } catch (JSONException | IOException e) {
-            e.printStackTrace();
-        }
         return myMap;
     }
 
-    public static void FileMapLine(GameActivity myActivity) {
-
-
-        String jsonLines = "";
+    /*
+        Hydrate a map line object with json in a file
+     */
+    public static void FileMapLine( GameActivity myActivity )
+    {
+        String jsonLines;
         int id = myActivity.getResources().getIdentifier("mapline", "raw", myActivity.getPackageName());
 
-        try {
+        try
+        {
             Resources r = myActivity.getResources();
             InputStream is = r.openRawResource(id);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int i = is.read();
-            while (i != -1) {
+
+            while (i != -1)
+            {
                 baos.write(i);
                 i = is.read();
             }
 
             jsonLines = baos.toString();
-            System.out.println(jsonLines);
             is.close();
 
             JSONArray jsonArrayMap = new JSONArray(jsonLines);
@@ -232,11 +238,8 @@ public class Map implements Serializable
                 LinesMaps.put(myMapLine.getId(), myMapLine);
             }
 
-            myActivity.responseMapLine(LinesMaps);
+            myActivity.ResponseMapLine(LinesMaps);
 
-        } catch (IOException | JSONException e) {
-
-        }
+        } catch (IOException | JSONException ignored) {}
     }
-
 }

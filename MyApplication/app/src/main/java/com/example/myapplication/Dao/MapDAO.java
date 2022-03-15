@@ -1,5 +1,8 @@
 package com.example.myapplication.Dao;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;
@@ -73,7 +76,7 @@ public class MapDAO
 
                                 JSONObject json = jsonArrayMap.getJSONObject(i);
 
-                                Map myMap = Map.hydrateMap(json);
+                                Map myMap = Map.HydrateMap(json);
 
                                 Maps.put( myMap.getIdMap() , myMap );
                             }
@@ -162,7 +165,7 @@ public class MapDAO
                             if (myActivity == null) {
                                 mySandBoxActivity.responseMapLine(LinesMaps);
                             } else {
-                                myActivity.responseMapLine(LinesMaps);
+                                myActivity.ResponseMapLine(LinesMaps);
                             }
                         }
                         catch(JSONException e)
@@ -367,14 +370,14 @@ public class MapDAO
 
                                 JSONObject json = jsonArrayMap.getJSONObject(i);
 
-                                Map myMap = Map.hydrateMap(json);
+                                Map myMap = Map.HydrateMap(json);
 
                                 Maps.put( myMap.getIdMap() , myMap );
                             }
                             if (myActivity == null) {
                                 myActivitySandBox.responseMap(Maps);
                             } else {
-                                myActivity.responseMap(Maps);
+                                myActivity.ResponseMap(Maps);
                             }
                         }
                         catch(JSONException e)
@@ -582,14 +585,14 @@ public class MapDAO
 
                                 JSONObject json = jsonArrayMap.getJSONObject(i);
 
-                                Map myMap = Map.hydrateMap( json );
+                                Map myMap = Map.HydrateMap( json );
 
                                 Maps.put( myMap.getIdMap() , myMap );
                             }
                             if (myActivity == null) {
                                 myActivitySandBox.responseMap(Maps);
                             } else {
-                                myActivity.responseMap(Maps);
+                                myActivity.ResponseMap(Maps);
                             }
                         }
                         catch(JSONException e)
@@ -609,7 +612,7 @@ public class MapDAO
                     if (myActivity == null) {
                         myActivitySandBox.responseMap(Maps);
                     } else {
-                        myActivity.responseMap(Maps);
+                        myActivity.ResponseMap(Maps);
                     }
                 }
             }
@@ -657,14 +660,14 @@ public class MapDAO
 
                                 JSONObject json = jsonArrayMap.getJSONObject(i);
 
-                                Map myMap = Map.hydrateMap( json );
+                                Map myMap = Map.HydrateMap( json );
 
                                 Maps.put( myMap.getIdMap() , myMap );
                             }
                             if (myActivity == null) {
                                 myActivitySandBox.responseMap(Maps);
                             } else {
-                                myActivity.responseMap(Maps);
+                                myActivity.ResponseMap(Maps);
                             }
                         }
                         catch(JSONException e)
@@ -684,7 +687,7 @@ public class MapDAO
                     if (myActivity == null) {
                         myActivitySandBox.responseMap(Maps);
                     } else {
-                        myActivity.responseMap(Maps);
+                        myActivity.ResponseMap(Maps);
                     }
                 }
             }
@@ -726,7 +729,7 @@ public class MapDAO
                         try
                         {
                             JSONObject json = new JSONObject(responseStr);
-                            Map myMap = Map.hydrateMap( json );
+                            Map myMap = Map.HydrateMap( json );
                             myActivity.ResponseNextLevel(myMap);
                         }
                         catch(JSONException e)

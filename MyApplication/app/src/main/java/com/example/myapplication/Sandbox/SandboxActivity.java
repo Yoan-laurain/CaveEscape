@@ -67,8 +67,6 @@ public class SandboxActivity extends AppCompatActivity
 
     boolean Modification = false;
 
-
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -280,7 +278,7 @@ public class SandboxActivity extends AppCompatActivity
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
 
-            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight()/myMap.getNbRows());
+            GameDesign adapter = new GameDesign(this, matrix, gameBoard.getHeight()/myMap.getNbRows());
             gameBoard.setAdapter(adapter);
 
         });
@@ -554,7 +552,6 @@ public class SandboxActivity extends AppCompatActivity
 
     // ------------------------------------------------------------------------------------------ //
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     public void TestGame()
     {
         if ( myMap.getIdMap() != 0 ){
