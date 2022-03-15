@@ -65,18 +65,6 @@ public class GameActivity extends AppCompatActivity
     private int currentStepTuto = 0;
     private boolean tuto = false;
 
-    //get screen size
-    WindowMetrics metrics = getWindowManager().getCurrentWindowMetrics();
-    WindowInsets windowInsets = metrics.getWindowInsets();
-
-    Insets insets = windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars() | WindowInsets.Type.displayCutout());
-
-    int insetsHeight = insets.top + insets.bottom;
-    int insetsWidth = insets.left + insets.right;
-
-    Rect bounds = metrics.getBounds();
-    Size legacySize = new Size(bounds.width() - insetsWidth, bounds.height() - insetsHeight );
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -181,7 +169,7 @@ public class GameActivity extends AppCompatActivity
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
 
-            GameDesign adapter = new GameDesign(this, images, matrix,myMap.getNbRows() * 30 );
+            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight() / myMap.getNbRows());
             gameBoard.setAdapter(adapter);
         });
     }
