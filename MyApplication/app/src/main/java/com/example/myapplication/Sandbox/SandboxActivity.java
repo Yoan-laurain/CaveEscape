@@ -296,7 +296,7 @@ public class SandboxActivity extends AppCompatActivity
                 params.width = myMap.getNbColumns() * gameBoardHeight;
             }*/
 
-            GameDesign adapter = new GameDesign(this, images, matrix, gameBoardHeight);
+            GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
 
         });
