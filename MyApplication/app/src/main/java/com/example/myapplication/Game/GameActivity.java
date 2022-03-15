@@ -1,20 +1,24 @@
 package com.example.myapplication.Game;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Insets;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Size;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.view.WindowMetrics;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.myapplication.Dao.MapDAO;
@@ -22,28 +26,22 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
-import com.example.myapplication.Lib.LevelDesign;
-import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+@RequiresApi(api = Build.VERSION_CODES.R)
 public class GameActivity extends AppCompatActivity
 {
     GridView gameBoard;
     Map myMap;
-    int[] images = {R.drawable.left_player,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+    int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
     private int[] matrix;
     HashMap<Integer, MapLine> lesLinesMapsTemp;
     private int count;
@@ -171,7 +169,7 @@ public class GameActivity extends AppCompatActivity
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
 
-            GameDesign adapter = new GameDesign(this, images, matrix, myMap.getNbRows() * 30 );
+            GameDesign adapter = new GameDesign(this, images, matrix, gameBoard.getHeight() / myMap.getNbRows());
             gameBoard.setAdapter(adapter);
         });
     }

@@ -51,10 +51,10 @@
     <GridView
         android:id="@+id/sandbox_gameBoard"
         android:layout_width="wrap_content"
-        android:layout_height="470dp"
-        app:layout_constraintBottom_toTopOf="@+id/map_name"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:layout_constraintBottom_toBottomOf="@id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
     </GridView>
@@ -71,7 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.894"
-        app:srcCompat="@drawable/left_player" />
+        app:srcCompat="@drawable/left_player_blue" />
 
     <ImageButton
         android:id="@+id/button_sandbox_sol"
@@ -126,7 +126,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.894"
-        app:srcCompat="@drawable/middle_straight_wall" />
+        app:srcCompat="@drawable/middle_straight_wall_blue" />
 
     <Button
         android:id="@+id/save_game"
@@ -241,4 +241,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/red_circle" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70"/>
 </android.support.constraint.ConstraintLayout>
