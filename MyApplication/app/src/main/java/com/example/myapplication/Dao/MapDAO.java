@@ -1,8 +1,5 @@
 package com.example.myapplication.Dao;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;
@@ -18,7 +15,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
