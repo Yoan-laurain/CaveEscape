@@ -364,7 +364,17 @@ public class SandboxActivity extends AppCompatActivity
         }
         else
         {
-            TextModeration.ScanText(this,mapName.getText().toString());
+
+            if ( mapName.getText().toString().length() > 20 )
+            {
+                Toast.makeText(this, "The name of the map can contain 20 characters max ! ", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                TextModeration.ScanText(this,mapName.getText().toString());
+            }
+
+
         }
     }
 
