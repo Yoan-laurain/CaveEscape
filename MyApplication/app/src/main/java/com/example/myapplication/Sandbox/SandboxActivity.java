@@ -122,6 +122,7 @@ public class SandboxActivity extends AppCompatActivity
 
     boolean textClean = true;
     boolean Modification = false;
+    boolean mapIsInitialized = false;
 
     private ArrayList<Integer> leftLimits = new ArrayList<>();
     private ArrayList<Integer> rightLimits = new ArrayList<>();
@@ -202,7 +203,6 @@ public class SandboxActivity extends AppCompatActivity
             MapDAO.GetMap(null, this, String.valueOf(myMap.getIdMap()));
             mapName.setText(myMap.getNom());
             nbRowTemp = myMap.getNbRows();
-            Modification = true;
 
             if ( myMap.getIsTested() )
             {
@@ -233,10 +233,11 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-                Modification = true;
+
                 if ( position != myMap.getNbRows() - 1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
+                    myMap.setIsTested(false);
                 }
 
                 int nbLinesTemp = myMap.getNbRows();
@@ -250,6 +251,7 @@ public class SandboxActivity extends AppCompatActivity
                 {
                     if ( myMap.getNbRows() > nbLinesTemp )
                     {
+                        Modification = true;
                         if ( i >= nbLinesTemp * myMap.getNbColumns()  )
                         {
                             matrix[i] = images[2];
@@ -262,6 +264,7 @@ public class SandboxActivity extends AppCompatActivity
                     }
                     else if ( myMap.getNbRows() < nbLinesTemp )
                     {
+                        Modification = true;
                         if ( i <= myMap.getNbRows() * myMap.getNbColumns()  )
                         {
                             matrix[i] = matrixTemp[i];
@@ -288,10 +291,11 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-                Modification = true;
+
                 if ( position != myMap.getNbColumns()-1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
+                    myMap.setIsTested(false);
                 }
                 int nbColumnTemp = myMap.getNbColumns();
 
@@ -308,6 +312,7 @@ public class SandboxActivity extends AppCompatActivity
                 {
                     if ( myMap.getNbColumns() > nbColumnTemp )
                     {
+                        Modification = true;
                         if ( i % myMap.getNbColumns() >= nbColumnTemp   )
                         {
                             matrix[i] = images[2];
@@ -320,6 +325,7 @@ public class SandboxActivity extends AppCompatActivity
                     }
                     else if ( myMap.getNbColumns() < nbColumnTemp )
                     {
+                        Modification = true;
                         if ( countTemp < myMap.getNbColumns() * myMap.getNbRows() )
                         {
                             if (countTemp % (myMap.getNbColumns()) == 0 && i != 0)
@@ -342,6 +348,7 @@ public class SandboxActivity extends AppCompatActivity
                 FindPlayer();
                 FillGameBoard();
                 GetMapLimits();
+                mapIsInitialized = true;
             }
 
             @Override
@@ -514,7 +521,7 @@ public class SandboxActivity extends AppCompatActivity
                     if (nbBoxPlaced > 0) {
                         if (EnoughFinishPlace()) {
                             myMap.setName(mapName.getText().toString());
-                            if (Modification) {
+                            if (myMap.getIdMap() != 0) {
                                 Modification = false;
                                 MapDAO.updateMap(this, myMap);
                             } else {
@@ -843,6 +850,7 @@ public class SandboxActivity extends AppCompatActivity
         if ( previousImages != matrix[position])
         {
             this.runOnUiThread(() -> light.setImageResource(R.drawable.red_circle));
+            myMap.setIsTested(false);
         }
         FillGameBoard();
     }
@@ -926,6 +934,7 @@ public class SandboxActivity extends AppCompatActivity
             this.runOnUiThread(() ->
             {
                 light.setImageResource(R.drawable.green_circle);
+                myMap.setIsTested(true);
             });
         }
     }
