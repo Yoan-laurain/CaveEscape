@@ -290,7 +290,7 @@ public class GameActivity extends AppCompatActivity
                         break;
 
                     case 'V':
-                        matrix[ count ] = wallRelation.get('C');
+                        matrix[ count ] = wallRelation.get('V');
                         break;
                     case 'D':
                         matrix[ count ] = wallRelation.get('D');
