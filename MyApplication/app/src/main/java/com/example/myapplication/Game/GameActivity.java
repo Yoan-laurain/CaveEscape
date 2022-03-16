@@ -418,6 +418,7 @@ public class GameActivity extends AppCompatActivity
 
                     Intent intent=new Intent();
                     intent.putExtra("MESSAGE","true");
+
                     setResult(2,intent);
                     finish();
                 }
