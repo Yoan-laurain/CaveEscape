@@ -75,12 +75,50 @@ public class SandboxActivity extends AppCompatActivity
     private int[] matrix;
     private int[] matrixTemp;
     int[] images = {R.drawable.left_player_blue,R.drawable.middle_vertical_wall_blue,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+
     private final int[] wallsTab = {R.drawable.bottom_left_angle_wall_blue,R.drawable.bottom_right_angle_wall_blue,
             R.drawable.bottom_vertical_wall_blue,R.drawable.middle_vertical_wall_blue,R.drawable.middle_straight_wall_blue,
             R.drawable.left_straight_wall_blue,R.drawable.right_straight_wall_blue,R.drawable.top_left_angle_wall_blue,
             R.drawable.top_right_angle_wall_blue,R.drawable.top_vertical_wall_blue,R.drawable.top_t_wall50,
             R.drawable.bottom_t_wall50, R.drawable.left_t_wall,R.drawable.right_t_wall,R.drawable.cross_wall};
 
+    HashMap<Character,Integer> wallRelation = new HashMap<Character,Integer>(){{
+        put('A',    wallsTab[0]);
+        put('B',    wallsTab[1]);
+        put('V',    wallsTab[2]);
+        put('D',    wallsTab[3]);
+        put('E',    wallsTab[4]);
+        put('F',    wallsTab[5]);
+        put('G',    wallsTab[6]);
+        put('H',    wallsTab[7]);
+        put('I',    wallsTab[8]);
+        put('J',    wallsTab[9]);
+        put('T',    wallsTab[10]);
+        put('U',    wallsTab[11]);
+        put('>',    wallsTab[12]);
+        put('<',    wallsTab[13]);
+        put('+',    wallsTab[14]);
+
+    }};
+
+    HashMap<Integer,Character> wallRelationForLoad = new HashMap<Integer,Character>(){{
+        put(wallsTab[0] ,   'A');
+        put(wallsTab[1] ,   'B');
+        put(wallsTab[2] ,   'V');
+        put(wallsTab[3] ,   'D');
+        put(wallsTab[4] ,   'E');
+        put(wallsTab[5] ,   'F');
+        put(wallsTab[6] ,   'G');
+        put(wallsTab[7] ,   'H');
+        put(wallsTab[8] ,   'I');
+        put(wallsTab[9] ,   'J');
+        put(wallsTab[10],   'T');
+        put(wallsTab[11],   'U');
+        put(wallsTab[12],   '>');
+        put(wallsTab[13],   '<');
+        put(wallsTab[14],   '+');
+
+    }};
 
     boolean textClean = true;
     boolean Modification = false;
@@ -374,6 +412,53 @@ public class SandboxActivity extends AppCompatActivity
                     case 'C':
                         matrix[ count ] = images[ 4 ];
                         break;
+                    case 'A':
+                        matrix[ count ] = wallRelation.get('A');
+                        break;
+
+                    case 'B':
+                        matrix[ count ] = wallRelation.get('B');
+                        break;
+
+                    case 'V':
+                        matrix[ count ] = wallRelation.get('V');
+                        break;
+                    case 'D':
+                        matrix[ count ] = wallRelation.get('D');
+                        break;
+                    case 'E':
+                        matrix[ count ] = wallRelation.get('E');
+                        break;
+                    case 'F':
+                        matrix[ count ] = wallRelation.get('F');
+                        break;
+                    case 'G':
+                        matrix[ count ] = wallRelation.get('G');
+                        break;
+                    case 'H':
+                        matrix[ count ] = wallRelation.get('H');
+                        break;
+                    case 'I':
+                        matrix[ count ] = wallRelation.get('I');
+                        break;
+                    case 'J':
+                        matrix[ count ] = wallRelation.get('J');
+                        break;
+                    case 'T':
+                        matrix[ count ] = wallRelation.get('T');
+                        break;
+                    case 'U':
+                        matrix[ count ] = wallRelation.get('U');
+                        break;
+                    case '>':
+                        matrix[ count ] = wallRelation.get('>');
+                        break;
+                    case '<':
+                        matrix[ count ] = wallRelation.get('<');
+                        break;
+                    case '+':
+                        matrix[ count ] = wallRelation.get('+');
+                        break;
                 }
 
                 count++;
@@ -495,6 +580,66 @@ public class SandboxActivity extends AppCompatActivity
                     case R.drawable.free_monster_blue:
                         content.append("C");
                         break;
+
+                    case R.drawable.bottom_left_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_left_angle_wall_blue));
+                        break;
+
+                    case R.drawable.bottom_right_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_right_angle_wall_blue));
+                        break;
+
+                    case R.drawable.bottom_vertical_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_vertical_wall_blue));
+                        break;
+
+                    case R.drawable.middle_vertical_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.middle_vertical_wall_blue));
+                        break;
+
+                    case R.drawable.middle_straight_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.middle_straight_wall_blue));
+                        break;
+
+                    case R.drawable.left_straight_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.left_straight_wall_blue));
+                        break;
+
+                    case R.drawable.right_straight_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.right_straight_wall_blue));
+                        break;
+
+                    case R.drawable.top_left_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.top_left_angle_wall_blue));
+                        break;
+
+                    case R.drawable.top_right_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.top_right_angle_wall_blue));
+                        break;
+
+                    case R.drawable.top_vertical_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.top_vertical_wall_blue));
+                        break;
+
+                    case R.drawable.top_t_wall50:
+                        content.append(wallRelationForLoad.get(R.drawable.top_t_wall50));
+                        break;
+
+                    case R.drawable.bottom_t_wall50:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_t_wall50));
+                        break;
+
+                    case R.drawable.left_t_wall:
+                        content.append(wallRelationForLoad.get(R.drawable.left_t_wall));
+                        break;
+
+                    case R.drawable.right_t_wall:
+                        content.append(wallRelationForLoad.get(R.drawable.right_t_wall));
+                        break;
+
+                    case R.drawable.cross_wall:
+                        content.append(wallRelationForLoad.get(R.drawable.cross_wall));
+                        break;
                 }
 
                 countNumber++;
@@ -535,6 +680,66 @@ public class SandboxActivity extends AppCompatActivity
                         break;
                     case R.drawable.free_monster_blue:
                         content.append("C");
+                        break;
+
+                    case R.drawable.bottom_left_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_left_angle_wall_blue));
+                        break;
+
+                    case R.drawable.bottom_right_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_right_angle_wall_blue));
+                        break;
+
+                    case R.drawable.bottom_vertical_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_vertical_wall_blue));
+                        break;
+
+                    case R.drawable.middle_vertical_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.middle_vertical_wall_blue));
+                        break;
+
+                    case R.drawable.middle_straight_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.middle_straight_wall_blue));
+                        break;
+
+                    case R.drawable.left_straight_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.left_straight_wall_blue));
+                        break;
+
+                    case R.drawable.right_straight_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.right_straight_wall_blue));
+                        break;
+
+                    case R.drawable.top_left_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.top_left_angle_wall_blue));
+                        break;
+
+                    case R.drawable.top_right_angle_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.top_right_angle_wall_blue));
+                        break;
+
+                    case R.drawable.top_vertical_wall_blue:
+                        content.append(wallRelationForLoad.get(R.drawable.top_vertical_wall_blue));
+                        break;
+
+                    case R.drawable.top_t_wall50:
+                        content.append(wallRelationForLoad.get(R.drawable.top_t_wall50));
+                        break;
+
+                    case R.drawable.bottom_t_wall50:
+                        content.append(wallRelationForLoad.get(R.drawable.bottom_t_wall50));
+                        break;
+
+                    case R.drawable.left_t_wall:
+                        content.append(wallRelationForLoad.get(R.drawable.left_t_wall));
+                        break;
+
+                    case R.drawable.right_t_wall:
+                        content.append(wallRelationForLoad.get(R.drawable.right_t_wall));
+                        break;
+
+                    case R.drawable.cross_wall:
+                        content.append(wallRelationForLoad.get(R.drawable.cross_wall));
                         break;
                 }
                 countNumber++;
