@@ -122,7 +122,6 @@ public class SandboxActivity extends AppCompatActivity
 
     boolean textClean = true;
     boolean Modification = false;
-    boolean mapInitialized = false;
 
     private ArrayList<Integer> leftLimits = new ArrayList<>();
     private ArrayList<Integer> rightLimits = new ArrayList<>();
@@ -192,8 +191,6 @@ public class SandboxActivity extends AppCompatActivity
             spinnerLines.setSelection(myMap.getNbRows() - 1);
             spinnerColumns.setSelection(myMap.getNbColumns() - 1);
 
-
-
             matrix = new int[myMap.getNbColumns() * myMap.getNbRows()];
 
             deleteButton.setOnClickListener(var ->
@@ -236,7 +233,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-                int oldPlayerPosition = positionPlayer;
+
                 if ( position != myMap.getNbRows() - 1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
@@ -275,8 +272,8 @@ public class SandboxActivity extends AppCompatActivity
                         matrix[i] = matrixTemp[i];
                     }
                 }
-                FindPlayer(oldPlayerPosition);
-                mapInitialized = true;
+                FindPlayer();
+
                 FillGameBoard();
                 GetMapLimits();
             }
@@ -291,7 +288,6 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-                int oldPlayerPosition = positionPlayer ;
 
                 if ( position != myMap.getNbColumns()-1 )
                 {
@@ -343,7 +339,7 @@ public class SandboxActivity extends AppCompatActivity
                         matrix[i] = matrixTemp[i];
                     }
                 }
-                FindPlayer(oldPlayerPosition);
+                FindPlayer();
                 FillGameBoard();
                 GetMapLimits();
             }
@@ -1300,13 +1296,8 @@ public class SandboxActivity extends AppCompatActivity
         currentTool = tempCurrentTool;
     }
 
-    public void FindPlayer( int oldPlayerPosition)
+    public void FindPlayer( )
     {
-        if (  mapInitialized )
-        {
-            matrix[oldPlayerPosition] = images[2];
-        }
-
         for ( int i = 0 ; i < matrix.length; i++ )
         {
             if ( matrix[i] == images[0] )
