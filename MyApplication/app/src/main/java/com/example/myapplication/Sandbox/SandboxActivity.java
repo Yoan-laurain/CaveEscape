@@ -521,10 +521,10 @@ public class SandboxActivity extends AppCompatActivity
                             Toast.makeText(this, "Map saved ! ", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(this, "You don't have enough end zone(s) for you're box(s)! ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "You don't have enough cage(s) for tha aztharoth(s)! ", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(this, "You need at least one box. ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "You need at least one cage. ", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(this, "You need at least one player. ", Toast.LENGTH_LONG).show();
@@ -914,13 +914,11 @@ public class SandboxActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==2)
+        if(resultCode==2)
         {
             this.runOnUiThread(() ->
             {
                 light.setImageResource(R.drawable.green_circle);
-                myMap.setIsTested(true);
-                MapDAO.UpdateIsTestMap(null,this,myMap);
             });
         }
     }
