@@ -75,7 +75,11 @@ public class AudioPlayer
     {
         current_volume = volume;
         final float result = (float) (1 - (Math.log(MAX_VOLUME - volume) / Math.log(MAX_VOLUME)));
-        ring.setVolume(result, result);
+        try{
+            ring.setVolume(result, result);
+        }
+        catch(Exception e ) { }
+
         SharedPref.SaveVolumePreferences( context,volume);
     }
 

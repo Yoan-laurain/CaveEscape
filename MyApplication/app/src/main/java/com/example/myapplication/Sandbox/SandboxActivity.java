@@ -194,7 +194,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-
+                int oldPlayerPosition = positionPlayer;
                 if ( position != myMap.getNbRows() - 1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
@@ -204,6 +204,7 @@ public class SandboxActivity extends AppCompatActivity
 
                 myMap.setNbRows(position + 1);
                 matrixTemp = matrix;
+
 
                 matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
@@ -233,6 +234,7 @@ public class SandboxActivity extends AppCompatActivity
                         matrix[i] = matrixTemp[i];
                     }
                 }
+                FindPlayer(oldPlayerPosition);
                 FillGameBoard();
                 GetMapLimits();
             }
@@ -247,6 +249,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
+                int oldPlayerPosition = positionPlayer;
 
                 if ( position != myMap.getNbColumns()-1 )
                 {
@@ -258,6 +261,7 @@ public class SandboxActivity extends AppCompatActivity
                 matrixTemp = matrix;
 
                 matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+
                 int countTemp = 0;
 
                 int max = ( matrixTemp.length > myMap.getNbColumns() *  myMap.getNbRows() ? matrixTemp.length :  myMap.getNbColumns() *  myMap.getNbRows() );
@@ -297,6 +301,7 @@ public class SandboxActivity extends AppCompatActivity
                         matrix[i] = matrixTemp[i];
                     }
                 }
+                FindPlayer(oldPlayerPosition);
                 FillGameBoard();
                 GetMapLimits();
             }
@@ -583,6 +588,19 @@ public class SandboxActivity extends AppCompatActivity
     public void ClickOnBoard(int position)
     {
         int previousImages = matrix[position];
+
+        if ( images[currentTool] == images[1] )
+        {
+            wallChecked = new ArrayList<>();
+            ChooseRightWall( position ) ;
+        }
+        else
+        {
+            matrix[position] = images[currentTool];
+
+            EmulateClickGameBoard();
+        }
+
         if ( matrix[position] == images[0] )
         {
             nbPlayerPlaced--;
@@ -592,22 +610,11 @@ public class SandboxActivity extends AppCompatActivity
             nbBoxPlaced--;
         }
 
-        if ( images[currentTool] == images[1] )
-        {
-            System.out.println("test");
-            wallChecked = new ArrayList<>();
-            ChooseRightWall( position ) ;
-        }
-        else
-        {
-            matrix[position] = images[currentTool];
-            EmulateClickGameBoard();
-        }
-
-
         if ( images[currentTool] == images[0] )
         {
+
             if (nbPlayerPlaced != 0 ) {
+
                 matrix[positionPlayer] = images[2];
             }
 
@@ -1072,11 +1079,25 @@ public class SandboxActivity extends AppCompatActivity
             }
         }
         int tempCurrentTool = currentTool;
-
         currentTool = 1;
 
-        ClickOnBoard(position);
+        if ( position != 0)
+        {
+            ClickOnBoard(position);
+        }
 
         currentTool = tempCurrentTool;
+    }
+
+    public void FindPlayer( int oldPlayerPosition)
+    {
+        matrix[oldPlayerPosition] = images[2];
+        for ( int i = 0 ; i < matrix.length; i++ )
+        {
+            if ( matrix[i] == images[0] )
+            {
+                positionPlayer = i;
+            }
+        }
     }
 }
