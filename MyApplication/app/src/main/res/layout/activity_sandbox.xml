@@ -248,4 +248,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.70" />
+
+    <ImageView
+        android:id="@+id/info_bubble"
+        android:layout_width="25dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/list_nb_lines"
+        app:layout_constraintEnd_toStartOf="@+id/text_sandbox_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/info_buble" />
 </android.support.constraint.ConstraintLayout>

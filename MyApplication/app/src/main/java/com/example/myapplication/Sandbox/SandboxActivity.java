@@ -1,11 +1,16 @@
 package com.example.myapplication.Sandbox;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,8 +26,11 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
+
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -52,6 +60,8 @@ public class SandboxActivity extends AppCompatActivity
     GridView gameBoard;
     Map myMap;
 
+    ImageView infoBubble;
+
     //----------------------------------------------------
 
     private int currentTool = 2;
@@ -66,6 +76,9 @@ public class SandboxActivity extends AppCompatActivity
 
     boolean textClean = true;
     boolean Modification = false;
+
+    public PropertyChangeListener listener;
+
 
     ArrayList<Integer> listNumbers = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8) ) ;
 
@@ -92,6 +105,7 @@ public class SandboxActivity extends AppCompatActivity
         spinnerColumns = findViewById(R.id.list_nb_columns);
         gameBoard = findViewById(R.id.sandbox_gameBoard);
         light = findViewById(R.id.lightIsTested);
+        infoBubble = findViewById(R.id.info_bubble);
 
         // --------------------- Tool Selector --------------------------- //
 
@@ -103,6 +117,7 @@ public class SandboxActivity extends AppCompatActivity
         saveButton.setOnClickListener(var -> ScanText());
         testButton.setOnClickListener(var -> TestGame());
         gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
+        infoBubble.setOnClickListener(var-> TutorialGuide());
 
 
 
@@ -645,5 +660,69 @@ public class SandboxActivity extends AppCompatActivity
                 MapDAO.UpdateIsTestMap(null,this,myMap);
             });
         }
+    }
+
+
+    //-----------------------------
+
+    /*
+    Change the current text which is display on the pop up in parameter with the list of text
+    also in parameter
+ */
+    public void RefreshTextPopUp(Dialog myDialog, TutoDesign popup , ArrayList<String> text )
+    {
+        if (popup.listenerActive) {
+
+            if ( popup.GetCurrentText() == text.size() )
+            {
+                myDialog.dismiss();
+                //TutorialGuide();
+            }
+            else
+            {
+                myDialog.setContentView( popup.getView( null ) );
+                myDialog.show();
+                popup.listenerActive=false;
+            }
+        }
+    }
+
+    /*
+    Call pop up dialog with the text in parameter
+ */
+    public void CallPopUp( ArrayList<String> text  )
+    {
+        TutoDesign popup = new TutoDesign(this,R.layout.popup_tuto,text);
+        Dialog myDialog = new Dialog(this);
+        myDialog.setCanceledOnTouchOutside(false);
+
+        listener = event -> RefreshTextPopUp(myDialog,popup,text);
+        popup.changes.addPropertyChangeListener(listener);
+
+        Window window = myDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+        myDialog.setContentView( popup.getView( null ) );
+        myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        myDialog.show();
+    }
+
+    /*
+    Display pop up with text to guide the player on in first time on the game
+ */
+    public void TutorialGuide()
+    {
+        ArrayList<String> text = new ArrayList<>();
+        text.add( "In this space you can create your own level! Select an element then press on the matrix.");
+        text.add( "You can change the size of the level and even give it a name.");
+        text.add( " You must test your level if you want it to appear in community levels.");
+        text.add( " As soon as you make a change, the level will no longer be tested, you can check that with the light at the top right.");
+        text.add( " You do not have to test your level if you wish, it will remain in your creation space.");
+        text.add( " I hope that was clear enough. So have fun!");
+        CallPopUp(text);
     }
 }
