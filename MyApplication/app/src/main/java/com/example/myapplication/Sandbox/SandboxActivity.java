@@ -70,7 +70,7 @@ public class SandboxActivity extends AppCompatActivity
     private int count;
     private int nbPlayerPlaced;
     private int nbBoxPlaced;
-    private int positionPlayer;
+    private int positionPlayer = -1;
     private int nbRowTemp;
     private int[] matrix;
     private int[] matrixTemp;
@@ -823,13 +823,16 @@ public class SandboxActivity extends AppCompatActivity
         if ( images[currentTool] == images[0] )
         {
 
-            if (nbPlayerPlaced != 0 ) {
+            if (nbPlayerPlaced != 0 && positionPlayer != -1) {
 
                 matrix[positionPlayer] = images[2];
             }
 
             positionPlayer = position;
+
             matrix[positionPlayer] = images[0];
+
+
             nbPlayerPlaced++;
 
         }
