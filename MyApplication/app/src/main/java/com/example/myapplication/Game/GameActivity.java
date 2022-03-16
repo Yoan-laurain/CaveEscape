@@ -215,10 +215,10 @@ public class GameActivity extends AppCompatActivity
             if ( myMap.getIdMap() == -1 || myMap.getIdMap() == -2 )
             {
                 if(gameBoardHeight > 300){
-                    gameBoardHeight = 300;
+                    gameBoardHeight = 200;
                 }
                 else{
-                    gameBoardHeight = 200;
+                    gameBoardHeight = 140;
                 }
 
             }
