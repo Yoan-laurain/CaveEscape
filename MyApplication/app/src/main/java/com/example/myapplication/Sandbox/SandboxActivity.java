@@ -70,7 +70,7 @@ public class SandboxActivity extends AppCompatActivity
     private int count;
     private int nbPlayerPlaced;
     private int nbBoxPlaced;
-    private int positionPlayer = -1;
+    private int positionPlayer;
     private int nbRowTemp;
     private int[] matrix;
     private int[] matrixTemp;
@@ -122,10 +122,10 @@ public class SandboxActivity extends AppCompatActivity
 
     boolean textClean = true;
     boolean Modification = false;
+    boolean mapInitialized = false;
 
     private ArrayList<Integer> leftLimits = new ArrayList<>();
     private ArrayList<Integer> rightLimits = new ArrayList<>();
-
 
     public PropertyChangeListener listener;
 
@@ -191,6 +191,9 @@ public class SandboxActivity extends AppCompatActivity
         {
             spinnerLines.setSelection(myMap.getNbRows() - 1);
             spinnerColumns.setSelection(myMap.getNbColumns() - 1);
+
+
+
             matrix = new int[myMap.getNbColumns() * myMap.getNbRows()];
 
             deleteButton.setOnClickListener(var ->
@@ -225,6 +228,7 @@ public class SandboxActivity extends AppCompatActivity
             light.setImageResource(R.drawable.red_circle);
         }
 
+
         // --------------------------- Size Selector (Rows) --------------------------------------//
 
         spinnerLines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -242,7 +246,6 @@ public class SandboxActivity extends AppCompatActivity
 
                 myMap.setNbRows(position + 1);
                 matrixTemp = matrix;
-
 
                 matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
 
@@ -273,6 +276,7 @@ public class SandboxActivity extends AppCompatActivity
                     }
                 }
                 FindPlayer(oldPlayerPosition);
+                mapInitialized = true;
                 FillGameBoard();
                 GetMapLimits();
             }
@@ -349,6 +353,7 @@ public class SandboxActivity extends AppCompatActivity
         });
 
         FillGameBoard();
+
     }
 
     // -------------------------- Fill the Game Board With The Matrix ----------------------------//
@@ -818,7 +823,7 @@ public class SandboxActivity extends AppCompatActivity
         if ( images[currentTool] == images[0] )
         {
 
-            if (nbPlayerPlaced != 0 && positionPlayer != -1 ) {
+            if (nbPlayerPlaced != 0 ) {
 
                 matrix[positionPlayer] = images[2];
             }
@@ -1294,9 +1299,7 @@ public class SandboxActivity extends AppCompatActivity
 
     public void FindPlayer( int oldPlayerPosition)
     {
-        System.out.println("Player position : " + oldPlayerPosition);
-
-        if ( oldPlayerPosition != -1 )
+        if (  mapInitialized )
         {
             matrix[oldPlayerPosition] = images[2];
         }
