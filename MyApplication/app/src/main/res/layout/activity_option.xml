@@ -6,24 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".Option.OptionActivity">
 
-    <TextView
-        android:id="@+id/view_copyright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:text="@string/text_copyright"
+
+    <ImageView
+        android:id="@+id/View_BackGround_Option"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_option_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="#852813A6"
+        android:fontFamily="@font/new_rocker"
         android:text="@string/text_return"
-        app:layout_constraintBottom_toTopOf="@+id/view_copyright"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_option_credit"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="#852813A6"
+        android:fontFamily="@font/new_rocker"
+        android:text="@string/text_credit"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_option_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/sound"
+        android:layout_width="40dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_option_credit"
+        app:layout_constraintEnd_toEndOf="@+id/View_BackGround_Option"
+        app:layout_constraintHorizontal_bias="0.212"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/View_BackGround_Option"
+        app:layout_constraintVertical_bias="0.251"
+        app:srcCompat="@drawable/sound" />
+
+    <SeekBar
+        android:id="@+id/volume_level"
+        android:layout_width="209dp"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_option_credit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintStart_toEndOf="@+id/sound"
+        app:layout_constraintTop_toTopOf="@+id/View_BackGround_Option"
+        app:layout_constraintVertical_bias="0.243" />
+
 </android.support.constraint.ConstraintLayout>

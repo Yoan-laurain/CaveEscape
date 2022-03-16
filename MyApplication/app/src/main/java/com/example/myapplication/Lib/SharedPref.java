@@ -1,35 +1,54 @@
 package com.example.myapplication.Lib;
 
 import android.content.Context;
-import android.widget.Toast;
-import com.example.myapplication.MainMenu.LoadingActivity;
+import android.content.SharedPreferences;
 
-public class SharedPref {
+public class SharedPref
+{
 
-    public static void loadIdClient(Context myActivity)  {
-        android.content.SharedPreferences sharedPreferences= myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+    /*
+        Try lo load the idClient in the cache otherwise send nothing
+     */
+    public static String LoadIdClient(Context myActivity)
+    {
+        SharedPreferences sharedPreferences= myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
-        if(sharedPreferences != null)
-        {
-            LoadingActivity.idClient = Integer.valueOf(sharedPreferences.getString("idClient","0"));
-
-        } else
-        {
-
-        }
+        return ( sharedPreferences != null ? sharedPreferences.getString("idClient","0") : "" );
     }
 
-    public static void SaveIdClient(Context myActivity,Integer myIdClient)
+    /*
+        Save the id client in the cache
+     */
+    public static void SaveIdClient(Context myActivity,String myIdClient)
     {
-        android.content.SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Param", Context.MODE_PRIVATE);
-        android.content.SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("idClient",String.valueOf(myIdClient));
-
-        // Save.
+        editor.putString("idClient",myIdClient);
         editor.apply();
+    }
 
-        Toast.makeText(myActivity,"Setting saved!",Toast.LENGTH_LONG).show();
+    //----------------------------------------------------------------------------------------------------------
+
+    /*
+        Save volume preferences
+    */
+    public static void SaveVolumePreferences(Context myActivity,float volume)
+    {
+        SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("Volume",String.valueOf( volume ) );
+        editor.apply();
+    }
+
+    /*
+    Try lo load the volume in the cache otherwise send nothing
+ */
+    public static float LoadVolumePreferences(Context myActivity)
+    {
+        SharedPreferences sharedPreferences= myActivity.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        return ( sharedPreferences != null ? Float.parseFloat( sharedPreferences.getString("Volume","80") ) : 100 );
     }
 
 }

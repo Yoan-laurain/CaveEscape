@@ -24,10 +24,16 @@ class DBConnex extends PDO{
 
 	// -------------------------------------------
     public static function runQuery(
+        $messageStart,
+        $messageSucess,
+        $messageFail,
         $sql,
         $params = null
     ) {
         DBConnex::run(
+            $messageStart,
+            $messageSucess,
+            $messageFail,
             $sql,
             $params,
             True
@@ -35,20 +41,32 @@ class DBConnex extends PDO{
     }
 
     public static function runFetch(
+        $messageStart,
+        $messageSucess,
+        $messageFail,
         $sql,
         $params = null
     ) {
         DBConnex::run(
+            $messageStart,
+            $messageSucess,
+            $messageFail,
             $sql,
             $params
         );
     }
 
     public static function runFetchAll(
+        $messageStart,
+        $messageSucess,
+        $messageFail,
         $sql,
         $params = null
     ) {
         DBConnex::run(
+            $messageStart,
+            $messageSucess,
+            $messageFail,
             $sql,
             $params,
             False,
@@ -61,20 +79,26 @@ class DBConnex extends PDO{
 
 	// -------------------------------------------
     public static function run(
+        $messageStart,
+        $messageSucess,
+        $messageFail,
         $sql,
         $params = null,
         $isQuery = False,
         $fetchAll = False
         ) {
         try{
+            log::put($messageStart);
+
             $requetePrepa = DBConnex::getInstance()->prepare($sql);
             if ($params != null) {
                 foreach ($params as $param) {
                     $requetePrepa->bindParam(":" . $param, $_POST[$param]);
                 }
             }
+
             $reponse = $requetePrepa->execute();
-            
+
             if (!$isQuery) {
                 if (!$fetchAll) {
                     $reponse = $requetePrepa->fetch(PDO::FETCH_ASSOC);
@@ -84,12 +108,16 @@ class DBConnex extends PDO{
             }
 
             if (!empty($reponse) && $reponse != false) {
-               json::return($reponse);
+                log::put($messageSucess);
+                json::return($reponse);
             } 
-            //WIP à gerer si ça plante
+            else {
+                log::put($messageFail, "WARNING");
+            }
+        
 
         }catch(Exception $e){
-            //WIP : si ça plante gérer le catch
+            log::put($messageFail . '\n' . $e->getMessage() ,"ERROR");
         }
     }
 	// -------------------------------------------
@@ -100,7 +128,8 @@ class DBConnex extends PDO{
     function __construct() {
         try {
             parent::__construct(Param::$dsn ,Param::$user, Param::$pass);
-        } catch (Exception $e) {          
+        } catch (Exception $e) {   
+            log::put("Impossible de se connecter.\n" . $e->getMessage(), "ERROR");       
             die();
         }
     }
