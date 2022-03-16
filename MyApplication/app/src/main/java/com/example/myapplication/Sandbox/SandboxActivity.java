@@ -796,16 +796,17 @@ public class SandboxActivity extends AppCompatActivity
         {
             nbBoxPlaced--;
         }
-        ;
 
         if ( images[currentTool] == images[1] )
         {
+            System.out.println("test");
             wallChecked = new ArrayList<>();
             ChooseRightWall( position ) ;
         }
         else
         {
             matrix[position] = images[currentTool];
+            EmulateClickGameBoard();
         }
 
 
@@ -1262,5 +1263,25 @@ public class SandboxActivity extends AppCompatActivity
         text.add( " You do not have to test your level if you wish, it will remain in your creation space.");
         text.add( " I hope that was clear enough. So have fun!");
         CallPopUp(text);
+    }
+
+    public void EmulateClickGameBoard()
+    {
+        int position = 0;
+        for ( int i = 0 ; i < matrix.length; i++ )
+        {
+            if (  contains(wallsTab,matrix[i]))
+            {
+                position = i;
+                break;
+            }
+        }
+        int tempCurrentTool = currentTool;
+
+        currentTool = 1;
+
+        ClickOnBoard(position);
+
+        currentTool = tempCurrentTool;
     }
 }
