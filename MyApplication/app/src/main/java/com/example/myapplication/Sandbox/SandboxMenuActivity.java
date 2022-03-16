@@ -44,14 +44,20 @@ public class SandboxMenuActivity extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        if ( LoadingActivity.idClient.equals("fNzlhc9eBfZm") || LoadingActivity.idClient.equals("BKxkND1Bb80N") || LoadingActivity.idClient.equals("fNzlhc9eBfZm"))
-        {
-            MapDAO.GetAllMap(this);
-        }
-        else
+        try {
+            if ( LoadingActivity.idClient.equals("fNzlhc9eBfZm") || LoadingActivity.idClient.equals("BKxkND1Bb80N") || LoadingActivity.idClient.equals("fNzlhc9eBfZm"))
+            {
+                MapDAO.GetAllMap(this);
+            }
+            else
+            {
+                MapDAO.getMapByClient(null,this);
+            }
+        }catch (Exception e)
         {
             MapDAO.getMapByClient(null,this);
         }
+
     }
 
     @Override

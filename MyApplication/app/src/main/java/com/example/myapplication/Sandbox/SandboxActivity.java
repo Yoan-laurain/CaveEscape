@@ -19,6 +19,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dao.TextModeration;
@@ -64,6 +65,7 @@ public class SandboxActivity extends AppCompatActivity
 
     //----------------------------------------------------
 
+    private ArrayList<Integer> wallChecked;
     private int currentTool = 2;
     private int count;
     private int nbPlayerPlaced;
@@ -72,10 +74,20 @@ public class SandboxActivity extends AppCompatActivity
     private int nbRowTemp;
     private int[] matrix;
     private int[] matrixTemp;
-    int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+    int[] images = {R.drawable.left_player_blue,R.drawable.middle_vertical_wall_blue,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+    private final int[] wallsTab = {R.drawable.bottom_left_angle_wall_blue,R.drawable.bottom_right_angle_wall_blue,
+            R.drawable.bottom_vertical_wall_blue,R.drawable.middle_vertical_wall_blue,R.drawable.middle_straight_wall_blue,
+            R.drawable.left_straight_wall_blue,R.drawable.right_straight_wall_blue,R.drawable.top_left_angle_wall_blue,
+            R.drawable.top_right_angle_wall_blue,R.drawable.top_vertical_wall_blue,R.drawable.top_t_wall50,
+            R.drawable.bottom_t_wall50, R.drawable.left_t_wall,R.drawable.right_t_wall,R.drawable.cross_wall};
+
 
     boolean textClean = true;
     boolean Modification = false;
+
+    private ArrayList<Integer> leftLimits = new ArrayList<>();
+    private ArrayList<Integer> rightLimits = new ArrayList<>();
+
 
     public PropertyChangeListener listener;
 
@@ -182,6 +194,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
+
                 if ( position != myMap.getNbRows() - 1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
@@ -221,6 +234,7 @@ public class SandboxActivity extends AppCompatActivity
                     }
                 }
                 FillGameBoard();
+                GetMapLimits();
             }
 
             @Override
@@ -233,6 +247,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
+
                 if ( position != myMap.getNbColumns()-1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
@@ -283,6 +298,7 @@ public class SandboxActivity extends AppCompatActivity
                     }
                 }
                 FillGameBoard();
+                GetMapLimits();
             }
 
             @Override
@@ -575,8 +591,18 @@ public class SandboxActivity extends AppCompatActivity
         {
             nbBoxPlaced--;
         }
+        ;
 
-        matrix[position] = images[currentTool];
+        if ( images[currentTool] == images[1] )
+        {
+            wallChecked = new ArrayList<>();
+            ChooseRightWall( position ) ;
+        }
+        else
+        {
+            matrix[position] = images[currentTool];
+        }
+
 
         if ( images[currentTool] == images[0] )
         {
@@ -644,6 +670,30 @@ public class SandboxActivity extends AppCompatActivity
     }
 
     /*
+    Retrieve all cases that are the limit of the map to restrict movements
+    Store those values in 2 list left and right unaccepted movement
+ */
+    public void GetMapLimits()
+    {
+        leftLimits = new ArrayList<>();
+        rightLimits = new ArrayList<>();
+
+        for( int i = 0; i < ( myMap.getNbColumns() * myMap.getNbRows() ); i++ )
+        {
+            double currentLine = Math.ceil( i / myMap.getNbColumns() );
+
+            if (i % myMap.getNbColumns() == 0 )
+            {
+                leftLimits.add( i );
+            }
+            else if ( ( i - currentLine ) % ( myMap.getNbColumns() - 1 )  == 0 )
+            {
+                rightLimits.add( i );
+            }
+        }
+    }
+
+    /*
         Called when the user has finish to test his map or just return without finishing
         Change the light color of the test indicator depending on the result
      */
@@ -663,6 +713,289 @@ public class SandboxActivity extends AppCompatActivity
     }
 
 
+    public int ChooseRightWall( int position )
+    {
+        //---------------- VARIABLES ----------------//
+
+        int nbWallAround = 0;
+        boolean up = false;
+        boolean left= false;
+        boolean right= false;
+        boolean down= false;
+
+        //-------------------------------------------//
+
+        //-------------- RECUPERATION DES 4 CASES ALENTOUR -------------//
+
+        try
+        {
+            //Si c'est un de nos murs
+            if (contains(wallsTab, matrix[ position -1 ]) )
+            {
+                if ( ( !leftLimits.contains(position - 1) ||  !rightLimits.contains(position ) ) && ( !rightLimits.contains(position - 1 ) && !leftLimits.contains(position) ) )
+                {
+                    nbWallAround++;
+                    left = true;
+                }
+
+            }
+        }catch(Exception e){}
+
+        try
+        {
+            //Si c'est un de nos murs
+            if (contains(wallsTab, matrix[ position + 1 ]) )
+            {
+                if ( ( !rightLimits.contains(position ) || !leftLimits.contains(position + 1) ) && ( !leftLimits.contains(position + 1 ) &&  !rightLimits.contains(position ) )  )
+                {
+                    nbWallAround++;
+                    right = true;
+                }
+
+            }
+        }catch(Exception e){}
+        try
+        {
+            //Si c'est un de nos murs
+            if (contains(wallsTab, matrix[ position - myMap.getNbColumns() ]) )
+            {
+                nbWallAround++;
+                up = true;
+            }
+        }catch(Exception e){}
+        try
+        {
+            //Si c'est un de nos murs
+            if (contains(wallsTab, matrix[ position + myMap.getNbColumns() ]) )
+            {
+                nbWallAround++;
+                down = true;
+            }
+
+        }catch(Exception e){}
+
+
+
+        //-------------------------------------------------------------//
+
+        //--------- SELON LE NOMBRE DE MURS ALENTOUR -----------------//
+        switch ( nbWallAround )
+        {
+
+            // Aucun alors on pose juste une mur horizontale basique
+            case 0:
+                //Change le mur actuel
+                matrix[position] = wallsTab[4];
+                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                wallChecked.add(position);
+                break;
+
+            // Un mur autour
+            case 1:
+                 // Selon sa position on place le mur de 'fermeture' associé
+                 matrix[position] = ( up ? wallsTab[2] : down ? wallsTab[9] : left ? wallsTab[6] : wallsTab[5] );
+
+                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                wallChecked.add(position);
+
+                  // Si il est au dessus
+                  if ( up )
+                  {
+                      ChooseTheRightWallForUp( position );
+                  }
+                  //Si il est en dessous
+                  else if ( down )
+                  {
+                      ChooseTheRightWallForDown( position );
+                  }
+                  //Si il est à gauche
+                  else if ( left )
+                  {
+                      ChooseTheRightWallForLeft( position );
+                  }
+                  //Si le mur est à droite
+                  else if ( right )
+                  {
+                      ChooseTheRightWallForRight( position );
+                  }
+                break;
+
+            //Si il y a 2 murs autour
+            case 2:
+
+                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                wallChecked.add(position);
+
+                //Si ce sont le haut et le bas
+                if  ( up && right )
+                {
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[0];
+
+                    ChooseTheRightWallForUp( position );
+
+                    ChooseTheRightWallForRight( position );
+
+                }
+                else if ( up && left )
+                {
+
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[1];
+
+                    ChooseTheRightWallForUp( position );
+
+                    ChooseTheRightWallForLeft( position );
+
+                }
+                else if ( down && left )
+                {
+
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[8];
+                    ChooseTheRightWallForDown( position );
+
+                    ChooseTheRightWallForLeft( position );
+
+                }
+                else if ( down && right )
+                {
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[7];
+                    ChooseTheRightWallForDown( position );
+
+                    ChooseTheRightWallForRight( position );
+
+                }
+                else if ( right && left )
+                {
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[4];
+
+                    ChooseTheRightWallForLeft( position );
+
+                    ChooseTheRightWallForRight( position );
+
+                }
+                else if ( up && down )
+                {
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[3];
+
+                    ChooseTheRightWallForDown( position );
+
+                    ChooseTheRightWallForUp( position );
+                }
+                break;
+
+
+            case 3:
+                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                wallChecked.add(position);
+
+                if ( up && right && left )
+                {
+
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[11];
+
+                    ChooseTheRightWallForUp( position );
+
+                    ChooseTheRightWallForRight( position );
+
+                    ChooseTheRightWallForLeft( position );
+                }
+                else if ( up && left && down )
+                {
+
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[13];
+
+                    ChooseTheRightWallForUp( position );
+
+                    ChooseTheRightWallForLeft( position );
+
+                    ChooseTheRightWallForDown( position );
+                }
+                else if ( left && down && right)
+                {
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[10];
+
+                    ChooseTheRightWallForDown( position );
+
+                    ChooseTheRightWallForRight( position );
+
+                    ChooseTheRightWallForLeft( position );
+                }
+                else if ( down && right && up )
+                {
+                    //Change le mur en cours
+                    matrix[position] = wallsTab[12];
+
+                    ChooseTheRightWallForUp( position );
+
+                    ChooseTheRightWallForRight( position );
+
+                    ChooseTheRightWallForDown( position );
+                }
+                break;
+
+            case 4:
+
+                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                wallChecked.add(position);
+                //Change le mur en cours
+                matrix[position] = wallsTab[14];
+
+                ChooseTheRightWallForDown( position );
+
+                ChooseTheRightWallForRight( position );
+
+                ChooseTheRightWallForUp( position );
+
+                ChooseTheRightWallForLeft( position );
+                break;
+        }
+
+        return matrix[position];
+    }
+
+    public void ChooseTheRightWallForLeft( int position )
+    {
+        if ( !wallChecked.contains( position - 1 ) )
+        {
+            ChooseRightWall( position - 1);
+        }
+    }
+
+    public void ChooseTheRightWallForRight( int position )
+    {
+        if ( !wallChecked.contains( position + 1 ) )
+        {
+            ChooseRightWall(position + 1);
+        }
+    }
+
+    public void ChooseTheRightWallForUp( int position )
+    {
+        if ( !wallChecked.contains( position - myMap.getNbColumns() ) )
+        {
+            ChooseRightWall( position - myMap.getNbColumns() );
+        }
+    }
+
+    public void ChooseTheRightWallForDown( int position )
+    {
+        if ( !wallChecked.contains( position + myMap.getNbColumns() ) )
+        {
+            ChooseRightWall( position + myMap.getNbColumns() );
+        }
+    }
+
+    static public boolean contains(int[] T,int val){
+        return Arrays.toString(T).contains(String.valueOf(val));
+    }
     //-----------------------------
 
     /*
