@@ -81,7 +81,6 @@
         android:layout_height="0dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="@id/guideline4"
-        app:layout_constraintBottom_toTopOf="@+id/textMoveCount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -182,10 +181,11 @@
         android:id="@+id/image_foot"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginBottom="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.236"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textMoveCount"
-        app:layout_constraintTop_toBottomOf="@+id/gameBoard"
         app:srcCompat="@drawable/foot" />
 
 </android.support.constraint.ConstraintLayout>
