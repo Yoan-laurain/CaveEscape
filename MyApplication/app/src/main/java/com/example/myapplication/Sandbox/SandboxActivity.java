@@ -233,7 +233,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-
+                Modification = true;
                 if ( position != myMap.getNbRows() - 1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
@@ -288,7 +288,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-
+                Modification = true;
                 if ( position != myMap.getNbColumns()-1 )
                 {
                     light.setImageResource(R.drawable.red_circle);
@@ -515,8 +515,10 @@ public class SandboxActivity extends AppCompatActivity
                         if (EnoughFinishPlace()) {
                             myMap.setName(mapName.getText().toString());
                             if (Modification) {
+                                Modification = false;
                                 MapDAO.updateMap(this, myMap);
                             } else {
+                                Modification = false;
                                 MapDAO.saveMap(this, myMap);
                             }
                             Toast.makeText(this, "Map saved ! ", Toast.LENGTH_SHORT).show();
@@ -793,6 +795,7 @@ public class SandboxActivity extends AppCompatActivity
 
     public void ClickOnBoard(int position)
     {
+        Modification = true;
         int previousImages = matrix[position];
 
         if ( images[currentTool] == images[1] )
@@ -873,7 +876,7 @@ public class SandboxActivity extends AppCompatActivity
      */
     public void TestGame()
     {
-        if ( myMap.getIdMap() != 0 ){
+        if ( myMap.getIdMap() != 0 && !Modification){
 
             Intent intent=new Intent(this,GameActivity.class);
             intent.putExtra("Map", myMap);
