@@ -70,7 +70,7 @@ public class SandboxActivity extends AppCompatActivity
     private int count;
     private int nbPlayerPlaced;
     private int nbBoxPlaced;
-    private int positionPlayer;
+    private int positionPlayer = -1;
     private int nbRowTemp;
     private int[] matrix;
     private int[] matrixTemp;
@@ -287,7 +287,7 @@ public class SandboxActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id)
             {
-                int oldPlayerPosition = positionPlayer;
+                int oldPlayerPosition = positionPlayer ;
 
                 if ( position != myMap.getNbColumns()-1 )
                 {
@@ -818,7 +818,7 @@ public class SandboxActivity extends AppCompatActivity
         if ( images[currentTool] == images[0] )
         {
 
-            if (nbPlayerPlaced != 0 ) {
+            if (nbPlayerPlaced != 0 && positionPlayer != -1 ) {
 
                 matrix[positionPlayer] = images[2];
             }
@@ -1284,7 +1284,7 @@ public class SandboxActivity extends AppCompatActivity
         int tempCurrentTool = currentTool;
         currentTool = 1;
 
-        if ( position != 0)
+        if ( position != 0 )
         {
             ClickOnBoard(position);
         }
@@ -1294,7 +1294,13 @@ public class SandboxActivity extends AppCompatActivity
 
     public void FindPlayer( int oldPlayerPosition)
     {
-        matrix[oldPlayerPosition] = images[2];
+        System.out.println("Player position : " + oldPlayerPosition);
+
+        if ( oldPlayerPosition != -1 )
+        {
+            matrix[oldPlayerPosition] = images[2];
+        }
+
         for ( int i = 0 ; i < matrix.length; i++ )
         {
             if ( matrix[i] == images[0] )
