@@ -51,7 +51,7 @@ public class GameActivity extends AppCompatActivity
             R.drawable.bottom_vertical_wall_blue,R.drawable.middle_vertical_wall_blue,R.drawable.middle_straight_wall_blue,
             R.drawable.left_straight_wall_blue,R.drawable.right_straight_wall_blue,R.drawable.top_left_angle_wall_blue,
             R.drawable.top_right_angle_wall_blue,R.drawable.top_vertical_wall_blue,R.drawable.top_t_wall50,
-            R.drawable.bottom_t_wall50};
+            R.drawable.bottom_t_wall50,R.drawable.left_t_wall,R.drawable.right_t_wall,R.drawable.cross_wall};
 
     HashMap<Character,Integer> wallRelation = new HashMap<Character,Integer>(){{
         put('A',    wallsTab[0]);
@@ -66,6 +66,10 @@ public class GameActivity extends AppCompatActivity
         put('J',    wallsTab[9]);
         put('T',    wallsTab[10]);
         put('U',    wallsTab[11]);
+        put('>',    wallsTab[12]);
+        put('<',    wallsTab[13]);
+        put('+',    wallsTab[14]);
+
     }};
 
 
@@ -210,7 +214,13 @@ public class GameActivity extends AppCompatActivity
 
             if ( myMap.getIdMap() == -1 || myMap.getIdMap() == -2 )
             {
-                gameBoardHeight = 200;
+                if(gameBoardHeight > 300){
+                    gameBoardHeight = 300;
+                }
+                else{
+                    gameBoardHeight = 200;
+                }
+
             }
 
             // check the height of a line is good to display
@@ -308,6 +318,15 @@ public class GameActivity extends AppCompatActivity
                         break;
                     case 'U':
                         matrix[ count ] = wallRelation.get('U');
+                        break;
+                    case '>':
+                        matrix[ count ] = wallRelation.get('>');
+                        break;
+                    case '<':
+                        matrix[ count ] = wallRelation.get('<');
+                        break;
+                    case '+':
+                        matrix[ count ] = wallRelation.get('+');
                         break;
                 }
                 count++;
