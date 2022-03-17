@@ -1310,12 +1310,18 @@ public class SandboxActivity extends AppCompatActivity
 
     public void FindPlayer( )
     {
+        boolean playerFind = false;
         for ( int i = 0 ; i < matrix.length; i++ )
         {
             if ( matrix[i] == images[0] )
             {
+                playerFind = true;
                 positionPlayer = i;
             }
+        }
+        if ( !playerFind)
+        {
+            nbPlayerPlaced--;
         }
     }
 }
