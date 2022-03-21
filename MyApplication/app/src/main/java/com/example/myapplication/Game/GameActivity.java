@@ -45,7 +45,7 @@ public class GameActivity extends AppCompatActivity
 
     //-------------------------------------
 
-    private final int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+    private final int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue,R.drawable.player_on_cage};
 
     private final int[] wallsTab = {R.drawable.bottom_left_angle_wall_blue,R.drawable.bottom_right_angle_wall_blue,
             R.drawable.bottom_vertical_wall_blue,R.drawable.middle_vertical_wall_blue,R.drawable.middle_straight_wall_blue,
@@ -358,7 +358,7 @@ public class GameActivity extends AppCompatActivity
 
                             if (matrix[currentPosition - movement] == images[5] )
                             {
-                                matrix[currentPosition - movement ] = images[0];
+                                matrix[currentPosition - movement ] = images[6];
                                 if ( matrix[currentPosition - movement * 2] == images[3] )
                                 {
                                     matrix[currentPosition - movement * 2] = images[5];
@@ -376,35 +376,34 @@ public class GameActivity extends AppCompatActivity
                                 nbBoxPlaced++;
                                 matrix[currentPosition - movement * 2] = images[5];
                                 currentPosition -= movement;
-                                matrix[currentPosition] = images[0];
+                                matrix[currentPosition] = ( matrix[currentPosition] == images[5] ? images[6] : images[0] );
                             }
                             else if ( matrix[currentPosition - movement] == images[4] )
                             {
                                 matrix[currentPosition - movement * 2] = images[4];
                                 currentPosition -= movement;
-                                matrix[currentPosition] = images[0];
+                                matrix[currentPosition] = ( matrix[currentPosition] == images[5] ? images[6] : images[0] );
                             }
                             else
                             {
                                 currentPosition -= movement;
-                                matrix[currentPosition] = images[0];
+                                matrix[currentPosition] = ( matrix[currentPosition] == images[3] ? images[6] : images[0] );
                             }
                         }
                     }
                 }
                 else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
                 {
-
                     // check if the player is on the edge of the map
-                    if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
-
+                    if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1)
+                    {
                         matrix[currentPosition] = caseTemp;
 
-                        caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? caseTemp = matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
+                        caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
 
                         currentPosition -= movement;
 
-                        matrix[currentPosition] = images[0];
+                        matrix[currentPosition] = ( matrix[currentPosition] == images[3] ? images[6] : images[0] );
                     }
                 }
                 if (oldPosition != currentPosition){ moveCount++; }
@@ -432,7 +431,9 @@ public class GameActivity extends AppCompatActivity
                 }
             }
         }
-        catch ( Exception ignored) {}
+        catch ( Exception e) {
+            System.out.println("Error : " + e);
+        }
 
     }
 
