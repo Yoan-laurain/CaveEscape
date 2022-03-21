@@ -41,8 +41,6 @@ public class GameActivity extends AppCompatActivity
     TextView textMove;
     GridView gameBoard;
 
-
-
     //-------------------------------------
 
     private final int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue,R.drawable.player_on_cage};
@@ -327,6 +325,9 @@ public class GameActivity extends AppCompatActivity
                         break;
                     case '+':
                         matrix[ count ] = wallRelation.get('+');
+                        break;
+                    case 'W':
+                        matrix[ count ] = images[ 5 ];
                         break;
                 }
                 count++;

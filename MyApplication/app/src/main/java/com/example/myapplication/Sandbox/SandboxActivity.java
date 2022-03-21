@@ -47,6 +47,7 @@ public class SandboxActivity extends AppCompatActivity
     ImageButton floor;
     ImageButton wall;
     ImageButton finish;
+    ImageButton monster_inside_cage;
 
     EditText mapName;
 
@@ -156,6 +157,7 @@ public class SandboxActivity extends AppCompatActivity
         gameBoard = findViewById(R.id.sandbox_gameBoard);
         light = findViewById(R.id.lightIsTested);
         infoBubble = findViewById(R.id.info_bubble);
+        monster_inside_cage = findViewById(R.id.button_sandbox_monster_inside_cage);
 
         // --------------------- Tool Selector --------------------------- //
 
@@ -164,6 +166,7 @@ public class SandboxActivity extends AppCompatActivity
         floor.setOnClickListener(var -> currentTool = 2);
         finish.setOnClickListener(var -> currentTool = 3);
         box.setOnClickListener(var -> currentTool = 4);
+        monster_inside_cage.setOnClickListener(var -> currentTool = 5);
         saveButton.setOnClickListener(var -> ScanText());
         testButton.setOnClickListener(var -> TestGame());
         gameBoard.setOnItemClickListener((parent, view, position, id) -> ClickOnBoard(position) );
@@ -472,6 +475,9 @@ public class SandboxActivity extends AppCompatActivity
                     case '+':
                         matrix[ count ] = wallRelation.get('+');
                         break;
+                    case 'W':
+                        matrix[ count ] = images[ 5 ];
+                        break;
                 }
 
                 count++;
@@ -594,6 +600,10 @@ public class SandboxActivity extends AppCompatActivity
 
                     case R.drawable.free_monster_blue:
                         content.append("C");
+                        break;
+
+                    case R.drawable.caged_monster_blue:
+                        content.append("W");
                         break;
 
                     case R.drawable.bottom_left_angle_wall_blue:
