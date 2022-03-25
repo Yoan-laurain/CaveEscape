@@ -52,7 +52,7 @@ public class LoadingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        //setidNato();
+        //SetidNato();
 
         //---------------------- Tool selector -------------------------------- //
 
@@ -145,6 +145,6 @@ public class LoadingActivity extends AppCompatActivity
 
 
     private void SetidNato(){
-        SharedPref.SaveIdClient(this, "BKxkND1Bb80N");
+        SharedPref.SaveIdClient(this, "fNzlhc9eBfZm");
     }
 }

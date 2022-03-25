@@ -25,7 +25,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 public class GameActivity extends AppCompatActivity
 {
@@ -37,15 +40,14 @@ public class GameActivity extends AppCompatActivity
     ImageButton down;
     ImageButton restart;
     ImageButton quit;
+    ImageButton rollBack;
     TextView view_text_level;
     TextView textMove;
     GridView gameBoard;
 
-
-
     //-------------------------------------
 
-    private final int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue};
+    private final int[] images = {R.drawable.left_player_blue,R.drawable.mur,R.drawable.blue_grass,R.drawable.opened_cage_blue,R.drawable.free_monster_blue,R.drawable.caged_monster_blue,R.drawable.player_on_cage};
 
     private final int[] wallsTab = {R.drawable.bottom_left_angle_wall_blue,R.drawable.bottom_right_angle_wall_blue,
             R.drawable.bottom_vertical_wall_blue,R.drawable.middle_vertical_wall_blue,R.drawable.middle_straight_wall_blue,
@@ -78,9 +80,11 @@ public class GameActivity extends AppCompatActivity
     private int countNbBox;
     private int nbBoxPlaced;
     private int caseTemp = images[2];
+    private int previousCaseTemp = images[2];
     private int moveCount;
     private int currentStepTuto = 0;
     private int[] matrix;
+    private int[] previousMatrix;
 
     private boolean comingFromTest = false;
     private boolean tuto = false;
@@ -91,6 +95,8 @@ public class GameActivity extends AppCompatActivity
     private Map myMap;
     private HashMap<Integer, MapLine> linesMapsTemp;
     public PropertyChangeListener listener;
+
+    private LinkedHashMap<int[], Integer> listHistoryMap = new LinkedHashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -110,6 +116,7 @@ public class GameActivity extends AppCompatActivity
         quit = findViewById(R.id.button_game_goback);
         textMove = findViewById(R.id.textMoveCount);
         gameBoard = findViewById(R.id.gameBoard);
+        rollBack = findViewById(R.id.button_game_undo);
 
         //-------------------------------------------------------------------- //
 
@@ -191,6 +198,7 @@ public class GameActivity extends AppCompatActivity
                 finish();
             }
         });
+        rollBack.setOnClickListener(var -> RollBackAction());
 
         //-------------------------------------------------------------------- //
     }
@@ -220,7 +228,6 @@ public class GameActivity extends AppCompatActivity
                 else{
                     gameBoardHeight = 140;
                 }
-
             }
 
             // check the height of a line is good to display
@@ -244,6 +251,7 @@ public class GameActivity extends AppCompatActivity
     public void ResponseMapLine( HashMap<Integer, MapLine> linesMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
+        listHistoryMap = new LinkedHashMap<>();
 
         count = 0;
         countNbBox =0;
@@ -328,11 +336,15 @@ public class GameActivity extends AppCompatActivity
                     case '+':
                         matrix[ count ] = wallRelation.get('+');
                         break;
+                    case 'W':
+                        matrix[ count ] = images[ 5 ];
+                        break;
                 }
                 count++;
             }
         });
 
+        previousMatrix = matrix;
         FillGameBoard();
     }
 
@@ -353,12 +365,15 @@ public class GameActivity extends AppCompatActivity
                         //check if the player is on the edge of the map
                         if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1)
                         {
+                            previousCaseTemp = caseTemp;
+                            previousMatrix = Arrays.copyOf(matrix, matrix.length);
+                            listHistoryMap.put(previousMatrix,previousCaseTemp);
                             matrix[currentPosition] = caseTemp;
                             caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? caseTemp = matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
 
                             if (matrix[currentPosition - movement] == images[5] )
                             {
-                                matrix[currentPosition - movement ] = images[0];
+                                matrix[currentPosition - movement ] = images[6];
                                 if ( matrix[currentPosition - movement * 2] == images[3] )
                                 {
                                     matrix[currentPosition - movement * 2] = images[5];
@@ -376,37 +391,42 @@ public class GameActivity extends AppCompatActivity
                                 nbBoxPlaced++;
                                 matrix[currentPosition - movement * 2] = images[5];
                                 currentPosition -= movement;
-                                matrix[currentPosition] = images[0];
+                                matrix[currentPosition] = ( matrix[currentPosition] == images[5] ? images[6] : images[0] );
                             }
                             else if ( matrix[currentPosition - movement] == images[4] )
                             {
                                 matrix[currentPosition - movement * 2] = images[4];
                                 currentPosition -= movement;
-                                matrix[currentPosition] = images[0];
+                                matrix[currentPosition] = ( matrix[currentPosition] == images[5] ? images[6] : images[0] );
                             }
                             else
                             {
                                 currentPosition -= movement;
-                                matrix[currentPosition] = images[0];
+                                matrix[currentPosition] = ( matrix[currentPosition] == images[3] ? images[6] : images[0] );
                             }
                         }
                     }
                 }
                 else if ( matrix[ currentPosition - movement ] != images[ 4 ] &&  matrix[ currentPosition - movement ] != images[ 5 ])
                 {
-
                     // check if the player is on the edge of the map
-                    if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1) {
+                    if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1)
+                    {
+                        CountObjectOnBoard();
+                        previousCaseTemp = caseTemp;
+                        previousMatrix = Arrays.copyOf(matrix, matrix.length);
+                        listHistoryMap.put(previousMatrix,previousCaseTemp);
 
                         matrix[currentPosition] = caseTemp;
 
-                        caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? caseTemp = matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
+                        caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
 
                         currentPosition -= movement;
 
-                        matrix[currentPosition] = images[0];
+                        matrix[currentPosition] = ( matrix[currentPosition] == images[3] ? images[6] : images[0] );
                     }
                 }
+
                 if (oldPosition != currentPosition){ moveCount++; }
                 textMove.setText(String.valueOf(moveCount));
                 FillGameBoard();
@@ -432,7 +452,9 @@ public class GameActivity extends AppCompatActivity
                 }
             }
         }
-        catch ( Exception ignored) {}
+        catch ( Exception e) {
+            System.out.println("Error : " + e);
+        }
 
     }
 
@@ -629,5 +651,54 @@ public class GameActivity extends AppCompatActivity
 
     static public boolean contains(int[] T,int val){
         return Arrays.toString(T).contains(String.valueOf(val));
+    }
+
+    /*
+        Set the the current matrix equals to matrix - 1 and reset variables
+     */
+    public void RollBackAction()
+    {
+        if ( moveCount > 0 && previousMatrix != matrix)
+        {
+            moveCount--;
+            textMove.setText(String.valueOf(moveCount));
+        }
+
+        List<int[]> listKeys = new ArrayList<>(listHistoryMap.keySet());
+
+        if(listKeys.size() > 0 )
+        {
+            matrix = listKeys.get(listKeys.size() - 1);
+            caseTemp = previousCaseTemp;
+            previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 1));
+            listHistoryMap.remove(listKeys.get(listKeys.size() - 1));
+        }
+        CountObjectOnBoard();
+        FillGameBoard();
+
+    }
+
+    /*
+     Count Object on the Game Board
+     */
+
+    public void CountObjectOnBoard()
+    {
+        nbBoxPlaced = 0;
+
+        int countTemp = 0;
+
+        for (int j : matrix)
+        {
+            if ( j == images[0] || j == images[6] )
+            {
+                currentPosition = countTemp;
+            }
+            else if ( j == images[5] )
+            {
+                nbBoxPlaced++;
+            }
+            countTemp++;
+        }
     }
 }
