@@ -482,7 +482,7 @@ public class SandboxActivity extends AppCompatActivity
                             Toast.makeText(this, "Map saved ! ", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(this, "You don't have enough cage(s) for tha aztharoth(s)! ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "You don't have enough cage(s) for the aztharoth(s)! You need at least one empty cage", Toast.LENGTH_LONG).show();
                         }
                     } else {
                         Toast.makeText(this, "You need at least one cage. ", Toast.LENGTH_LONG).show();
@@ -747,7 +747,14 @@ public class SandboxActivity extends AppCompatActivity
                 nbBox++;
             }
         }
-        return ( nbBox <= nbFinishZone );
+        if ( nbBox != 0 || nbFinishZone != 0 )
+        {
+            return ( nbBox <= nbFinishZone );
+        }
+        else{
+            return false;
+        }
+
     }
 
     /*
