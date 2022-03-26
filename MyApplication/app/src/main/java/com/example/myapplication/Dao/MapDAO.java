@@ -25,11 +25,11 @@ import okhttp3.Response;
 
 public class MapDAO
 {
-    private static HashMap params = new HashMap();
+    private final static HashMap params = new HashMap();
 
     /*
     Retrieve get lines og a map
- */
+    */
     public static void GetAllMap(SandboxMenuActivity myActivity)
     {
         RequestBody formBody = new FormBody.Builder()
