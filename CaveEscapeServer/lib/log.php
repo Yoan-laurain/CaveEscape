@@ -2,8 +2,6 @@
 
 class log {
 	
-
-	
 	// -------------------------------------------
 	/*
 	Ecrit un log dans un fichier :
