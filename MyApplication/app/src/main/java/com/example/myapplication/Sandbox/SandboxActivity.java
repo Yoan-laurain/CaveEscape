@@ -825,10 +825,11 @@ public class SandboxActivity extends AppCompatActivity
             {
                 nbPlayerPlaced++;
             }
-            else if ( j == images[4] )
+            else if ( j == images[4] || j == images[5])
             {
                 nbBoxPlaced++;
             }
+
         }
     }
 
