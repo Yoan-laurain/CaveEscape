@@ -18,6 +18,7 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
 import java.beans.PropertyChangeListener;
@@ -444,7 +445,9 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
-                    CallPopUpEndGame();
+                    int score = ScoreCount();
+                    SharedPref.SaveLevelScore(this, myMap.getIdMap(),score);
+                    CallPopUpEndGame(score);
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )
                 {
@@ -559,9 +562,9 @@ public class GameActivity extends AppCompatActivity
     /*
         Display a pop up at the end of the level to go to next level or quit or replay
      */
-    public void CallPopUpEndGame()
+    public void CallPopUpEndGame(int nbStar)
     {
-        EndGame popup = new EndGame(this,R.layout.popup_end_game);
+        EndGame popup = new EndGame(this,R.layout.popup_end_game,nbStar);
         Dialog myDialog = new Dialog(this);
         myDialog.setCanceledOnTouchOutside(false);
 
@@ -670,6 +673,15 @@ public class GameActivity extends AppCompatActivity
         {
             matrix = listKeys.get(listKeys.size() - 1);
             caseTemp = previousCaseTemp;
+            try
+            {
+                previousMatrix = listKeys.get(listKeys.size() - 2);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Erreur " + e );
+            }
+
             previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 1));
             listHistoryMap.remove(listKeys.get(listKeys.size() - 1));
         }
@@ -700,5 +712,23 @@ public class GameActivity extends AppCompatActivity
             }
             countTemp++;
         }
+    }
+
+    public int ScoreCount(){
+        int score = (moveCount*100)/ myMap.getNbMoveMin();
+        int result;
+        if(score <= 100){
+            result = 3;
+        }
+        else if (score <= 133){
+            result = 2;
+        }
+        else if (score > 133 && score <=166){
+            result = 1;
+        }
+        else{
+            result = 0;
+        }
+        return(result);
     }
 }

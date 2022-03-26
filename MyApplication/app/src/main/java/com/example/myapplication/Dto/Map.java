@@ -20,6 +20,7 @@ public class Map implements Serializable
     private  int nbColumns;
     private final String idClient;
     private boolean isTested;
+    private int nbMoveMin;
 
     //------------------------------------------------------------------------------
 
@@ -31,6 +32,19 @@ public class Map implements Serializable
         this.nbColumns = nbColumns;
         this.idClient = idClient;
         this.isTested = isTested;
+
+    }
+
+    public Map(int idMap, String nom, int nbRows, int nbColumns, boolean isTested,String idClient, int nbMoveMin)
+    {
+        this.idMap = idMap;
+        this.nom = nom;
+        this.nbRows = nbRows;
+        this.nbColumns = nbColumns;
+        this.idClient = idClient;
+        this.isTested = isTested;
+        this.nbMoveMin = nbMoveMin;
+
     }
 
     //------------------------------------------------------------------------------
@@ -59,6 +73,8 @@ public class Map implements Serializable
 
     public boolean getIsTested() { return isTested; }
 
+    public int getNbMoveMin() { return nbMoveMin; }
+
     //------------------------------------------------------------------------------
 
     /*
@@ -72,7 +88,8 @@ public class Map implements Serializable
                 json.getInt("nbRows"),
                 json.getInt("nbColumns"),
                 (json.getInt("isTested") == 1),
-                json.getString("idClient")
+                json.getString("idClient"),
+                json.getInt("nbMoveMin")
         );
     }
 
@@ -81,7 +98,7 @@ public class Map implements Serializable
      */
     public static Map HardCodedMapHeader()
     {
-        Map myMap = new Map(0,"", 0, 0,false,"0");
+        Map myMap = new Map(0,"", 0, 0,true,"0",0);
 
         String jsonMapString = "{\n" +
                 "        \"idMap\":\"-1\",\n" +
@@ -89,7 +106,8 @@ public class Map implements Serializable
                 "        \"nbRows\":\"6\",\n" +
                 "        \"nbColumns\":\"6\",\n" +
                 "        \"idClient\":\"1\",\n" +
-                "        \"isTested\":\"1\"\n" +
+                "        \"isTested\":\"1\",\n" +
+                "        \"nbMoveMin\":\"4\"\n" +
                 "    }";
 
         try
@@ -97,7 +115,9 @@ public class Map implements Serializable
             JSONObject json = new JSONObject( jsonMapString );
             myMap = Map.HydrateMap( json );
         }
-        catch (JSONException ignored){}
+        catch (JSONException e){
+            System.out.println("Erreur : " + e);
+        }
 
         return myMap;
     }
@@ -163,7 +183,9 @@ public class Map implements Serializable
 
             myActivity.ResponseMapLine( LinesMaps );
 
-        } catch ( JSONException ignored ) {}
+        } catch (JSONException e){
+            System.out.println("Erreur : " + e);
+        }
 
     }
 
@@ -173,7 +195,7 @@ public class Map implements Serializable
 
     public static Map FileMapHeader( SelectActivity myActivity )
     {
-        Map myMap = new Map(0,"", 0, 0,false,"0");
+        Map myMap = new Map(0,"", 0, 0,true,"0",0);
 
         String json;
         int id = myActivity.getResources().getIdentifier("mapheader", "raw", myActivity.getPackageName());

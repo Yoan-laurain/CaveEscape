@@ -51,5 +51,23 @@ public class SharedPref
         return ( sharedPreferences != null ? Float.parseFloat( sharedPreferences.getString("Volume","80") ) : 100 );
     }
 
+    //----------------------------------------------------------------------------------------------------------
+
+    /*
+    save Score from a level
+     */
+    public static void SaveLevelScore(Context myActivity, int idMap, int score){
+
+        SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Scores",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(String.valueOf(idMap), String.valueOf(score));
+        editor.apply();
+    }
+
+    public static int LoadLevelScore(Context myActivity, int idMap){
+        SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Scores",Context.MODE_PRIVATE);
+        return ( sharedPreferences != null ? Integer.valueOf(sharedPreferences.getString("idClient","0")) : 0 );
+    }
 }
 
