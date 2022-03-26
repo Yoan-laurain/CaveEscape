@@ -443,6 +443,8 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
+                    int score = ScoreCount();
+                    System.out.println("Nombre d'etoiles : " + score);
                     CallPopUpEndGame();
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )
@@ -699,5 +701,23 @@ public class GameActivity extends AppCompatActivity
             }
             countTemp++;
         }
+    }
+
+    public int ScoreCount(){
+        int score = (moveCount*100)/ myMap.getNbMoveMin();
+        int result;
+        if(score <= 100){
+            result = 3;
+        }
+        else if (score <= 133){
+            result = 2;
+        }
+        else if (score > 133 && score <=166){
+            result = 1;
+        }
+        else{
+            result = 0;
+        }
+        return(result);
     }
 }
