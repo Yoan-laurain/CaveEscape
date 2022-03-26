@@ -367,7 +367,7 @@ public class GameActivity extends AppCompatActivity
                         {
                             previousCaseTemp = caseTemp;
                             previousMatrix = Arrays.copyOf(matrix, matrix.length);
-                            listHistoryMap.put(Arrays.copyOf(matrix, matrix.length),previousCaseTemp);
+                            listHistoryMap.put(previousMatrix,previousCaseTemp);
                             matrix[currentPosition] = caseTemp;
                             caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? caseTemp = matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
 
@@ -412,9 +412,11 @@ public class GameActivity extends AppCompatActivity
                     // check if the player is on the edge of the map
                     if ((!leftLimits.contains(currentPosition) &&  - movement == -1) || (!rightLimits.contains(currentPosition) && - movement == 1) ||  - movement != -1 &&  - movement != 1)
                     {
+                        CountObjectOnBoard();
                         previousCaseTemp = caseTemp;
                         previousMatrix = Arrays.copyOf(matrix, matrix.length);
-                        listHistoryMap.put(Arrays.copyOf(matrix, matrix.length),previousCaseTemp);
+                        listHistoryMap.put(previousMatrix,previousCaseTemp);
+
                         matrix[currentPosition] = caseTemp;
 
                         caseTemp = ( matrix[currentPosition - movement] == images[2] || matrix[currentPosition - movement] == images[3] ? matrix[currentPosition - movement] :  matrix[currentPosition - movement] == images[5] ? images[3] : images[2]) ;
@@ -424,7 +426,6 @@ public class GameActivity extends AppCompatActivity
                         matrix[currentPosition] = ( matrix[currentPosition] == images[3] ? images[6] : images[0] );
                     }
                 }
-
 
                 if (oldPosition != currentPosition){ moveCount++; }
                 textMove.setText(String.valueOf(moveCount));
@@ -659,7 +660,6 @@ public class GameActivity extends AppCompatActivity
      */
     public void RollBackAction()
     {
-
         if ( moveCount > 0 && previousMatrix != matrix)
         {
             moveCount--;
@@ -671,6 +671,7 @@ public class GameActivity extends AppCompatActivity
         if(listKeys.size() > 0 )
         {
             matrix = listKeys.get(listKeys.size() - 1);
+            caseTemp = previousCaseTemp;
             previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 1));
             listHistoryMap.remove(listKeys.get(listKeys.size() - 1));
         }
@@ -686,12 +687,12 @@ public class GameActivity extends AppCompatActivity
     public void CountObjectOnBoard()
     {
         nbBoxPlaced = 0;
-        caseTemp = previousCaseTemp;
+
         int countTemp = 0;
 
         for (int j : matrix)
         {
-            if ( j == images[0] )
+            if ( j == images[0] || j == images[6] )
             {
                 currentPosition = countTemp;
             }
