@@ -18,6 +18,7 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
 import java.beans.PropertyChangeListener;
@@ -444,7 +445,9 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
-                    CallPopUpEndGame(ScoreCount());
+                    int score = ScoreCount();
+                    SharedPref.SaveLevelScore(this, myMap.getIdMap(),score);
+                    CallPopUpEndGame(score);
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )
                 {
