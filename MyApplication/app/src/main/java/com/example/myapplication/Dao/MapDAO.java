@@ -1,7 +1,5 @@
 package com.example.myapplication.Dao;
 
-import android.widget.Toast;
-
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
 import com.example.myapplication.Game.GameActivity;

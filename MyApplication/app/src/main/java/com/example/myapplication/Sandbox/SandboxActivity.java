@@ -651,6 +651,9 @@ public class SandboxActivity extends AppCompatActivity
                     case R.drawable.free_monster_blue:
                         content.append("C");
                         break;
+                    case R.drawable.caged_monster_blue:
+                        content.append("W");
+                        break;
 
                     case R.drawable.bottom_left_angle_wall_blue:
                         content.append(wallRelationForLoad.get(R.drawable.bottom_left_angle_wall_blue));
@@ -790,7 +793,6 @@ public class SandboxActivity extends AppCompatActivity
 
         if ( images[currentTool] == images[0] )
         {
-
             if (nbPlayerPlaced != 0 && positionPlayer != -1) {
 
                 matrix[positionPlayer] = images[2];
@@ -799,7 +801,6 @@ public class SandboxActivity extends AppCompatActivity
             positionPlayer = position;
 
             matrix[positionPlayer] = images[0];
-
 
             nbPlayerPlaced++;
 
