@@ -670,6 +670,15 @@ public class GameActivity extends AppCompatActivity
         {
             matrix = listKeys.get(listKeys.size() - 1);
             caseTemp = previousCaseTemp;
+            try
+            {
+                previousMatrix = listKeys.get(listKeys.size() - 2);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Erreur " + e );
+            }
+
             previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 1));
             listHistoryMap.remove(listKeys.get(listKeys.size() - 1));
         }
