@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -12,12 +11,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
+import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.Navigation;
+import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
 import java.beans.PropertyChangeListener;
@@ -27,8 +30,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.NavigableMap;
-import java.util.TreeMap;
 
 public class GameActivity extends AppCompatActivity
 {
@@ -44,6 +45,7 @@ public class GameActivity extends AppCompatActivity
     TextView view_text_level;
     TextView textMove;
     GridView gameBoard;
+    ImageView scoreStars;
 
     //-------------------------------------
 
@@ -85,6 +87,7 @@ public class GameActivity extends AppCompatActivity
     private int currentStepTuto = 0;
     private int[] matrix;
     private int[] previousMatrix;
+    private int loadScore = 0;
 
     private boolean comingFromTest = false;
     private boolean tuto = false;
@@ -117,12 +120,15 @@ public class GameActivity extends AppCompatActivity
         textMove = findViewById(R.id.textMoveCount);
         gameBoard = findViewById(R.id.gameBoard);
         rollBack = findViewById(R.id.button_game_undo);
+        scoreStars = findViewById(R.id.score_stars);
+
 
         //-------------------------------------------------------------------- //
 
         //---------------------------Retrieve parameters----------------------- //
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
+
 
         try
         {
@@ -235,10 +241,6 @@ public class GameActivity extends AppCompatActivity
                 gameBoardHeight = 300;
                 params.height = myMap.getNbRows() * gameBoardHeight;
             }
-            /*if(gameBoardWidth > 300){
-                gameBoardWidth = 300;
-                params.width = myMap.getNbColumns() * gameBoardHeight;
-            }*/
 
             GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
@@ -250,6 +252,25 @@ public class GameActivity extends AppCompatActivity
      */
     public void ResponseMapLine( HashMap<Integer, MapLine> linesMaps )
     {
+        loadScore = SharedPref.LoadLevelScore(this,myMap.getIdMap());
+        this.runOnUiThread(() ->
+                {
+                    switch (loadScore) {
+                        case 1:
+                            scoreStars.setImageResource(R.drawable.one_star);
+                            break;
+                        case 2:
+                            scoreStars.setImageResource(R.drawable.two_stars);
+                            break;
+                        case 3:
+                            scoreStars.setImageResource(R.drawable.three_stars);
+                            break;
+                        default:
+                            scoreStars.setImageResource(R.drawable.zero_stars);
+                            break;
+                    }
+                });
+
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         listHistoryMap = new LinkedHashMap<>();
 
@@ -265,6 +286,7 @@ public class GameActivity extends AppCompatActivity
         {
             for (int i = 0; i < MapLine.getContent().length(); i++)
             {
+                Integer value = wallRelation.get(MapLine.getContent().charAt(i));
                 switch ( MapLine.getContent().charAt(i) )
                 {
                     case 'P' :
@@ -288,56 +310,12 @@ public class GameActivity extends AppCompatActivity
                         matrix[ count ] = images[ 4 ];
                         countNbBox++;
                         break;
-
-                    case 'A':
-                        matrix[ count ] = wallRelation.get('A');
-                        break;
-
-                    case 'B':
-                        matrix[ count ] = wallRelation.get('B');
-                        break;
-
-                    case 'V':
-                        matrix[ count ] = wallRelation.get('V');
-                        break;
-                    case 'D':
-                        matrix[ count ] = wallRelation.get('D');
-                        break;
-                    case 'E':
-                        matrix[ count ] = wallRelation.get('E');
-                        break;
-                    case 'F':
-                        matrix[ count ] = wallRelation.get('F');
-                        break;
-                    case 'G':
-                        matrix[ count ] = wallRelation.get('G');
-                        break;
-                    case 'H':
-                        matrix[ count ] = wallRelation.get('H');
-                        break;
-                    case 'I':
-                        matrix[ count ] = wallRelation.get('I');
-                        break;
-                    case 'J':
-                        matrix[ count ] = wallRelation.get('J');
-                        break;
-                    case 'T':
-                        matrix[ count ] = wallRelation.get('T');
-                        break;
-                    case 'U':
-                        matrix[ count ] = wallRelation.get('U');
-                        break;
-                    case '>':
-                        matrix[ count ] = wallRelation.get('>');
-                        break;
-                    case '<':
-                        matrix[ count ] = wallRelation.get('<');
-                        break;
-                    case '+':
-                        matrix[ count ] = wallRelation.get('+');
-                        break;
                     case 'W':
                         matrix[ count ] = images[ 5 ];
+                        break;
+
+                    default :
+                        matrix[ count ] = ( value != null ? value : images[2] );
                         break;
                 }
                 count++;
@@ -431,6 +409,8 @@ public class GameActivity extends AppCompatActivity
                 textMove.setText(String.valueOf(moveCount));
                 FillGameBoard();
 
+                System.out.println("NbBox :" + nbBoxPlaced + " count : " + countNbBox);
+
                 if ( nbBoxPlaced == countNbBox && comingFromTest && currentStepTuto == 0 )
                 {
                     myMap.setIsTested(true);
@@ -444,7 +424,13 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
-                    CallPopUpEndGame();
+                    int score = ScoreCount();
+                    if ( loadScore < score )
+                    {
+                        SharedPref.SaveLevelScore(this, myMap.getIdMap(),score);
+                    }
+
+                    CallPopUpEndGame(score);
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )
                 {
@@ -559,11 +545,14 @@ public class GameActivity extends AppCompatActivity
     /*
         Display a pop up at the end of the level to go to next level or quit or replay
      */
-    public void CallPopUpEndGame()
+    public void CallPopUpEndGame(int nbStar)
     {
-        EndGame popup = new EndGame(this,R.layout.popup_end_game);
+        EndGame popup = new EndGame(this,R.layout.popup_end_game,nbStar);
         Dialog myDialog = new Dialog(this);
         myDialog.setCanceledOnTouchOutside(false);
+
+        final boolean[] replay = {false};
+        final boolean[] next = {false};
 
         Window window = myDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
@@ -575,17 +564,29 @@ public class GameActivity extends AppCompatActivity
         myDialog.setContentView( popup.getView( null ) );
 
         popup.getReplayGame().setOnClickListener(var -> {
+            replay[0] = true;
             RefreshGame();
             myDialog.dismiss();
         });
 
         popup.getNextLevel().setOnClickListener(var -> {
+            next[0] = true;
             myDialog.dismiss();
             MapDAO.GetNextMap(this,myMap.getIdMap() );
 
         });
 
         popup.getReturn_back().setOnClickListener(var -> finish());
+
+        myDialog.setOnDismissListener(var -> {
+
+            if ( !replay[0] && !next[0])
+            {
+                HashMap params = new HashMap<>();
+                Navigation.switchActivities(this, SelectActivity.class,params);
+            }
+
+        });
 
         myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myDialog.show();
@@ -670,6 +671,15 @@ public class GameActivity extends AppCompatActivity
         {
             matrix = listKeys.get(listKeys.size() - 1);
             caseTemp = previousCaseTemp;
+            try
+            {
+                previousMatrix = listKeys.get(listKeys.size() - 2);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Error " + e );
+            }
+
             previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 1));
             listHistoryMap.remove(listKeys.get(listKeys.size() - 1));
         }
@@ -700,5 +710,23 @@ public class GameActivity extends AppCompatActivity
             }
             countTemp++;
         }
+    }
+
+    public int ScoreCount(){
+        int score = (moveCount*100)/ myMap.getNbMoveMin();
+        int result;
+        if(score <= 100){
+            result = 3;
+        }
+        else if (score <= 133){
+            result = 2;
+        }
+        else if (score <=166){
+            result = 1;
+        }
+        else{
+            result = 0;
+        }
+        return(result);
     }
 }

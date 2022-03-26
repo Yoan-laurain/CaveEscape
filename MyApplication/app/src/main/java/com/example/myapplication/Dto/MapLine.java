@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 public class MapLine
 {
+    //------------------------------------------------------------------------------
+
     private final int id;
     private final int indexRow;
     private String content;

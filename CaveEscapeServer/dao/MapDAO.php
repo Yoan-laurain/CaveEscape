@@ -11,7 +11,9 @@ class MapDAO {
             "Failure retrieving all maps",
             "SELECT *
             FROM map
-            where isTested = true"
+            where  idClient <> 1 
+            AND ( idClient = :idClient OR isTested = 1 )",
+            array("idClient")
         );
     }
 
@@ -57,7 +59,7 @@ class MapDAO {
             "Trying to update a map",
             "Success to update a map",
             "Failure to update a map",
-            "UPDATE map SET nom = :nameMap, nbRows = :nbRows, nbColumns = :nbColumns, idClient = :idClient, isTested =:isTested where idMap = :idMap;",
+            "UPDATE map SET nom = :nameMap, nbRows = :nbRows, nbColumns = :nbColumns, idClient = :idClient, isTested = :isTested where idMap = :idMap;",
             array("nameMap","nbRows","nbColumns","idClient","idMap","isTested")
         );        
     }
@@ -94,6 +96,54 @@ class MapDAO {
             array("idMap")
         );
     }
+
+    // --------------------------------------------
+
+    public static function GetHistoryMap(){
+        DBConnex::runFetchAll(
+            "Trying to get all history maps",
+            "Success retrieving all history maps",
+            "Failure retrieving all history maps",
+            "SELECT *
+            FROM map
+            WHERE idClient = '1' "
+        );
+
+
+    }
+    // --------------------------------------------
+
+    public static function GetCommunityMap(){
+        DBConnex::runFetchAll(
+            "Trying to get all Community maps",
+            "Success retrieving all Community maps",
+            "Failure retrieving all Community maps",
+            "SELECT *
+            FROM map
+            WHERE idClient <> 1
+            AND isTested = 1 "
+        );
+
+
+    }
+
+    public static function GetNextMap()
+    {
+        DBConnex::runFetch(
+        "Trying to get next map",
+        "Sucess retrieving next map",
+        "Failure retrieving next map",
+        "SELECT *
+        FROM map
+        WHERE idMap > :idMap 
+        AND isTested = 1
+        Order by idMap     
+        LIMIT 1 ",
+        array("idMap")
+        );
+    } 
+
+
 
 
     

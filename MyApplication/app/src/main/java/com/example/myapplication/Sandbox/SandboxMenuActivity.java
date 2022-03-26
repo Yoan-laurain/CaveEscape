@@ -45,7 +45,7 @@ public class SandboxMenuActivity extends AppCompatActivity
     {
         super.onResume();
         try {
-            if ( LoadingActivity.idClient.equals("fNzlhc9eBfZm") || LoadingActivity.idClient.equals("BKxkND1Bb80N") || LoadingActivity.idClient.equals("fNzlhc9eBfZm"))
+            if ( LoadingActivity.idClient.equals("fNzlhc9eBfZm") || LoadingActivity.idClient.equals("BKxkND1Bb80N") )
             {
                 MapDAO.GetAllMap(this);
             }

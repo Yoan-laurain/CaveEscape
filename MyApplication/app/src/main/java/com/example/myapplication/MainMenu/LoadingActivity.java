@@ -1,5 +1,6 @@
 package com.example.myapplication.MainMenu;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,8 +37,8 @@ public class LoadingActivity extends AppCompatActivity
 
     HashMap params = new HashMap<>();
 
-    public final static String CONNEXION_API = "http://51.254.96.53:8383/api.php";   // API PROD
-    //public final static String CONNEXION_API = "http://51.254.96.53:8484/api.php"; // API TEST
+    //public final static String CONNEXION_API = "http://51.254.96.53:8383/api.php";   // API PROD
+    public final static String CONNEXION_API = "http://51.254.96.53:8484/api.php"; // API TEST
     public final static String API_KEY = "43d24893a0ca4dfdacbbc6f0b3067804";
     //public final static String CONNEXION_API = "http://192.168.1.96:8383/CaveEscapeServer/API.php";
     //public final static String CONNEXION_API = "http://192.168.0.14/CaveEscapeServer/API.php";
@@ -46,6 +47,7 @@ public class LoadingActivity extends AppCompatActivity
 
     // -------------------------------------------------------------------------------------------//
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

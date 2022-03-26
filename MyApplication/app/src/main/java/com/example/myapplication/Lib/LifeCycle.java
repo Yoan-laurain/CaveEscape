@@ -26,7 +26,9 @@ public class LifeCycle extends Application implements LifecycleObserver {
         {
             AudioPlayer.Resume();
         }
-        catch(Exception e){}
+        catch(Exception e){
+            System.out.println(" Error : " + e);
+        }
 
     }
 }

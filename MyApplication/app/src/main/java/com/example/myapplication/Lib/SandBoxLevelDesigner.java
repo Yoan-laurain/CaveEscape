@@ -33,8 +33,6 @@ public class SandBoxLevelDesigner extends ArrayAdapter<String>
 
     // ---------------------------------------------
 
-    // ---------------------------------------------
-
     /*
         Called when used setAdapter method
         Set items of row.xlm and return the object

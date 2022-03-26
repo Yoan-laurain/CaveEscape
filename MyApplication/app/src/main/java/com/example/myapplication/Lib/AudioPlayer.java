@@ -1,5 +1,6 @@
 package com.example.myapplication.Lib;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -13,6 +14,7 @@ public class AudioPlayer
     public static boolean isAnEasterEgg = false;
     private final static int MAX_VOLUME = 100;
     private static float current_volume;
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     //---------------------------------------
@@ -78,7 +80,9 @@ public class AudioPlayer
         try{
             ring.setVolume(result, result);
         }
-        catch(Exception e ) { }
+        catch(Exception e ) {
+            System.out.println("Error : " + e);
+        }
 
         SharedPref.SaveVolumePreferences( context,volume);
     }

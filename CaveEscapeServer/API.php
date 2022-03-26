@@ -5,6 +5,7 @@ require_once 'lib/json.php';
 require_once 'dao/MapDAO.php';
 require_once 'dao/MapLigneDAO.php';
 require_once 'lib/log.php';
+require_once 'dao/HistoryDAO.php';
 
 
 /*

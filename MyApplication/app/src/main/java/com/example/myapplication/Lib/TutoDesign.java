@@ -35,7 +35,6 @@ public class TutoDesign extends Dialog
         this.currentText = 0;
     }
 
-
     // ---------------------------------------------
 
     public int GetCurrentText() {

@@ -88,64 +88,70 @@
 
     <ImageButton
         android:id="@+id/button_game_goback"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/text_goback"
         android:scaleType="centerCrop"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
+        android:scaleX="2"
+        android:scaleY="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004"
+        app:layout_constraintVertical_bias="0.031"
         app:srcCompat="@drawable/undelete" />
 
     <ImageButton
         android:id="@+id/button_game_undo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/text_undo"
         android:scaleType="centerCrop"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
+        android:scaleX="2"
+        android:scaleY="2"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_game_reload"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004"
+        app:layout_constraintVertical_bias="0.031"
         app:srcCompat="@drawable/undo" />
 
     <ImageButton
         android:id="@+id/button_game_reload"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/text_reload"
         android:scaleType="centerCrop"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
+        android:scaleX="2"
+        android:scaleY="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_game_goback"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004"
+        app:layout_constraintVertical_bias="0.032"
         app:srcCompat="@drawable/restart" />
 
     <TextView
         android:id="@+id/text_game_level"
-        android:layout_width="220dp"
+        android:layout_width="179dp"
         android:layout_height="35dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="@font/new_rocker"
+
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-
-        android:textSize="24sp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textMoveCount"
@@ -189,5 +195,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.794"
         app:srcCompat="@drawable/foot" />
+
+    <ImageView
+        android:id="@+id/score_stars"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/gameBoard"
+        app:layout_constraintEnd_toStartOf="@+id/button_game_undo"
+        app:layout_constraintStart_toEndOf="@+id/text_game_level"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/one_star" />
 
 </android.support.constraint.ConstraintLayout>
