@@ -43,8 +43,8 @@
 
     <View
         android:id="@+id/background_end"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_width="411dp"
+        android:layout_height="198dp"
         android:background="#7E8FE4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,5 +92,44 @@
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/background_end"
         app:layout_constraintVertical_bias="0.555"
-        app:srcCompat="@drawable/restart" />
+        app:srcCompat="@drawable/restart"
+        android:contentDescription="TODO" />
+
+    <ImageView
+        android:id="@+id/FirstStar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/background_end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_end"
+        app:layout_constraintVertical_bias="0.438"
+        tools:srcCompat="@drawable/grey_star" />
+
+    <ImageView
+        android:id="@+id/SecondStar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_next_level"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/FirstStar"
+        app:layout_constraintTop_toTopOf="@+id/background_end"
+        app:layout_constraintVertical_bias="0.037"
+        tools:srcCompat="@drawable/grey_star" />
+
+    <ImageView
+        android:id="@+id/ThirdStar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_return"
+        app:layout_constraintEnd_toStartOf="@+id/FirstStar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_end"
+        app:layout_constraintVertical_bias="0.037"
+        tools:srcCompat="@drawable/grey_star" />
 </android.support.constraint.ConstraintLayout>

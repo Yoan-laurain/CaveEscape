@@ -444,9 +444,7 @@ public class GameActivity extends AppCompatActivity
                 }
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
-                    int score = ScoreCount();
-                    System.out.println("Nombre d'etoiles : " + score);
-                    CallPopUpEndGame();
+                    CallPopUpEndGame(ScoreCount());
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )
                 {
@@ -561,9 +559,9 @@ public class GameActivity extends AppCompatActivity
     /*
         Display a pop up at the end of the level to go to next level or quit or replay
      */
-    public void CallPopUpEndGame()
+    public void CallPopUpEndGame(int nbStar)
     {
-        EndGame popup = new EndGame(this,R.layout.popup_end_game);
+        EndGame popup = new EndGame(this,R.layout.popup_end_game,nbStar);
         Dialog myDialog = new Dialog(this);
         myDialog.setCanceledOnTouchOutside(false);
 
