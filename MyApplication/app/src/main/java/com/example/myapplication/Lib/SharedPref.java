@@ -67,7 +67,7 @@ public class SharedPref
 
     public static int LoadLevelScore(Context myActivity, int idMap){
         SharedPreferences sharedPreferences = myActivity.getSharedPreferences("Scores",Context.MODE_PRIVATE);
-        return ( sharedPreferences != null ? Integer.valueOf(sharedPreferences.getString("idClient","0")) : 0 );
+        return ( sharedPreferences != null ? Integer.valueOf(sharedPreferences.getString(String.valueOf(idMap),"0")) : 0 );
     }
 }
 

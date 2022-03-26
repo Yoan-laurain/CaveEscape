@@ -1,6 +1,7 @@
 package com.example.myapplication.Game;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,12 +13,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.Switch;
 import android.widget.TextView;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Dto.MapLine;
+import com.example.myapplication.LevelSelect.SelectActivity;
 import com.example.myapplication.Lib.EndGame;
 import com.example.myapplication.Lib.GameDesign;
+import com.example.myapplication.Lib.Navigation;
 import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.R;
@@ -45,6 +51,7 @@ public class GameActivity extends AppCompatActivity
     TextView view_text_level;
     TextView textMove;
     GridView gameBoard;
+    ImageView scoreStars;
 
     //-------------------------------------
 
@@ -86,6 +93,7 @@ public class GameActivity extends AppCompatActivity
     private int currentStepTuto = 0;
     private int[] matrix;
     private int[] previousMatrix;
+    private int loadScore = 0;
 
     private boolean comingFromTest = false;
     private boolean tuto = false;
@@ -118,12 +126,15 @@ public class GameActivity extends AppCompatActivity
         textMove = findViewById(R.id.textMoveCount);
         gameBoard = findViewById(R.id.gameBoard);
         rollBack = findViewById(R.id.button_game_undo);
+        scoreStars = findViewById(R.id.score_stars);
+
 
         //-------------------------------------------------------------------- //
 
         //---------------------------Retrieve parameters----------------------- //
 
         myMap = (Map) getIntent().getSerializableExtra("Map");
+
 
         try
         {
@@ -251,6 +262,25 @@ public class GameActivity extends AppCompatActivity
      */
     public void ResponseMapLine( HashMap<Integer, MapLine> linesMaps )
     {
+        loadScore = SharedPref.LoadLevelScore(this,myMap.getIdMap());
+        this.runOnUiThread(() ->
+                {
+                    switch (loadScore) {
+                        case 1:
+                            scoreStars.setImageResource(R.drawable.one_star);
+                            break;
+                        case 2:
+                            scoreStars.setImageResource(R.drawable.two_stars);
+                            break;
+                        case 3:
+                            scoreStars.setImageResource(R.drawable.three_stars);
+                            break;
+                        default:
+                            scoreStars.setImageResource(R.drawable.zero_stars);
+                            break;
+                    }
+                });
+
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
         listHistoryMap = new LinkedHashMap<>();
 
@@ -446,7 +476,11 @@ public class GameActivity extends AppCompatActivity
                 else if ( nbBoxPlaced == countNbBox && currentStepTuto == 0 && !tuto)
                 {
                     int score = ScoreCount();
-                    SharedPref.SaveLevelScore(this, myMap.getIdMap(),score);
+                    if ( loadScore < score )
+                    {
+                        SharedPref.SaveLevelScore(this, myMap.getIdMap(),score);
+                    }
+
                     CallPopUpEndGame(score);
                 }
                 else if ( nbBoxPlaced == countNbBox && tuto  )
@@ -568,6 +602,9 @@ public class GameActivity extends AppCompatActivity
         Dialog myDialog = new Dialog(this);
         myDialog.setCanceledOnTouchOutside(false);
 
+        final boolean[] replay = {false};
+        final boolean[] next = {false};
+
         Window window = myDialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
@@ -578,17 +615,29 @@ public class GameActivity extends AppCompatActivity
         myDialog.setContentView( popup.getView( null ) );
 
         popup.getReplayGame().setOnClickListener(var -> {
+            replay[0] = true;
             RefreshGame();
             myDialog.dismiss();
         });
 
         popup.getNextLevel().setOnClickListener(var -> {
+            next[0] = true;
             myDialog.dismiss();
             MapDAO.GetNextMap(this,myMap.getIdMap() );
 
         });
 
         popup.getReturn_back().setOnClickListener(var -> finish());
+
+        myDialog.setOnDismissListener(var -> {
+
+            if ( !replay[0] && !next[0])
+            {
+                HashMap params = new HashMap<>();
+                Navigation.switchActivities(this, SelectActivity.class,params);
+            }
+
+        });
 
         myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         myDialog.show();

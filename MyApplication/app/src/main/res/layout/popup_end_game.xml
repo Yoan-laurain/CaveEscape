@@ -96,7 +96,7 @@
         android:contentDescription="TODO" />
 
     <ImageView
-        android:id="@+id/FirstStar"
+        android:id="@+id/SecondStar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/background_end"
@@ -108,25 +108,25 @@
         tools:srcCompat="@drawable/grey_star" />
 
     <ImageView
-        android:id="@+id/SecondStar"
+        android:id="@+id/ThirdStar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="44dp"
         app:layout_constraintBottom_toBottomOf="@+id/button_next_level"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/FirstStar"
+        app:layout_constraintStart_toEndOf="@+id/SecondStar"
         app:layout_constraintTop_toTopOf="@+id/background_end"
         app:layout_constraintVertical_bias="0.037"
         tools:srcCompat="@drawable/grey_star" />
 
     <ImageView
-        android:id="@+id/ThirdStar"
+        android:id="@+id/FirstStar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="44dp"
         app:layout_constraintBottom_toBottomOf="@+id/button_return"
-        app:layout_constraintEnd_toStartOf="@+id/FirstStar"
+        app:layout_constraintEnd_toStartOf="@+id/SecondStar"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/background_end"
