@@ -1,11 +1,9 @@
 package com.example.myapplication.Game;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -14,8 +12,6 @@ import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.Switch;
 import android.widget.TextView;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dto.Map;
@@ -34,8 +30,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.NavigableMap;
-import java.util.TreeMap;
 
 public class GameActivity extends AppCompatActivity
 {
@@ -247,10 +241,6 @@ public class GameActivity extends AppCompatActivity
                 gameBoardHeight = 300;
                 params.height = myMap.getNbRows() * gameBoardHeight;
             }
-            /*if(gameBoardWidth > 300){
-                gameBoardWidth = 300;
-                params.width = myMap.getNbColumns() * gameBoardHeight;
-            }*/
 
             GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
@@ -461,6 +451,8 @@ public class GameActivity extends AppCompatActivity
                 if (oldPosition != currentPosition){ moveCount++; }
                 textMove.setText(String.valueOf(moveCount));
                 FillGameBoard();
+
+                System.out.println("NbBox :" + nbBoxPlaced + " count : " + countNbBox);
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest && currentStepTuto == 0 )
                 {
@@ -728,7 +720,7 @@ public class GameActivity extends AppCompatActivity
             }
             catch(Exception e)
             {
-                System.out.println("Erreur " + e );
+                System.out.println("Error " + e );
             }
 
             previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 1));
@@ -772,7 +764,7 @@ public class GameActivity extends AppCompatActivity
         else if (score <= 133){
             result = 2;
         }
-        else if (score > 133 && score <=166){
+        else if (score <=166){
             result = 1;
         }
         else{

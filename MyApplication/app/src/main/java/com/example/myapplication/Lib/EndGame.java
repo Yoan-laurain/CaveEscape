@@ -22,7 +22,7 @@ public class EndGame extends Dialog
     ImageView firstStar;
     ImageView secondStar;
     ImageView thirdStar;
-    private int nbStar;
+    private final int nbStar;
 
     // ---------------------------------------------
 

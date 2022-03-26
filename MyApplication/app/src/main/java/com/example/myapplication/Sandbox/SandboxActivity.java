@@ -3,7 +3,6 @@ package com.example.myapplication.Sandbox;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -19,7 +18,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 import com.example.myapplication.Dao.MapDAO;
 import com.example.myapplication.Dao.TextModeration;
@@ -30,7 +28,6 @@ import com.example.myapplication.Lib.GameDesign;
 import com.example.myapplication.Lib.TutoDesign;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
-
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -334,13 +331,9 @@ public class SandboxActivity extends AppCompatActivity
                             if (countTemp % (myMap.getNbColumns()) == 0 && i != 0)
                             {
                                 i += nbColumnTemp - myMap.getNbColumns();
-                                matrix[countTemp] = matrixTemp[i];
-                                countTemp++;
-                            } else
-                            {
-                                matrix[countTemp] = matrixTemp[i];
-                                countTemp++;
                             }
+                            matrix[countTemp] = matrixTemp[i];
+                            countTemp++;
                         }
                     }
                     else
@@ -370,7 +363,6 @@ public class SandboxActivity extends AppCompatActivity
         {
             gameBoard.setColumnWidth( myMap.getNbColumns() * 4 );
             gameBoard.setNumColumns( myMap.getNbColumns() );
-            ViewGroup.LayoutParams params = gameBoard.getLayoutParams();
 
             int gameBoardHeight = gameBoard.getHeight() / myMap.getNbRows();
             //int gameBoardWidth = gameBoard.getWidth() / myMap.getNbColumns();
@@ -380,10 +372,6 @@ public class SandboxActivity extends AppCompatActivity
                 gameBoardHeight = 300;
                 //params.height = myMap.getNbRows() * gameBoardHeight;
             }
-            /*if(gameBoardWidth > 300){
-                gameBoardWidth = 300;
-                params.width = myMap.getNbColumns() * gameBoardHeight;
-            }*/
 
             GameDesign adapter = new GameDesign(this, matrix, gameBoardHeight);
             gameBoard.setAdapter(adapter);
@@ -950,7 +938,7 @@ public class SandboxActivity extends AppCompatActivity
     }
 
 
-    public int ChooseRightWall( int position )
+    public void ChooseRightWall( int position )
     {
         //---------------- VARIABLES ----------------//
 
@@ -976,7 +964,9 @@ public class SandboxActivity extends AppCompatActivity
                 }
 
             }
-        }catch(Exception e){}
+        }catch(Exception e){
+            System.out.println(" Error : " + e);
+        }
 
         try
         {
@@ -990,7 +980,9 @@ public class SandboxActivity extends AppCompatActivity
                 }
 
             }
-        }catch(Exception e){}
+        }catch(Exception e){
+            System.out.println(" Error : " + e);
+        }
         try
         {
             //Si c'est un de nos murs
@@ -999,7 +991,9 @@ public class SandboxActivity extends AppCompatActivity
                 nbWallAround++;
                 up = true;
             }
-        }catch(Exception e){}
+        }catch(Exception e){
+            System.out.println(" Error : " + e);
+        }
         try
         {
             //Si c'est un de nos murs
@@ -1009,7 +1003,9 @@ public class SandboxActivity extends AppCompatActivity
                 down = true;
             }
 
-        }catch(Exception e){}
+        }catch(Exception e){
+            System.out.println(" Error : " + e);
+        }
 
 
 
@@ -1051,8 +1047,7 @@ public class SandboxActivity extends AppCompatActivity
                       ChooseTheRightWallForLeft( position );
                   }
                   //Si le mur est à droite
-                  else if ( right )
-                  {
+                  else {
                       ChooseTheRightWallForRight( position );
                   }
                 break;
@@ -1104,7 +1099,7 @@ public class SandboxActivity extends AppCompatActivity
                     ChooseTheRightWallForRight( position );
 
                 }
-                else if ( right && left )
+                else if (right)
                 {
                     //Change le mur en cours
                     matrix[position] = wallsTab[4];
@@ -1114,8 +1109,7 @@ public class SandboxActivity extends AppCompatActivity
                     ChooseTheRightWallForRight( position );
 
                 }
-                else if ( up && down )
-                {
+                else {
                     //Change le mur en cours
                     matrix[position] = wallsTab[3];
 
@@ -1142,7 +1136,7 @@ public class SandboxActivity extends AppCompatActivity
 
                     ChooseTheRightWallForLeft( position );
                 }
-                else if ( up && left && down )
+                else if (up && left)
                 {
 
                     //Change le mur en cours
@@ -1154,7 +1148,7 @@ public class SandboxActivity extends AppCompatActivity
 
                     ChooseTheRightWallForDown( position );
                 }
-                else if ( left && down && right)
+                else if (left)
                 {
                     //Change le mur en cours
                     matrix[position] = wallsTab[10];
@@ -1165,8 +1159,7 @@ public class SandboxActivity extends AppCompatActivity
 
                     ChooseTheRightWallForLeft( position );
                 }
-                else if ( down && right && up )
-                {
+                else {
                     //Change le mur en cours
                     matrix[position] = wallsTab[12];
 
@@ -1195,7 +1188,6 @@ public class SandboxActivity extends AppCompatActivity
                 break;
         }
 
-        return matrix[position];
     }
 
     public void ChooseTheRightWallForLeft( int position )

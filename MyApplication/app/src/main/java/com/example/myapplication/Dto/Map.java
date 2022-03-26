@@ -14,6 +14,9 @@ import java.util.HashMap;
 
 public class Map implements Serializable
 {
+
+    //------------------------------------------------------------------------------
+
     private int idMap;
     private String nom;
     private int nbRows;
@@ -116,7 +119,7 @@ public class Map implements Serializable
             myMap = Map.HydrateMap( json );
         }
         catch (JSONException e){
-            System.out.println("Erreur : " + e);
+            System.out.println("Error : " + e);
         }
 
         return myMap;
@@ -184,7 +187,7 @@ public class Map implements Serializable
             myActivity.ResponseMapLine( LinesMaps );
 
         } catch (JSONException e){
-            System.out.println("Erreur : " + e);
+            System.out.println("Error : " + e);
         }
 
     }
