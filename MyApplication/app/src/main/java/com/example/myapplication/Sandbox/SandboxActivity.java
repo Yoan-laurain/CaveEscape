@@ -395,6 +395,7 @@ public class SandboxActivity extends AppCompatActivity
         {
             for (int i = 0; i < MapLine.getContent().length(); i++)
             {
+                Integer value = wallRelation.get(MapLine.getContent().charAt(i));
                 switch ( MapLine.getContent().charAt(i) )
                 {
                     case 'P' :
@@ -416,55 +417,11 @@ public class SandboxActivity extends AppCompatActivity
                     case 'C':
                         matrix[ count ] = images[ 4 ];
                         break;
-                    case 'A':
-                        matrix[ count ] = wallRelation.get('A');
-                        break;
-
-                    case 'B':
-                        matrix[ count ] = wallRelation.get('B');
-                        break;
-
-                    case 'V':
-                        matrix[ count ] = wallRelation.get('V');
-                        break;
-                    case 'D':
-                        matrix[ count ] = wallRelation.get('D');
-                        break;
-                    case 'E':
-                        matrix[ count ] = wallRelation.get('E');
-                        break;
-                    case 'F':
-                        matrix[ count ] = wallRelation.get('F');
-                        break;
-                    case 'G':
-                        matrix[ count ] = wallRelation.get('G');
-                        break;
-                    case 'H':
-                        matrix[ count ] = wallRelation.get('H');
-                        break;
-                    case 'I':
-                        matrix[ count ] = wallRelation.get('I');
-                        break;
-                    case 'J':
-                        matrix[ count ] = wallRelation.get('J');
-                        break;
-                    case 'T':
-                        matrix[ count ] = wallRelation.get('T');
-                        break;
-                    case 'U':
-                        matrix[ count ] = wallRelation.get('U');
-                        break;
-                    case '>':
-                        matrix[ count ] = wallRelation.get('>');
-                        break;
-                    case '<':
-                        matrix[ count ] = wallRelation.get('<');
-                        break;
-                    case '+':
-                        matrix[ count ] = wallRelation.get('+');
-                        break;
                     case 'W':
                         matrix[ count ] = images[ 5 ];
+                        break;
+                    default :
+                        matrix[ count ] = ( value != null ? value : images[2] );
                         break;
                 }
 
@@ -950,11 +907,11 @@ public class SandboxActivity extends AppCompatActivity
 
         //-------------------------------------------//
 
-        //-------------- RECUPERATION DES 4 CASES ALENTOUR -------------//
+        //-------------- RETRIEVE ALL 4 CASES AROUND -------------//
 
         try
         {
-            //Si c'est un de nos murs
+            //If it is one of our wall
             if (contains(wallsTab, matrix[ position -1 ]) )
             {
                 if ( ( !leftLimits.contains(position - 1) ||  !rightLimits.contains(position ) ) && ( !rightLimits.contains(position - 1 ) && !leftLimits.contains(position) ) )
@@ -970,7 +927,7 @@ public class SandboxActivity extends AppCompatActivity
 
         try
         {
-            //Si c'est un de nos murs
+            //If it is one of our wall
             if (contains(wallsTab, matrix[ position + 1 ]) )
             {
                 if ( ( !rightLimits.contains(position ) || !leftLimits.contains(position + 1) ) && ( !leftLimits.contains(position + 1 ) &&  !rightLimits.contains(position ) )  )
@@ -985,7 +942,7 @@ public class SandboxActivity extends AppCompatActivity
         }
         try
         {
-            //Si c'est un de nos murs
+            //If it is one of our wall
             if (contains(wallsTab, matrix[ position - myMap.getNbColumns() ]) )
             {
                 nbWallAround++;
@@ -996,7 +953,7 @@ public class SandboxActivity extends AppCompatActivity
         }
         try
         {
-            //Si c'est un de nos murs
+            //If it is one of our wall
             if (contains(wallsTab, matrix[ position + myMap.getNbColumns() ]) )
             {
                 nbWallAround++;
@@ -1011,57 +968,59 @@ public class SandboxActivity extends AppCompatActivity
 
         //-------------------------------------------------------------//
 
-        //--------- SELON LE NOMBRE DE MURS ALENTOUR -----------------//
+        //--------- ACCORDING TO THE NUMBER OF SURROUNDING WALLS -----------------//
         switch ( nbWallAround )
         {
 
-            // Aucun alors on pose juste une mur horizontale basique
+            //
+            //None so we just put a basic horizontal wall
             case 0:
-                //Change le mur actuel
+                //
+                //Change the current wall
                 matrix[position] = wallsTab[4];
-                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                //We add the current wall to the list of walls that should not be re-visited
                 wallChecked.add(position);
                 break;
 
-            // Un mur autour
+            // A wall around
             case 1:
-                 // Selon sa position on place le mur de 'fermeture' associé
+                 // Depending on its position, we place the associated 'closing' wall
                  matrix[position] = ( up ? wallsTab[2] : down ? wallsTab[9] : left ? wallsTab[6] : wallsTab[5] );
 
-                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                //We add the current wall to the list of walls that should not be re-visited
                 wallChecked.add(position);
 
-                  // Si il est au dessus
+                  // If he is above
                   if ( up )
                   {
                       ChooseTheRightWallForUp( position );
                   }
-                  //Si il est en dessous
+                  //If it's below
                   else if ( down )
                   {
                       ChooseTheRightWallForDown( position );
                   }
-                  //Si il est à gauche
+                  //If he is on the left
                   else if ( left )
                   {
                       ChooseTheRightWallForLeft( position );
                   }
-                  //Si le mur est à droite
+                  //If the wall is on the right
                   else {
                       ChooseTheRightWallForRight( position );
                   }
                 break;
 
-            //Si il y a 2 murs autour
+            //If there are 2 walls around
             case 2:
 
-                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                //We add the current wall to the list of walls that should not be re-visited
                 wallChecked.add(position);
 
-                //Si ce sont le haut et le bas
+                //If it's up and down
                 if  ( up && right )
                 {
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[0];
 
                     ChooseTheRightWallForUp( position );
@@ -1072,7 +1031,7 @@ public class SandboxActivity extends AppCompatActivity
                 else if ( up && left )
                 {
 
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[1];
 
                     ChooseTheRightWallForUp( position );
@@ -1083,7 +1042,7 @@ public class SandboxActivity extends AppCompatActivity
                 else if ( down && left )
                 {
 
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[8];
                     ChooseTheRightWallForDown( position );
 
@@ -1092,7 +1051,7 @@ public class SandboxActivity extends AppCompatActivity
                 }
                 else if ( down && right )
                 {
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[7];
                     ChooseTheRightWallForDown( position );
 
@@ -1101,7 +1060,7 @@ public class SandboxActivity extends AppCompatActivity
                 }
                 else if (right)
                 {
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[4];
 
                     ChooseTheRightWallForLeft( position );
@@ -1110,7 +1069,7 @@ public class SandboxActivity extends AppCompatActivity
 
                 }
                 else {
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[3];
 
                     ChooseTheRightWallForDown( position );
@@ -1121,13 +1080,14 @@ public class SandboxActivity extends AppCompatActivity
 
 
             case 3:
-                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                //
+                //We add the current wall to the list of walls that should not be re-visited
                 wallChecked.add(position);
 
                 if ( up && right && left )
                 {
 
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[11];
 
                     ChooseTheRightWallForUp( position );
@@ -1139,7 +1099,7 @@ public class SandboxActivity extends AppCompatActivity
                 else if (up && left)
                 {
 
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[13];
 
                     ChooseTheRightWallForUp( position );
@@ -1150,7 +1110,7 @@ public class SandboxActivity extends AppCompatActivity
                 }
                 else if (left)
                 {
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[10];
 
                     ChooseTheRightWallForDown( position );
@@ -1160,7 +1120,7 @@ public class SandboxActivity extends AppCompatActivity
                     ChooseTheRightWallForLeft( position );
                 }
                 else {
-                    //Change le mur en cours
+                    //Change the current wall
                     matrix[position] = wallsTab[12];
 
                     ChooseTheRightWallForUp( position );
@@ -1173,9 +1133,9 @@ public class SandboxActivity extends AppCompatActivity
 
             case 4:
 
-                //On ajoute le mur en cours à la liste des murs qu'il ne faut pas re-parcourir
+                //We add the current wall to the list of walls that should not be re-visited
                 wallChecked.add(position);
-                //Change le mur en cours
+                //Change the current wall
                 matrix[position] = wallsTab[14];
 
                 ChooseTheRightWallForDown( position );

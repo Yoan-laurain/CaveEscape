@@ -286,6 +286,7 @@ public class GameActivity extends AppCompatActivity
         {
             for (int i = 0; i < MapLine.getContent().length(); i++)
             {
+                Integer value = wallRelation.get(MapLine.getContent().charAt(i));
                 switch ( MapLine.getContent().charAt(i) )
                 {
                     case 'P' :
@@ -309,56 +310,12 @@ public class GameActivity extends AppCompatActivity
                         matrix[ count ] = images[ 4 ];
                         countNbBox++;
                         break;
-
-                    case 'A':
-                        matrix[ count ] = wallRelation.get('A');
-                        break;
-
-                    case 'B':
-                        matrix[ count ] = wallRelation.get('B');
-                        break;
-
-                    case 'V':
-                        matrix[ count ] = wallRelation.get('V');
-                        break;
-                    case 'D':
-                        matrix[ count ] = wallRelation.get('D');
-                        break;
-                    case 'E':
-                        matrix[ count ] = wallRelation.get('E');
-                        break;
-                    case 'F':
-                        matrix[ count ] = wallRelation.get('F');
-                        break;
-                    case 'G':
-                        matrix[ count ] = wallRelation.get('G');
-                        break;
-                    case 'H':
-                        matrix[ count ] = wallRelation.get('H');
-                        break;
-                    case 'I':
-                        matrix[ count ] = wallRelation.get('I');
-                        break;
-                    case 'J':
-                        matrix[ count ] = wallRelation.get('J');
-                        break;
-                    case 'T':
-                        matrix[ count ] = wallRelation.get('T');
-                        break;
-                    case 'U':
-                        matrix[ count ] = wallRelation.get('U');
-                        break;
-                    case '>':
-                        matrix[ count ] = wallRelation.get('>');
-                        break;
-                    case '<':
-                        matrix[ count ] = wallRelation.get('<');
-                        break;
-                    case '+':
-                        matrix[ count ] = wallRelation.get('+');
-                        break;
                     case 'W':
                         matrix[ count ] = images[ 5 ];
+                        break;
+
+                    default :
+                        matrix[ count ] = ( value != null ? value : images[2] );
                         break;
                 }
                 count++;
