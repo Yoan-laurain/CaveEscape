@@ -106,7 +106,7 @@ public class Map implements Serializable
                 "        \"nbRows\":\"6\",\n" +
                 "        \"nbColumns\":\"6\",\n" +
                 "        \"idClient\":\"1\",\n" +
-                "        \"isTested\":\"1\"\n" +
+                "        \"isTested\":\"1\",\n" +
                 "        \"nbMoveMin\":\"4\"\n" +
                 "    }";
 
@@ -115,7 +115,9 @@ public class Map implements Serializable
             JSONObject json = new JSONObject( jsonMapString );
             myMap = Map.HydrateMap( json );
         }
-        catch (JSONException ignored){}
+        catch (JSONException e){
+            System.out.println("Erreur : " + e);
+        }
 
         return myMap;
     }
@@ -181,7 +183,9 @@ public class Map implements Serializable
 
             myActivity.ResponseMapLine( LinesMaps );
 
-        } catch ( JSONException ignored ) {}
+        } catch (JSONException e){
+            System.out.println("Erreur : " + e);
+        }
 
     }
 
