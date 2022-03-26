@@ -13,6 +13,7 @@ import com.example.myapplication.Dto.Map;
 import com.example.myapplication.Game.GameActivity;
 import com.example.myapplication.Lib.LevelDesign;
 import com.example.myapplication.Lib.Navigation;
+import com.example.myapplication.Lib.SharedPref;
 import com.example.myapplication.MainMenu.LoadingActivity;
 import com.example.myapplication.R;
 import java.util.ArrayList;
@@ -32,9 +33,11 @@ public class SelectActivity extends AppCompatActivity
 
     private ArrayList<String> mTitle = new ArrayList<>();
     private final ArrayList<Map> ListMap = new ArrayList<>();
+    private final ArrayList<Integer> scoreList = new ArrayList<>();
 
     private boolean selectedMenu = false;
     private boolean Community = false;
+    private int score;
 
     //-----------------------------------------
 
@@ -76,6 +79,7 @@ public class SelectActivity extends AppCompatActivity
 
             mTitle.clear();
             ListMap.clear();
+            scoreList.clear();
 
             if( !Community )
             {
@@ -89,16 +93,17 @@ public class SelectActivity extends AppCompatActivity
             {
                 Maps.values().forEach(tab ->
                 {
+                    scoreList.add(SharedPref.LoadLevelScore(this, tab.getIdMap()));
                     mTitle.add( tab.getNom() );
                     ListMap.add( tab );
                 });
 
-                adapter = new LevelDesign(this,R.layout.row ,mTitle);
+                adapter = new LevelDesign(this,R.layout.row ,mTitle, scoreList);
                 listLevel.setOnItemClickListener( (parent, view, position, id) -> OpenLevel( ListMap.get( position ) ) );
             }
             else
             {
-                adapter = new LevelDesign(this,R.layout.row,new ArrayList<>());
+                adapter = new LevelDesign(this,R.layout.row,new ArrayList<>(),new ArrayList<>());
             }
             listLevel.setAdapter(adapter);
         });
@@ -126,7 +131,7 @@ public class SelectActivity extends AppCompatActivity
         bTitle.add("\n \n \n History");
         bTitle.add("\n \n \n Community");
 
-        adapter = new LevelDesign(this,R.layout.row_title ,bTitle);
+        adapter = new LevelDesign(this,R.layout.row_title ,bTitle , new ArrayList<>());
         listLevel.setOnItemClickListener( (parent, view, position, id) -> FillListLevel(bTitle.get(position)));
         listLevel.setAdapter(adapter);
     }
