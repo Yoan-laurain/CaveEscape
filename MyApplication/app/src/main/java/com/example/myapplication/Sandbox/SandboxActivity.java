@@ -214,6 +214,7 @@ public class SandboxActivity extends AppCompatActivity
         {
             spinnerLines.setSelection(4);
             spinnerColumns.setSelection(4);
+            nbRowTemp = 5;
 
             myMap = new Map(0,"",5,5,false, LoadingActivity.idClient);
             matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
@@ -385,7 +386,6 @@ public class SandboxActivity extends AppCompatActivity
     public void ResponseMapLine(HashMap<Integer, MapLine> lineMaps )
     {
         matrix = new int[ myMap.getNbColumns() * myMap.getNbRows() ];
-
         count = 0;
 
         List<MapLine> linesMapSorted = new ArrayList<>(lineMaps.values());
@@ -393,6 +393,7 @@ public class SandboxActivity extends AppCompatActivity
 
         linesMapSorted.forEach(MapLine ->
         {
+
             for (int i = 0; i < MapLine.getContent().length(); i++)
             {
                 Integer value = wallRelation.get(MapLine.getContent().charAt(i));
@@ -627,6 +628,7 @@ public class SandboxActivity extends AppCompatActivity
     public void responseAfterUpdateMap()
     {
         int countNumber = 0;
+        System.out.println("Nb rows : " + nbRowTemp);
 
         for ( int i = 0; i < myMap.getNbRows(); i++ )
         {
@@ -719,6 +721,7 @@ public class SandboxActivity extends AppCompatActivity
             }
 
             MapLine myMapLine = new MapLine( 0, i , content.toString(),  myMap.getIdMap());
+            System.out.println("Compare : " + i + " < " + nbRowTemp);
 
             if ( i < nbRowTemp )
             {
@@ -729,6 +732,8 @@ public class SandboxActivity extends AppCompatActivity
                 MapDAO.saveMapLines(this,myMapLine);
             }
         }
+        nbRowTemp = myMap.getNbRows();
+        System.out.println("Nb rows : " + nbRowTemp);
     }
 
      /*
