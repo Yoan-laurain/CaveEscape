@@ -35,15 +35,29 @@ public class SelectActivity extends AppCompatActivity
 
     private boolean selectedMenu = false;
     private boolean Community = false;
+    private String currentMode = "";
 
     //-----------------------------------------
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
+        if (!currentMode.equals("")) {
+            FillListLevel(currentMode);
+        } else {
+            DisplayMenuLevel();
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select);
 
+        setContentView(R.layout.activity_select);
         //---------------------- Tool selector -------------------------------- //
 
         background = findViewById(R.id.View_BackGround_Select);
@@ -57,10 +71,7 @@ public class SelectActivity extends AppCompatActivity
         button_return.setOnClickListener(view -> ReturnAction());
 
         //-------------------------------------------------------------------- //
-
         Glide.with(this).load(R.drawable.selectback).into(background);
-
-        DisplayMenuLevel();
     }
 
     /*
@@ -138,6 +149,7 @@ public class SelectActivity extends AppCompatActivity
      */
     public void FillListLevel( String title )
     {
+        currentMode = title;
         selectedMenu = true;
         switch( title )
         {
