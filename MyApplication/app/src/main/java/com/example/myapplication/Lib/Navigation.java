@@ -41,7 +41,7 @@ public class Navigation
                 NewActivities.putExtra( mapEntry.getKey().toString(), (Serializable) mapEntry.getValue());
             }
         }
-        NewActivities.putExtras(b); //
+        NewActivities.putExtras(b);
         depart.startActivity(NewActivities);
     }
 }
