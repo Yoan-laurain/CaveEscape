@@ -27,9 +27,7 @@ public class InfoActivity extends AppCompatActivity
 
     HashMap<Key, Object> params = new HashMap<>();
 
-    int countNbTouchH = 0;
-    int countNbTouchN = 0;
-    int countNbTouchY = 0;
+    int countNbTouch = 0;
 
     //-----------------------------------------
 
@@ -53,51 +51,26 @@ public class InfoActivity extends AppCompatActivity
 
         button_return.setOnClickListener(view -> Navigation.switchActivities(this, OptionActivity.class,params));
 
-        easterEggHugo.setOnClickListener(var ->
-        {
-            countNbTouchH++;
-            countNbTouchN = 0;
-            countNbTouchY = 0;
+        easterEggHugo.setOnClickListener(var -> ClickEasterEgg());
 
-            if ( countNbTouchH == 5 )
-            {
-                AudioPlayer.Play(this,R.raw.hugo_easter_egg);
-                countNbTouchH = 0;
-                AudioPlayer.isAnEasterEgg = true;
-            }
+        easterEggNathan.setOnClickListener(var -> ClickEasterEgg());
 
-        });
-
-        easterEggNathan.setOnClickListener(var ->
-        {
-            countNbTouchN++;
-            countNbTouchH = 0;
-            countNbTouchY = 0;
-            if ( countNbTouchN == 5 )
-            {
-                AudioPlayer.Play(this,R.raw.nathan_easter_oeuf);
-                countNbTouchN = 0;
-                AudioPlayer.isAnEasterEgg = true;
-            }
-
-        });
-
-        easterEggYoan.setOnClickListener(var ->
-        {
-            countNbTouchY++;
-            countNbTouchH = 0;
-            countNbTouchN = 0;
-
-            if ( countNbTouchY == 5 )
-            {
-                AudioPlayer.Play(this,R.raw.yoan_easter_oeuf);
-                countNbTouchY = 0;
-                AudioPlayer.isAnEasterEgg = true;
-            }
-        });
+        easterEggYoan.setOnClickListener(var -> ClickEasterEgg() );
 
         //-------------------------------------------------------------------- //
 
         Glide.with(this).load(R.drawable.creditback).into(background);
+    }
+
+    public void ClickEasterEgg()
+    {
+        countNbTouch++;
+
+        if ( countNbTouch == 5 )
+        {
+            AudioPlayer.Play(this,R.raw.easter_egg_song);
+            countNbTouch = 0;
+            AudioPlayer.isAnEasterEgg = true;
+        }
     }
 }
