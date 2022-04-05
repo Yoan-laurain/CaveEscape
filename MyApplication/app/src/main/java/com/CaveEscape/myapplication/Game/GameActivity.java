@@ -673,6 +673,7 @@ public class GameActivity extends AppCompatActivity
             caseTemp = previousCaseTemp;
             try
             {
+                previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 2));
                 previousMatrix = listKeys.get(listKeys.size() - 2);
             }
             catch(Exception e)
@@ -680,7 +681,7 @@ public class GameActivity extends AppCompatActivity
                 System.out.println("Error " + e );
             }
 
-            previousCaseTemp = listHistoryMap.get(listKeys.get(listKeys.size() - 1));
+
             listHistoryMap.remove(listKeys.get(listKeys.size() - 1));
         }
         CountObjectOnBoard();
