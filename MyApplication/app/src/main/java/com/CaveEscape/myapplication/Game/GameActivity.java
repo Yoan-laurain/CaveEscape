@@ -312,6 +312,7 @@ public class GameActivity extends AppCompatActivity
                         break;
                     case 'W':
                         matrix[ count ] = images[ 5 ];
+                        countNbBox++;
                         break;
 
                     default :
@@ -324,6 +325,7 @@ public class GameActivity extends AppCompatActivity
 
         previousMatrix = matrix;
         FillGameBoard();
+        CountObjectOnBoard();
     }
 
     /*
@@ -408,8 +410,6 @@ public class GameActivity extends AppCompatActivity
                 if (oldPosition != currentPosition){ moveCount++; }
                 textMove.setText(String.valueOf(moveCount));
                 FillGameBoard();
-
-                System.out.println("NbBox :" + nbBoxPlaced + " count : " + countNbBox);
 
                 if ( nbBoxPlaced == countNbBox && comingFromTest && currentStepTuto == 0 )
                 {
