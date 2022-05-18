@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">51.254.96.53</domain>
-        <domain includeSubdomains="true">http://api.sudododevelopers.xyz:8383</domain>
+        <domain includeSubdomains="true">api.sudododevelopers.xyz</domain>
         <domain includeSubdomains="true">192.168.1.96</domain>
         <domain includeSubdomains="true">192.168.0.14</domain>
     </domain-config>
