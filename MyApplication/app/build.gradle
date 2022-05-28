@@ -9,7 +9,7 @@ android {
         applicationId "com.CaveEscape.myapplication"
         minSdk 28
         targetSdk 32
-        versionCode 4
+        versionCode 5
         versionName "1.0.4"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
